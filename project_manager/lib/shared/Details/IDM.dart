@@ -37,8 +37,13 @@ class _IDMState extends State<IDM> {
     }
 
     void listMaker(Map list) {
-      for (int i = 0; i < list.length; i++) {
-        bpList.add(bpMaker(project.blastPotList, i));
+      int x = 0;
+      for (int i = 0; i < list.length + x; i++) {
+        if (project.blastPotList['Blast Pot ${i + 1}'] != null) {
+          bpList.add(bpMaker(project.blastPotList, i));
+        } else {
+          x++;
+        }
       }
     }
 
@@ -271,25 +276,28 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                         style: TextStyle(color: Colors.black),
                       ),
                       onPressed: () async {
-                        Map map1={};
-                        void t3(int i,Map y){
-                          map1['Blast Pot $i']=y;
-                        }
-                        for(int i=0;i<widget.proj.blastPotList.length;i++){
-                          if(i==widget.bp.num-1){
-                            t3(i+1,widget.proj.blastPotList['Blast Pot ${i+1}']);
-                            print(map1['Blast Pot ${i+1}']['Assigned num']);
-                            print(map1['Blast Pot ${i+1}']['used abrasive']);
-                            print(map1['Blast Pot ${i+1}']['used adhesive']);
-                            print(map1['Blast Pot ${i+1}']['used paint']);
+                        Map mapChanger(Map inMap, double num) {
+                          int x = 0;
+                          for (int i = 0; i < (num.toInt()) + x; i++) {
+                            print(inMap.length);
+                            if (i + 1 != widget.bp.num &&
+                                inMap['Blast Pot ${i + 1}'] != null) {
+                              print(inMap['Blast Pot ${i + 1}']);
+                            } else {
+                              print('i=$i    x=$x');
+                              x++;
+                            }
                           }
                         }
+
+                        mapChanger(
+                            widget.proj.blastPotList, widget.proj.blastPot);
 
 //                        await Firestore.instance
 //                            .collection('projects')
 //                            .document(widget.proj.projID)
 //                            .setData({
-//                          'blast pot': widget.proj.blastPot,
+//                          'blast pot': (widget.proj.blastPot - 1),
 //                          'used abrasive weight':
 //                              (widget.proj.abrasiveUsedWeight),
 //                          'total abrasive weight':
@@ -316,10 +324,9 @@ class _BPTileDeleteState extends State<BPTileDelete> {
 //                              widget.proj.totalSurfaceAreaP,
 //                          'painted area': widget.proj.paintedArea,
 //                          'users assigned': widget.proj.userAssigned,
-//                          'blast pot list':
-//                              bpListChanger(widget.proj.blastPotList),
+//                          'blast pot list': map1,
 //                        });
-                        Navigator.pop(context);
+//                        Navigator.pop(context);
                       },
                     ),
                     FlatButton.icon(
@@ -666,11 +673,11 @@ class _IDMSettingsState extends State<IDMSettings> {
                       icon: Icon(Icons.file_upload),
                       onPressed: () async {
                         Map bpListChanger(Map mapItem) {
-                          for (int i = widget.proj.blastPotList.length - 1;
-                              i < (widget.proj.blastPot).toInt();
+                          for (int i = widget.proj.blastPotList.length;
+                              i < (widget.proj.blastPot + 1).toInt();
                               i++) {
-                            mapItem['Blast Pot ${i + 1}'] = {
-                              'Assigned num': i + 1,
+                            mapItem['Blast Pot $i'] = {
+                              'Assigned num': i,
                               'used abrasive': 0.0,
                               'used adhesive': 0.0,
                               'used paint': 0.0,
