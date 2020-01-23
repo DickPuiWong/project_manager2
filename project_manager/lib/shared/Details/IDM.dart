@@ -82,9 +82,11 @@ class _IDMState extends State<IDM> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    'Blast Pots assigned: ${project.blastPot.toInt()}',
-                    style: TextStyle(fontSize: 22),
+                  Center(
+                    child: Text(
+                      'Blast Pots assigned: ${project.blastPot.toInt()}',
+                      style: TextStyle(fontSize: 22),
+                    ),
                   ),
                   Divider(
                     height: 10,
@@ -148,7 +150,9 @@ class _IDMState extends State<IDM> {
                   ),
                 ],
               ),
-              SizedBox(height: 34),
+              SizedBox(height: 17),
+              Text('long press to delete',style: TextStyle(fontSize:13.5,),),
+              SizedBox(height: 17),
               Flexible(
                 child: ListView.builder(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
@@ -278,11 +282,12 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                       onPressed: () async {
                         Map mapChanger(Map inMap, double num) {
                           int x = 0;
-                          Map newMap={};
+                          Map newMap = {};
                           for (int i = 0; i < (num.toInt()) + x; i++) {
                             if (inMap['Blast Pot ${i + 1}'] != null) {
                               if (i + 1 != widget.bp.num) {
-                                newMap['Blast Pot ${i + 1}']=(inMap['Blast Pot ${i + 1}']);
+                                newMap['Blast Pot ${i + 1}'] =
+                                    (inMap['Blast Pot ${i + 1}']);
                               } else {
                                 x++;
                               }
@@ -323,7 +328,7 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                           'painted area': widget.proj.paintedArea,
                           'users assigned': widget.proj.userAssigned,
                           'blast pot list': mapChanger(
-                            widget.proj.blastPotList, widget.proj.blastPot),
+                              widget.proj.blastPotList, widget.proj.blastPot),
                         });
                         Navigator.pop(context);
                       },
@@ -790,12 +795,15 @@ class _IDMSettingsState extends State<IDMSettings> {
                                       IconButton(
                                         icon: Icon(Icons.remove),
                                         onPressed: () {
-//                                          _currBlastPotNo = nullChecker(
-//                                              _currBlastPotNo,
-//                                              widget.proj.blastPot);
-//                                          setState(() {
-//                                            _currBlastPotNo--;
-//                                          });
+                                          _currBlastPotNo = nullChecker(
+                                              _currBlastPotNo,
+                                              widget.proj.blastPot);
+                                          setState(() {
+                                            if (_currBlastPotNo >
+                                                widget.proj.blastPot) {
+                                              _currBlastPotNo--;
+                                            }
+                                          });
                                         },
                                         tooltip: 'Remove',
                                       ),
