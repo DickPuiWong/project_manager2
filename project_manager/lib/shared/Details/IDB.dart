@@ -221,7 +221,7 @@ class _IDBSettingsState extends State<IDBSettings> {
       key: _formKey,
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.indigo[50],
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: Column(
@@ -238,25 +238,27 @@ class _IDBSettingsState extends State<IDBSettings> {
                     ),
                     IconButton(
                       icon: Icon(Icons.file_upload),
-                      onPressed: () async {
-                      },
+                      onPressed: () async {},
                     ),
-                    Row(
-                      children: <Widget>[
-                        Text('fffffaaaaaaaaaaaqqqqqqqq'),
-                        Flexible(
-                          child: TextFormField(
-                            initialValue: widget.proj.abrasivePrice.toString(),
-                            decoration:
-                            textInputDecoration.copyWith(hintText: 'Total Area Needed to Paint(m^2)'),
-                            validator: (val) => (val.isEmpty ? 'Enter area needed to be paint' : null),
-                            onChanged: (val) {
-                              setState(() => (x = double.tryParse(val)));
-                            },
-                          ),
-                        )
-                      ],
-                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Text('fffffaaaaaaaaaaaqqqqqqqq'),
+                    SizedBox(width: 20,),
+                    Flexible(
+                      child: TextFormField(
+                        initialValue: widget.proj.abrasivePrice.toString(),
+                        decoration: textInputDecoration.copyWith(
+                            hintText: 'Total Area Needed to Paint(m^2)'),
+                        validator: (val) => (val.isEmpty
+                            ? 'Enter area needed to be paint'
+                            : null),
+                        onChanged: (val) {
+                          setState(() => (x = double.tryParse(val)));
+                        },
+                      ),
+                    )
                   ],
                 ),
               ],
@@ -267,4 +269,3 @@ class _IDBSettingsState extends State<IDBSettings> {
     );
   }
 }
-
