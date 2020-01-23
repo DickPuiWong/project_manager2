@@ -44,17 +44,27 @@ class _DSPState extends State<DSP> {
                     {
                       'name': _currName ?? widget.proj.projname,
                       'location': _currLocation ?? widget.proj.location,
-                      'completion': (((widget.proj.paintedArea / widget.proj.totalSurfaceAreaP) +
-                          (widget.proj.blastedArea / widget.proj.totalSurfaceAreaB)) /
+                      'completion': (((widget.proj.paintedArea /
+                                  widget.proj.totalSurfaceAreaP) +
+                              (widget.proj.blastedArea /
+                                  widget.proj.totalSurfaceAreaB)) /
                           2),
-                      'total adhesive weight':_currAdhesiveWeight ?? widget.proj.adhesiveTotalLitre,
-                      'adhesive price':_currAdhesivePrice ?? widget.proj.adhesivePrice,
-                      'total abrasive weight':_currAbrasiveWeight ?? widget.proj.abrasiveTotalWeight,
-                      'abrasive price':_currAbrasivePrice ?? widget.proj.abrasivePrice,
-                      'total area needed blasting':_currBlastTotalArea ?? widget.proj.totalSurfaceAreaB,
-                      'blasted area':_currBlastedArea ?? widget.proj.blastedArea,
-                      'total area needed painting':_currPaintTotalArea ?? widget.proj.totalSurfaceAreaP,
-                      'painted area':_currPaintedArea ?? widget.proj.paintedArea,
+                      'total adhesive weight':
+                          _currAdhesiveWeight ?? widget.proj.adhesiveTotalLitre,
+                      'adhesive price':
+                          _currAdhesivePrice ?? widget.proj.adhesivePrice,
+                      'total abrasive weight': _currAbrasiveWeight ??
+                          widget.proj.abrasiveTotalWeight,
+                      'abrasive price':
+                          _currAbrasivePrice ?? widget.proj.abrasivePrice,
+                      'total area needed blasting':
+                          _currBlastTotalArea ?? widget.proj.totalSurfaceAreaB,
+                      'blasted area':
+                          _currBlastedArea ?? widget.proj.blastedArea,
+                      'total area needed painting':
+                          _currPaintTotalArea ?? widget.proj.totalSurfaceAreaP,
+                      'painted area':
+                          _currPaintedArea ?? widget.proj.paintedArea,
                     },
                   );
                   Navigator.pop(context);
@@ -86,12 +96,12 @@ class _DSPState extends State<DSP> {
                           'PROJECT NAME: ',
                           style: TextStyle(fontSize: 24),
                         ),
-
                         TextFormField(
                           initialValue: widget.proj.projname,
-                          decoration:
-                          textInputDecoration.copyWith(hintText: 'Project Name'),
-                          validator: (val) => (val.isEmpty ? 'Enter a name' : null),
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Project Name'),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter a name' : null),
                           onChanged: (val) {
                             setState(() => (_currName = val));
                           },
@@ -110,9 +120,10 @@ class _DSPState extends State<DSP> {
                         ),
                         TextFormField(
                           initialValue: widget.proj.location,
-                          decoration:
-                          textInputDecoration.copyWith(hintText: 'Project Location(address)'),
-                          validator: (val) => (val.isEmpty ? 'Enter an address' : null),
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Project Location(address)'),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter an address' : null),
                           onChanged: (val) {
                             setState(() => (_currLocation = val));
                           },
@@ -134,12 +145,15 @@ class _DSPState extends State<DSP> {
                           style: TextStyle(fontSize: 16),
                         ),
                         TextFormField(
-                          initialValue: widget.proj.adhesiveTotalLitre.toString(),
-                          decoration:
-                          textInputDecoration.copyWith(hintText: 'Total Adhesive Weight'),
-                          validator: (val) => (val.isEmpty ? 'Enter a value' : null),
+                          initialValue:
+                              widget.proj.adhesiveTotalLitre.toString(),
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Total Adhesive Weight'),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter a value' : null),
                           onChanged: (val) {
-                            setState(() => (_currAdhesiveWeight = double.tryParse(val)));
+                            setState(() =>
+                                (_currAdhesiveWeight = double.tryParse(val)));
                           },
                         ),
                         SizedBox(height: 10),
@@ -149,11 +163,13 @@ class _DSPState extends State<DSP> {
                         ),
                         TextFormField(
                           initialValue: widget.proj.adhesivePrice.toString(),
-                          decoration:
-                          textInputDecoration.copyWith(hintText: 'Total Adhesive Price'),
-                          validator: (val) => (val.isEmpty ? 'Enter a value' : null),
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Total Adhesive Price'),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter a value' : null),
                           onChanged: (val) {
-                            setState(() => (_currAdhesiveWeight = double.tryParse(val)));
+                            setState(() =>
+                                (_currAdhesiveWeight = double.tryParse(val)));
                           },
                         ),
                       ],
@@ -173,12 +189,15 @@ class _DSPState extends State<DSP> {
                           style: TextStyle(fontSize: 16),
                         ),
                         TextFormField(
-                          initialValue: widget.proj.abrasiveTotalWeight.toString(),
-                          decoration:
-                          textInputDecoration.copyWith(hintText: 'Total Abrasive Weight'),
-                          validator: (val) => (val.isEmpty ? 'Enter a value' : null),
+                          initialValue:
+                              widget.proj.abrasiveTotalWeight.toString(),
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Total Abrasive Weight'),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter a value' : null),
                           onChanged: (val) {
-                            setState(() => (_currAbrasiveWeight = double.tryParse(val)));
+                            setState(() =>
+                                (_currAbrasiveWeight = double.tryParse(val)));
                           },
                         ),
                         SizedBox(height: 10),
@@ -188,11 +207,13 @@ class _DSPState extends State<DSP> {
                         ),
                         TextFormField(
                           initialValue: widget.proj.abrasivePrice.toString(),
-                          decoration:
-                          textInputDecoration.copyWith(hintText: 'Total Abrasive Price'),
-                          validator: (val) => (val.isEmpty ? 'Enter a value' : null),
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Total Abrasive Price'),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter a value' : null),
                           onChanged: (val) {
-                            setState(() => (_currAbrasivePrice = double.tryParse(val)));
+                            setState(() =>
+                                (_currAbrasivePrice = double.tryParse(val)));
                           },
                         ),
                       ],
@@ -213,11 +234,13 @@ class _DSPState extends State<DSP> {
                         ),
                         TextFormField(
                           initialValue: widget.proj.blastedArea.toString(),
-                          decoration:
-                          textInputDecoration.copyWith(hintText: 'Total Abrasive Weight'),
-                          validator: (val) => (val.isEmpty ? 'Enter a value' : null),
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Total Abrasive Weight'),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter a value' : null),
                           onChanged: (val) {
-                            setState(() => (_currBlastedArea = double.tryParse(val)));
+                            setState(() =>
+                                (_currBlastedArea = double.tryParse(val)));
                           },
                         ),
                         SizedBox(height: 10),
@@ -226,12 +249,15 @@ class _DSPState extends State<DSP> {
                           style: TextStyle(fontSize: 19),
                         ),
                         TextFormField(
-                          initialValue: widget.proj.totalSurfaceAreaB.toString(),
-                          decoration:
-                          textInputDecoration.copyWith(hintText: 'Total Abrasive Price'),
-                          validator: (val) => (val.isEmpty ? 'Enter a value' : null),
+                          initialValue:
+                              widget.proj.totalSurfaceAreaB.toString(),
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Total Abrasive Price'),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter a value' : null),
                           onChanged: (val) {
-                            setState(() => (_currBlastTotalArea = double.tryParse(val)));
+                            setState(() =>
+                                (_currBlastTotalArea = double.tryParse(val)));
                           },
                         ),
                       ],
@@ -242,7 +268,6 @@ class _DSPState extends State<DSP> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-
                         Text(
                           'Paints Applied, ',
                           style: TextStyle(fontSize: 24),
@@ -253,11 +278,13 @@ class _DSPState extends State<DSP> {
                         ),
                         TextFormField(
                           initialValue: widget.proj.paintedArea.toString(),
-                          decoration:
-                          textInputDecoration.copyWith(hintText: 'Total Area Painted'),
-                          validator: (val) => (val.isEmpty ? 'Enter area Painted' : null),
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Total Area Painted'),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter area Painted' : null),
                           onChanged: (val) {
-                            setState(() => (_currPaintedArea = double.tryParse(val)));
+                            setState(() =>
+                                (_currPaintedArea = double.tryParse(val)));
                           },
                         ),
                         SizedBox(height: 10),
@@ -267,11 +294,14 @@ class _DSPState extends State<DSP> {
                         ),
                         TextFormField(
                           initialValue: widget.proj.abrasivePrice.toString(),
-                          decoration:
-                          textInputDecoration.copyWith(hintText: 'Total Area Needed to Paint(m^2)'),
-                          validator: (val) => (val.isEmpty ? 'Enter area needed to be paint' : null),
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Total Area Needed to Paint(m^2)'),
+                          validator: (val) => (val.isEmpty
+                              ? 'Enter area needed to be paint'
+                              : null),
                           onChanged: (val) {
-                            setState(() => (_currPaintTotalArea = double.tryParse(val)));
+                            setState(() =>
+                                (_currPaintTotalArea = double.tryParse(val)));
                           },
                         ),
                       ],
