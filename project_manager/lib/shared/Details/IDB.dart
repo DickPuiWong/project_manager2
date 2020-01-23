@@ -258,7 +258,7 @@ class _IDBSettingsState extends State<IDBSettings> {
                           setState(() => (x = double.tryParse(val)));
                         },
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
