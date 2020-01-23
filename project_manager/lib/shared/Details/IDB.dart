@@ -87,7 +87,7 @@ class _IDBState extends State<IDB> {
               ),
               SizedBox(height: 16),
               Divider(
-                thickness: 1,
+                thickness: 0.8,
                 height: 10,
                 color: Colors.indigo[900],
               ),
