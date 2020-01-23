@@ -3,6 +3,7 @@ import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.da
 import 'package:project_manager/models/Project.dart';
 import 'package:project_manager/services/database.dart';
 import 'package:provider/provider.dart';
+import 'package:project_manager/shared/constants.dart';
 
 class IDBWrapper extends StatelessWidget {
   final Project project;
@@ -212,6 +213,7 @@ class IDBSettings extends StatefulWidget {
 }
 
 class _IDBSettingsState extends State<IDBSettings> {
+  double x;
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
@@ -238,6 +240,22 @@ class _IDBSettingsState extends State<IDBSettings> {
                       icon: Icon(Icons.file_upload),
                       onPressed: () async {
                       },
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text('fffffaaaaaaaaaaaqqqqqqqq'),
+                        Flexible(
+                          child: TextFormField(
+                            initialValue: widget.proj.abrasivePrice.toString(),
+                            decoration:
+                            textInputDecoration.copyWith(hintText: 'Total Area Needed to Paint(m^2)'),
+                            validator: (val) => (val.isEmpty ? 'Enter area needed to be paint' : null),
+                            onChanged: (val) {
+                              setState(() => (x = double.tryParse(val)));
+                            },
+                          ),
+                        )
+                      ],
                     ),
                   ],
                 ),
