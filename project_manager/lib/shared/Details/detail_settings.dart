@@ -86,6 +86,7 @@ class _DSPState extends State<DSP> {
                           'PROJECT NAME: ',
                           style: TextStyle(fontSize: 24),
                         ),
+
                         TextFormField(
                           initialValue: widget.proj.projname,
                           decoration:
