@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
 import 'package:project_manager/services/database.dart';
 import 'package:provider/provider.dart';
+import 'package:project_manager/shared/constants.dart';
 
 class IDMWrapper extends StatelessWidget {
   final Project project;
@@ -366,7 +367,9 @@ class BPTilesSettings extends StatefulWidget {
 
 class _BPTilesSettingsState extends State<BPTilesSettings> {
   double _currUsedAbrasive;
+  double _abraConst;
   double _currUsedAdhesive;
+  double _adheConst;
   double _currUsedPaint;
   @override
   Widget build(BuildContext context) {
@@ -385,7 +388,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(3),
           child: Container(
-            height: 251,
+            height: 300,
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             color: Colors.white,
             child: Column(
@@ -424,6 +427,19 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                     text:
                                         '${(_currUsedAbrasive ?? widget.bp.usedAbrasive).toStringAsFixed(2)}kg (${((_currUsedAbrasive ?? widget.bp.usedAbrasive) / 250).toStringAsFixed(2)} bags)'),
                               ],
+                            ),
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: (_abraConst ?? 25).toString(),
+                              decoration: textInputDecoration.copyWith(
+                                  hintText: 'kg'),
+                              validator: (val) => (val.isEmpty
+                                  ? 'Enter amount'
+                                  : null),
+                              onChanged: (val) {
+                                setState(() => (_abraConst = double.tryParse(val)));
+                              },
                             ),
                           ),
                           Row(
@@ -473,6 +489,22 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                     text:
                                         '${(_currUsedAdhesive ?? widget.bp.usedAdhesive).toStringAsFixed(2)}L'),
                               ],
+                            ),
+                          ),
+                          Flexible(
+                            child: Container(
+                              width:50,
+                              child: TextFormField(
+                                initialValue: (_adheConst ?? 25).toString(),
+                                decoration: textInputDecoration.copyWith(
+                                    hintText: 'kg'),
+                                validator: (val) => (val.isEmpty
+                                    ? 'Enter amount'
+                                    : null),
+                                onChanged: (val) {
+                                  setState(() => (_adheConst = double.tryParse(val)));
+                                },
+                              ),
                             ),
                           ),
                           Row(
