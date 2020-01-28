@@ -47,6 +47,7 @@ class _HSFState extends State<HSF> {
               children: <Widget>[
                 FlatButton(
                   onPressed: () {
+                    var date = new DateTime.now();
                     List<BlastPot> t1=[];
                     Map t2={};
                     void t3(Map x,int i,BlastPot y){
@@ -86,6 +87,7 @@ class _HSFState extends State<HSF> {
                       'users assigned': [],
                       'blast pot': 8,
                       'blast pot list': t2,
+                      'Date Created': date.millisecondsSinceEpoch,
                     });
                   },
                   color: Colors.indigo[900],
@@ -146,6 +148,27 @@ class _HSFState extends State<HSF> {
                   color: Colors.amberAccent[400],
                   child: Text(
                     'User Manager',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    var date1 = new DateTime.now();
+                    var date2 = new DateTime.now();
+                    var date3 = new DateTime.now();
+
+                    if(date2.isAfter(date1)==true) {
+                      print('date1 --- $date1');
+                      print('date2 --- $date2');
+                    }
+                  },
+                  color: Colors.amberAccent[400],
+                  child: Text(
+                    'test',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
