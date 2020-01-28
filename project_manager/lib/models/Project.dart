@@ -21,6 +21,7 @@ class Project {
   final List userAssigned;
   final double blastPot;
   final Map blastPotList;
+  var date;
 
   Project({
     this.projID,
@@ -45,6 +46,7 @@ class Project {
     this.userAssigned,
     this.blastPot,
     this.blastPotList,
+    this.date,
   });
 }
 
