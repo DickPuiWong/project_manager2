@@ -289,7 +289,6 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                         Map mapChanger(Map inMap) {
                           int x = 0;
                           Map newMap = {};
-                          print('///////////////////////////////////');
                           for (int i = 0; i < (widget.proj.blastPotList.length + x); i++) {
                             if (inMap['Blast Pot ${i + 1}'] != null) {
                               if (i + 1 != widget.bp.num) {
@@ -299,7 +298,6 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                             } else {
                               x++;
                             }
-                            print('$i --- $x --- ${newMap['Blast Pot ${i + 1}']}');
                           }
                           return newMap;
                         }
