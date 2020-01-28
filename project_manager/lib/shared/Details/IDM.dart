@@ -714,11 +714,11 @@ class _IDMSettingsState extends State<IDMSettings> {
                       icon: Icon(Icons.file_upload),
                       onPressed: () async {
                         Map bpListChanger(Map mapItem) {
-                          for (int i = widget.proj.blastPotList.length;
-                              i < (widget.proj.blastPot + 1).toInt();
+                          for (int i = 0;
+                              i < (widget.proj.blastPot).toInt();
                               i++) {
-                            mapItem['Blast Pot $i'] = {
-                              'Assigned num': i,
+                            mapItem['Blast Pot ${i+1}'] = {
+                              'Assigned num': (i+1),
                               'used abrasive': 0.0,
                               'used adhesive': 0.0,
                               'used paint': 0.0,
