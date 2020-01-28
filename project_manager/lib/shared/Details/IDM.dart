@@ -152,7 +152,12 @@ class _IDMState extends State<IDM> {
                 ],
               ),
               SizedBox(height: 17),
-              Text('long press to delete',style: TextStyle(fontSize:13.5,),),
+              Text(
+                'long press to delete',
+                style: TextStyle(
+                  fontSize: 13.5,
+                ),
+              ),
               SizedBox(height: 17),
               Flexible(
                 child: ListView.builder(
@@ -281,18 +286,20 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                         style: TextStyle(color: Colors.black),
                       ),
                       onPressed: () async {
-                        Map mapChanger(Map inMap, double num) {
+                        Map mapChanger(Map inMap) {
                           int x = 0;
                           Map newMap = {};
-                          for (int i = 0; i < (num.toInt()) + x; i++) {
+                          print('///////////////////////////////////');
+                          for (int i = 0; i < (widget.proj.blastPotList.length + x); i++) {
                             if (inMap['Blast Pot ${i + 1}'] != null) {
                               if (i + 1 != widget.bp.num) {
                                 newMap['Blast Pot ${i + 1}'] =
                                     (inMap['Blast Pot ${i + 1}']);
-                              } else {
-                                x++;
                               }
+                            } else {
+                              x++;
                             }
+                            print('$i --- $x --- ${newMap['Blast Pot ${i + 1}']}');
                           }
                           return newMap;
                         }
@@ -329,7 +336,7 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                           'painted area': widget.proj.paintedArea,
                           'users assigned': widget.proj.userAssigned,
                           'blast pot list': mapChanger(
-                              widget.proj.blastPotList, widget.proj.blastPot),
+                              widget.proj.blastPotList),
                         });
                         Navigator.pop(context);
                       },
@@ -432,13 +439,13 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                           Flexible(
                             child: TextFormField(
                               initialValue: (_abraConst ?? 25).toString(),
-                              decoration: textInputDecoration.copyWith(
-                                  hintText: 'kg'),
-                              validator: (val) => (val.isEmpty
-                                  ? 'Enter amount'
-                                  : null),
+                              decoration:
+                                  textInputDecoration.copyWith(hintText: 'kg'),
+                              validator: (val) =>
+                                  (val.isEmpty ? 'Enter amount' : null),
                               onChanged: (val) {
-                                setState(() => (_abraConst = double.tryParse(val)));
+                                setState(
+                                    () => (_abraConst = double.tryParse(val)));
                               },
                             ),
                           ),
@@ -493,16 +500,16 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                           ),
                           Flexible(
                             child: Container(
-                              width:50,
+                              width: 50,
                               child: TextFormField(
                                 initialValue: (_adheConst ?? 25).toString(),
                                 decoration: textInputDecoration.copyWith(
                                     hintText: 'kg'),
-                                validator: (val) => (val.isEmpty
-                                    ? 'Enter amount'
-                                    : null),
+                                validator: (val) =>
+                                    (val.isEmpty ? 'Enter amount' : null),
                                 onChanged: (val) {
-                                  setState(() => (_adheConst = double.tryParse(val)));
+                                  setState(() =>
+                                      (_adheConst = double.tryParse(val)));
                                 },
                               ),
                             ),
