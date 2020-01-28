@@ -278,6 +278,8 @@ class _PDExtendState extends State<PDExtend> {
             ),
           ),
           SizedBox(height: 34),
+          Text('Date created: ${DateTime.fromMillisecondsSinceEpoch(proj.date)}'),
+          SizedBox(height: 34),
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Container(
