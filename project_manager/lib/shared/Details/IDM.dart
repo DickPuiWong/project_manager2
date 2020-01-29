@@ -289,7 +289,9 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                         Map mapChanger(Map inMap) {
                           int x = 0;
                           Map newMap = {};
-                          for (int i = 0; i < (widget.proj.blastPotList.length + x); i++) {
+                          for (int i = 0;
+                              i < (widget.proj.blastPotList.length + x);
+                              i++) {
                             if (inMap['Blast Pot ${i + 1}'] != null) {
                               if (i + 1 != widget.bp.num) {
                                 newMap['Blast Pot ${i + 1}'] =
@@ -333,8 +335,8 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                               widget.proj.totalSurfaceAreaP,
                           'painted area': widget.proj.paintedArea,
                           'users assigned': widget.proj.userAssigned,
-                          'blast pot list': mapChanger(
-                              widget.proj.blastPotList),
+                          'blast pot list':
+                              mapChanger(widget.proj.blastPotList),
                         });
                         Navigator.pop(context);
                       },
@@ -715,63 +717,85 @@ class _IDMSettingsState extends State<IDMSettings> {
                       onPressed: () async {
                         Map bpListChanger(Map mapItem) {
                           for (int i = 0;
-                              i < (widget.proj.blastPot).toInt();
+                              i <
+                                  ((_currBlastPotNo ?? widget.proj.blastPot) -
+                                          widget.proj.blastPot)
+                                      .toInt();
                               i++) {
-                            mapItem['Blast Pot ${i+1}'] = {
-                              'Assigned num': (i+1),
-                              'used abrasive': 0.0,
-                              'used adhesive': 0.0,
-                              'used paint': 0.0,
-                            };
+                            print(i + 1);
+                            bool added = false;
+                            for (int ii = 0;
+                                ii < (_currBlastPotNo ?? widget.proj.blastPot);
+                                ii++) {
+                              if (mapItem['Blast Pot ${ii + 1}']) {
+//                                mapItem['Blast Pot ${ii + 1}'] = {
+//                                  'Assigned num': ii + 1,
+//                                  'used abrasive': 0.0,
+//                                  'used adhesive': 0.0,
+//                                  'used paint': 0.0,
+//                                };
+                              print(ii+1);
+                              }
+                            }
+                            added = false;
+                          }
+                          for (int i = 0;
+                              i < widget.proj.blastPot.toInt();
+                              i++) {
+                            print(
+                                '${i + 1} --- ${mapItem['Blast Pot ${i + 1}']}');
                           }
                           return mapItem;
                         }
 
-                        await Firestore.instance
-                            .collection('projects')
-                            .document(widget.proj.projID)
-                            .setData({
-                          'blast pot list':
-                              bpListChanger(widget.proj.blastPotList),
-                          'blast pot': (widget.proj.blastPot +
-                              ((_currBlastPotNo ?? widget.proj.blastPot) -
-                                  widget.proj.blastPot)),
-                          'used abrasive weight':
-                              widget.proj.abrasiveUsedWeight,
-                          'total abrasive weight':
-                              (widget.proj.abrasiveTotalWeight +
-                                  ((_currTotalAbrasive ??
-                                          widget.proj.abrasiveTotalWeight) -
-                                      widget.proj.abrasiveTotalWeight)),
-                          'used adhesive litres': widget.proj.adhesiveUsedLitre,
-                          'total adhesive litres':
-                              widget.proj.adhesiveTotalLitre +
-                                  ((_currTotalAdhesive ??
-                                          widget.proj.adhesiveTotalLitre) -
-                                      widget.proj.adhesiveTotalLitre),
-                          'used paint litres': widget.proj.paintUsedLitre,
-                          'total paint litres': widget.proj.paintTotalLitre +
-                              ((_currTotalPaint ??
-                                      widget.proj.paintTotalLitre) -
-                                  widget.proj.paintTotalLitre),
-                          'ID': widget.proj.projID,
-                          'name': widget.proj.projname,
-                          'location': widget.proj.location,
-                          'completion': widget.proj.completion,
-                          'budget': widget.proj.budget,
-                          'spent budget': widget.proj.spentBudget,
-                          'adhesive price': widget.proj.adhesivePrice,
-                          'abrasive price': widget.proj.abrasivePrice,
-                          'paint price': widget.proj.paintPrice,
-                          'total area needed blasting':
-                              widget.proj.totalSurfaceAreaB,
-                          'blasted area': widget.proj.blastedArea,
-                          'total area needed painting':
-                              widget.proj.totalSurfaceAreaP,
-                          'painted area': widget.proj.paintedArea,
-                          'users assigned': widget.proj.userAssigned,
-                        });
-                        Navigator.pop(context);
+                        bpListChanger(widget.proj.blastPotList);
+
+//                        await Firestore.instance
+//                            .collection('projects')
+//                            .document(widget.proj.projID)
+//                            .setData({
+//                          'blast pot list':
+//                              bpListChanger(widget.proj.blastPotList),
+//                          'blast pot': (widget.proj.blastPot +
+//                              ((_currBlastPotNo ?? widget.proj.blastPot) -
+//                                  widget.proj.blastPot)),
+//                          'used abrasive weight':
+//                              widget.proj.abrasiveUsedWeight,
+//                          'total abrasive weight':
+//                              (widget.proj.abrasiveTotalWeight +
+//                                  ((_currTotalAbrasive ??
+//                                          widget.proj.abrasiveTotalWeight) -
+//                                      widget.proj.abrasiveTotalWeight)),
+//                          'used adhesive litres': widget.proj.adhesiveUsedLitre,
+//                          'total adhesive litres':
+//                              widget.proj.adhesiveTotalLitre +
+//                                  ((_currTotalAdhesive ??
+//                                          widget.proj.adhesiveTotalLitre) -
+//                                      widget.proj.adhesiveTotalLitre),
+//                          'used paint litres': widget.proj.paintUsedLitre,
+//                          'total paint litres': widget.proj.paintTotalLitre +
+//                              ((_currTotalPaint ??
+//                                      widget.proj.paintTotalLitre) -
+//                                  widget.proj.paintTotalLitre),
+//                          'ID': widget.proj.projID,
+//                          'name': widget.proj.projname,
+//                          'location': widget.proj.location,
+//                          'completion': widget.proj.completion,
+//                          'budget': widget.proj.budget,
+//                          'spent budget': widget.proj.spentBudget,
+//                          'adhesive price': widget.proj.adhesivePrice,
+//                          'abrasive price': widget.proj.abrasivePrice,
+//                          'paint price': widget.proj.paintPrice,
+//                          'total area needed blasting':
+//                              widget.proj.totalSurfaceAreaB,
+//                          'blasted area': widget.proj.blastedArea,
+//                          'total area needed painting':
+//                              widget.proj.totalSurfaceAreaP,
+//                          'painted area': widget.proj.paintedArea,
+//                          'users assigned': widget.proj.userAssigned,
+//                          'Date Created': widget.proj.date,
+//                        });
+//                        Navigator.pop(context);
                       },
                     ),
                   ],
