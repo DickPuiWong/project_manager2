@@ -94,6 +94,44 @@ class _PDExtendState extends State<PDExtend> {
               color: Colors.white,
               child: Column(
                 children: <Widget>[
+                  Text(
+                      'Date created: ${DateTime.fromMillisecondsSinceEpoch(project.date)}'),
+                  SizedBox(height: 12),
+                  Text(
+                    '${widget.num + 1}. ${project.projname}',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 12),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      color: Colors.white,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              'Location',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 24),
+                            ),
+                          ),
+                          Text(
+                            project.location,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 34,
+                    color: Colors.indigo[600],
+                  ),
                   Container(
                     height: 10,
                     child: LinearProgressIndicator(
@@ -261,43 +299,6 @@ class _PDExtendState extends State<PDExtend> {
                                     )));
                       },
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Divider(
-            height: 34,
-            color: Colors.indigo[600],
-          ),
-          Text(
-            '${widget.num + 1}. ${project.projname}',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 34),
-          Text('Date created: ${DateTime.fromMillisecondsSinceEpoch(project.date)}'),
-          SizedBox(height: 34),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Container(
-              padding: EdgeInsets.all(8),
-              color: Colors.white,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Center(
-                    child: Text(
-                      'Location',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                    ),
-                  ),
-                  Text(
-                    project.location,
-                    style: TextStyle(fontSize: 20),
                   ),
                 ],
               ),
