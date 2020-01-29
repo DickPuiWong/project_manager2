@@ -85,7 +85,7 @@ class _HSFState extends State<HSF> {
                       'total area needed painting': 1000.00,
                       'painted area': 250.0,
                       'users assigned': [],
-                      'blast pot': 8,
+                      'blast pot': 3,
                       'blast pot list': t2,
                       'Date Created': date.millisecondsSinceEpoch,
                     });
