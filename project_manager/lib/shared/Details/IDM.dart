@@ -337,6 +337,7 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                           'users assigned': widget.proj.userAssigned,
                           'blast pot list':
                               mapChanger(widget.proj.blastPotList),
+                          'Date Created': widget.proj.date,
                         });
                         Navigator.pop(context);
                       },
@@ -653,6 +654,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                             'users assigned': widget.proj.userAssigned,
                             'blast pot list':
                                 bpListChanger(widget.proj.blastPotList),
+                            'Date Created': widget.proj.date,
                           });
                           Navigator.pop(context);
                         },
@@ -784,6 +786,7 @@ class _IDMSettingsState extends State<IDMSettings> {
                           'users assigned': widget.proj.userAssigned,
                           'Date Created': widget.proj.date,
                         });
+                        print(new DateTime.fromMillisecondsSinceEpoch(widget.proj.date));
                         Navigator.pop(context);
                       },
                     ),
