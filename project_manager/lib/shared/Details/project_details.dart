@@ -50,14 +50,14 @@ class _AppbarButtonsState extends State<AppbarButtons> {
     final project = Provider.of<Project>(context);
     return FlatButton.icon(
       onPressed: () async {
-        await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => DSP(
-              proj: project,
-            ),
-          ),
-        );
+//        await Navigator.push(
+//          context,
+//          MaterialPageRoute(
+//            builder: (BuildContext context) => DSP(
+//              proj: project,
+//            ),
+//          ),
+//        );
       },
       icon: Icon(
         Icons.edit,
