@@ -21,6 +21,7 @@ class Project {
   final List userAssigned;
   final double blastPot;
   final Map blastPotList;
+  final Map budgetList;
   var date;
 
   Project({
@@ -46,6 +47,7 @@ class Project {
     this.userAssigned,
     this.blastPot,
     this.blastPotList,
+    this.budgetList,
     this.date,
   });
 }
@@ -61,5 +63,19 @@ class BlastPot {
     this.usedAbrasive,
     this.usedAdhesive,
     this.usedPaint,
+  });
+}
+
+class BudgetType {
+  final String name;
+  final double percentage;
+  final double spent;
+  final double estimate;
+
+  BudgetType({
+    this.name,
+    this.percentage,
+    this.spent,
+    this.estimate,
   });
 }
