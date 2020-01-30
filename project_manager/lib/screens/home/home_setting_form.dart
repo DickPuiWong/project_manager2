@@ -48,14 +48,32 @@ class _HSFState extends State<HSF> {
                 FlatButton(
                   onPressed: () {
                     var date = new DateTime.now();
-                    List<BlastPot> t1=[];
-                    Map t2={};
-                    void t3(Map x,int i,BlastPot y){
-                      t2['Blast Pot $i']={'Assigned num': y.num,'used abrasive':y.usedAbrasive,'used adhesive': y.usedAdhesive,'used paint': y.usedPaint};
+                    List<BlastPot> t1 = [];
+                    Map t2 = {};
+                    Map t4 = {};
+                    t4['bt1'] = {
+                      'name': 'abrasive',
+                      'percentage': 4,
+                      'spent': 400,
+                      'estimate': 4000,
+                    };
+                    void t3(Map x, int i, BlastPot y) {
+                      t2['Blast Pot $i'] = {
+                        'Assigned num': y.num,
+                        'used abrasive': y.usedAbrasive,
+                        'used adhesive': y.usedAdhesive,
+                        'used paint': y.usedPaint
+                      };
                     }
-                    for(int i=0;i<3;i++){
-                      t1.add(BlastPot(num:i+1,usedAbrasive:0,usedAdhesive:0,usedPaint:0,));
-                      t3(t2,i+1,t1[i]);
+
+                    for (int i = 0; i < 3; i++) {
+                      t1.add(BlastPot(
+                        num: i + 1,
+                        usedAbrasive: 0,
+                        usedAdhesive: 0,
+                        usedPaint: 0,
+                      ));
+                      t3(t2, i + 1, t1[i]);
                     }
                     String id = Firestore.instance
                         .collection('projects')
@@ -87,6 +105,7 @@ class _HSFState extends State<HSF> {
                       'users assigned': [],
                       'blast pot': 3,
                       'blast pot list': t2,
+                      'budget list': t4,
                       'Date Created': date.millisecondsSinceEpoch,
                     });
                   },
@@ -157,14 +176,12 @@ class _HSFState extends State<HSF> {
                 ),
                 FlatButton(
                   onPressed: () {
-                    var date1 = new DateTime.now();
-                    var date2 = new DateTime.now();
-                    var date3 = new DateTime.now();
-
-                    if(date2.isAfter(date1)==true) {
-                      print('date1 --- $date1');
-                      print('date2 --- $date2');
-                    }
+                    Map x = {};
+                    x['ff'] = {
+                      ['tyty']: 'ty',
+                      ['yuyu']: 124356798
+                    };
+                    print('x --- $x');
                   },
                   color: Colors.amberAccent[400],
                   child: Text(
