@@ -106,7 +106,6 @@ class _IDMState extends State<IDM> {
                           Text(
                               '${project.abrasiveUsedWeight}(${project.abrasiveUsedWeight / 250})'),
                           Text('${project.adhesiveUsedLitre}'),
-                          Text('${project.paintUsedLitre}'),
                         ],
                       ),
                       Column(
@@ -124,10 +123,6 @@ class _IDMState extends State<IDM> {
                             'adhesive(L)',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(
-                            'paint(L)',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
                         ],
                       ),
                       Column(
@@ -140,25 +135,35 @@ class _IDMState extends State<IDM> {
                           Text(
                               '${project.abrasiveTotalWeight}(${project.abrasiveTotalWeight / 250})'),
                           Text('${project.adhesiveTotalLitre}'),
-                          Text('${project.paintTotalLitre}'),
                         ],
                       ),
                     ],
                   ),
+                  SizedBox(height: 12),
+                  LinearProgressIndicator(
+                    value: ((project.abrasiveUsedWeight /
+                                project.abrasiveTotalWeight) +
+                            (project.adhesiveUsedLitre /
+                                project.adhesiveTotalLitre)) /
+                        2,
+                    backgroundColor: Colors.redAccent,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        Colors.lightGreenAccent[400]),
+                  ),
                   Divider(
-                    height: 10,
+                    height: 14,
                     color: Colors.indigo,
                   ),
                 ],
               ),
-              SizedBox(height: 17),
+              SizedBox(height: 14),
               Text(
                 'long press to delete',
                 style: TextStyle(
                   fontSize: 13.5,
                 ),
               ),
-              SizedBox(height: 17),
+              SizedBox(height: 14),
               Flexible(
                 child: ListView.builder(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
@@ -216,27 +221,22 @@ class _IDMListTilesState extends State<IDMListTiles> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                    'Abrasive used : ${widget.bp.usedAbrasive} kg(${widget.bp.usedAbrasive / 250} bag/bags)'),
+                    'Abrasive used : ${widget.bp.usedAbrasive} kg(${widget.bp.usedAbrasive / 250} bags)'),
                 Text('Adhesive used : ${widget.bp.usedAdhesive} L'),
-                Text('Paint used : ${widget.bp.usedPaint} L'),
               ],
             ),
-            trailing: Column(
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () async {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return BPTilesSettings(
-                            bp: widget.bp,
-                            proj: widget.project,
-                          );
-                        });
-                  },
-                ),
-              ],
+            trailing: IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () async {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return BPTilesSettings(
+                        bp: widget.bp,
+                        proj: widget.project,
+                      );
+                    });
+              },
             ),
           ),
         ),
@@ -379,10 +379,10 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
   double _currUsedAdhesive;
   double _adheConst;
   double _currUsedPaint;
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-
     double nullChecker(double one, double two) {
       if (one == null) {
         one = two;
@@ -396,7 +396,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(3),
           child: Container(
-            height: 300,
+            height: 280,
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             color: Colors.white,
             child: Column(
@@ -405,11 +405,14 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                 Container(
                   child: Column(
                     children: <Widget>[
-                      Text(
-                        'Blast Pot ${widget.bp.num}',
-                        style: TextStyle(
-                          fontSize: 24.8,
-                          fontWeight: FontWeight.bold,
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        child: Text(
+                          'Blast Pot ${widget.bp.num}',
+                          style: TextStyle(
+                            fontSize: 24.8,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       Divider(
@@ -433,21 +436,24 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                 ),
                                 TextSpan(
                                     text:
-                                        '${(_currUsedAbrasive ?? widget.bp.usedAbrasive).toStringAsFixed(2)}kg (${((_currUsedAbrasive ?? widget.bp.usedAbrasive) / 250).toStringAsFixed(2)} bags)'),
+                                        '${(_currUsedAbrasive ?? widget.bp.usedAbrasive).toStringAsFixed(2)}kg\n(${((_currUsedAbrasive ?? widget.bp.usedAbrasive) / 250).toStringAsFixed(2)} bags)'),
                               ],
                             ),
                           ),
                           Flexible(
-                            child: TextFormField(
-                              initialValue: (_abraConst ?? 25).toString(),
-                              decoration:
-                                  textInputDecoration.copyWith(hintText: 'kg'),
-                              validator: (val) =>
-                                  (val.isEmpty ? 'Enter amount' : null),
-                              onChanged: (val) {
-                                setState(
-                                    () => (_abraConst = double.tryParse(val)));
-                              },
+                            child: Container(
+                              width: 60,
+                              child: TextFormField(
+                                initialValue: (_abraConst ?? 25).toString(),
+                                decoration: textInputDecoration.copyWith(
+                                    hintText: 'kg'),
+                                validator: (val) =>
+                                    (val.isEmpty ? 'Enter amount' : null),
+                                onChanged: (val) {
+                                  setState(() =>
+                                      (_abraConst = double.tryParse(val)));
+                                },
+                              ),
                             ),
                           ),
                           Row(
@@ -480,6 +486,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                           ),
                         ],
                       ),
+                      SizedBox(height: 12.5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -501,7 +508,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                           ),
                           Flexible(
                             child: Container(
-                              width: 50,
+                              width: 60,
                               child: TextFormField(
                                 initialValue: (_adheConst ?? 25).toString(),
                                 decoration: textInputDecoration.copyWith(
@@ -545,53 +552,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                           ),
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          RichText(
-                            text: TextSpan(
-                              style: TextStyle(color: Colors.black),
-                              children: [
-                                TextSpan(
-                                  text: 'Used Paint : \n',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                TextSpan(
-                                    text:
-                                        '${(_currUsedPaint ?? widget.bp.usedPaint).toStringAsFixed(2)}L'),
-                              ],
-                            ),
-                          ),
-                          Row(
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.add),
-                                onPressed: () {
-                                  _currUsedPaint = nullChecker(
-                                      _currUsedPaint, widget.bp.usedPaint);
-                                  setState(() {
-                                    _currUsedPaint++;
-                                  });
-                                },
-                                tooltip: 'Add',
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.remove),
-                                onPressed: () {
-                                  _currUsedPaint = nullChecker(
-                                      _currUsedPaint, widget.bp.usedPaint);
-                                  setState(() {
-                                    _currUsedPaint--;
-                                  });
-                                },
-                                tooltip: 'Remove',
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                      SizedBox(height: 20),
                       FlatButton(
                         color: Colors.indigo[600],
                         child: Text(
@@ -631,10 +592,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                         widget.bp.usedAdhesive)),
                             'total adhesive litres':
                                 widget.proj.adhesiveTotalLitre,
-                            'used paint litres': (widget.proj.paintUsedLitre +
-                                ((_currUsedPaint ??
-                                        widget.proj.paintUsedLitre) -
-                                    widget.bp.usedPaint)),
+                            'used paint litres': widget.bp.usedPaint,
                             'total paint litres': widget.proj.paintTotalLitre,
                             'ID': widget.proj.projID,
                             'name': widget.proj.projname,
@@ -718,25 +676,24 @@ class _IDMSettingsState extends State<IDMSettings> {
                       icon: Icon(Icons.file_upload),
                       onPressed: () async {
                         Map bpListChanger(Map mapItem) {
-                          int ii=1;
+                          int ii = 1;
                           for (int i = 0;
                               i <
                                   ((_currBlastPotNo ?? widget.proj.blastPot) -
                                           widget.proj.blastPot)
                                       .toInt();
                               i++) {
-                              if (mapItem['Blast Pot $ii'] == null) {
-                                mapItem['Blast Pot $ii'] = {
-                                  'Assigned num': ii,
-                                  'used abrasive': 0.0,
-                                  'used adhesive': 0.0,
-                                  'used paint': 0.0,
-                                };
+                            if (mapItem['Blast Pot $ii'] == null) {
+                              mapItem['Blast Pot $ii'] = {
+                                'Assigned num': ii,
+                                'used abrasive': 0.0,
+                                'used adhesive': 0.0,
+                                'used paint': 0.0,
+                              };
+                            } else {
+                              i--;
                             }
-                              else{
-                                i--;
-                              }
-                              ii++;
+                            ii++;
                           }
                           return mapItem;
                         }
@@ -786,7 +743,8 @@ class _IDMSettingsState extends State<IDMSettings> {
                           'users assigned': widget.proj.userAssigned,
                           'Date Created': widget.proj.date,
                         });
-                        print(new DateTime.fromMillisecondsSinceEpoch(widget.proj.date));
+                        print(new DateTime.fromMillisecondsSinceEpoch(
+                            widget.proj.date));
                         Navigator.pop(context);
                       },
                     ),
