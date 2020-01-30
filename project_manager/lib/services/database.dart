@@ -36,6 +36,7 @@ class DatabaseService {
         userAssigned: doc.data['users assigned'] ?? [],
         blastPot: (doc.data['blast pot']).toDouble() ?? 0.0,
         blastPotList: doc.data['blast pot list'] ?? {},
+        budgetList: doc.data['budget list'] ?? {},
         date: doc.data['Date Created'],
       );
     }).toList();
@@ -79,6 +80,7 @@ class ProjectDatabaseService {
       userAssigned: snapshot.data['users assigned'],
       blastPot: (snapshot.data['blast pot']).toDouble(),
       blastPotList: snapshot.data['blast pot list'],
+      budgetList: snapshot.data['budget list'],
       date: snapshot.data['Date Created'],
     );
   }
