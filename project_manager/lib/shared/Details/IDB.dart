@@ -26,6 +26,19 @@ class _IDBState extends State<IDB> {
   @override
   Widget build(BuildContext context) {
     final project = Provider.of<Project>(context);
+    List<DataRow> dataRowList = [];
+    for (int i = 0; i < project.budgetList.length; i++) {
+      dataRowList.add(DataRow(
+        cells: [
+          DataCell(Text(project.budgetList['bt${i + 1}']['name'])),
+          DataCell(Text('${project.budgetList['bt${i + 1}']['percentage']}')),
+          DataCell(Text(
+              '${(project.budgetList['bt${i + 1}']['spent']).toStringAsFixed(2)}')),
+          DataCell(Text(
+              '${project.budgetList['bt${i + 1}']['estimate'].toStringAsFixed(2)}')),
+        ],
+      ));
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -63,7 +76,7 @@ class _IDBState extends State<IDB> {
                   borderRadius: 30,
                   size: 50,
                   currentValue:
-                      ((project.spentBudget / project.budget * 100).toInt()),
+                      ((((project.spentBudget ?? 0) / (project.budget ?? 0.0) * 100) ?? 0).toInt()),
                   changeColorValue: 80,
                   maxValue: 100,
                   backgroundColor: Colors.grey[400],
@@ -115,129 +128,132 @@ class _IDBState extends State<IDB> {
                             numeric: true,
                           ),
                         ],
-                        rows: [
-                          DataRow(
-                            cells: [
-                              DataCell(Text(project.budgetList['bt1']['name'])),
-                              DataCell(Text(
-                                  '${project.budgetList['bt1']['percentage']}')),
-                              DataCell(Text(
-                                  '${(project.budgetList['bt1']['spent']).toStringAsFixed(2)}')),
-                              DataCell(Text(
-                                  '${project.budgetList['bt1']['estimate'].toStringAsFixed(2)}')),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              DataCell(Text(project.budgetList['bt2']['name'])),
-                              DataCell(Text(
-                                  '${project.budgetList['bt2']['percentage']}')),
-                              DataCell(Text(
-                                  '${(project.budgetList['bt2']['spent']).toStringAsFixed(2)}')),
-                              DataCell(Text(
-                                  '${project.budgetList['bt2']['estimate'].toStringAsFixed(2)}')),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              DataCell(Text(project.budgetList['bt3']['name'])),
-                              DataCell(Text(
-                                  '${project.budgetList['bt3']['percentage']}')),
-                              DataCell(Text(
-                                  '${(project.budgetList['bt3']['spent']).toStringAsFixed(2)}')),
-                              DataCell(Text(
-                                  '${project.budgetList['bt3']['estimate'].toStringAsFixed(2)}')),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              DataCell(Text(project.budgetList['bt4']['name'])),
-                              DataCell(Text(
-                                  '${project.budgetList['bt4']['percentage']}')),
-                              DataCell(Text(
-                                  '${(project.budgetList['bt4']['spent']).toStringAsFixed(2)}')),
-                              DataCell(Text(
-                                  '${project.budgetList['bt4']['estimate'].toStringAsFixed(2)}')),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              DataCell(Text(project.budgetList['bt5']['name'])),
-                              DataCell(Text(
-                                  '${project.budgetList['bt5']['percentage']}')),
-                              DataCell(Text(
-                                  '${(project.budgetList['bt5']['spent']).toStringAsFixed(2)}')),
-                              DataCell(Text(
-                                  '${project.budgetList['bt5']['estimate'].toStringAsFixed(2)}')),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              DataCell(Text(project.budgetList['bt6']['name'])),
-                              DataCell(Text(
-                                  '${project.budgetList['bt6']['percentage']}')),
-                              DataCell(Text(
-                                  '${(project.budgetList['bt6']['spent']).toStringAsFixed(2)}')),
-                              DataCell(Text(
-                                  '${project.budgetList['bt6']['estimate'].toStringAsFixed(2)}')),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              DataCell(Text(project.budgetList['bt7']['name'])),
-                              DataCell(Text(
-                                  '${project.budgetList['bt7']['percentage']}')),
-                              DataCell(Text(
-                                  '${(project.budgetList['bt7']['spent']).toStringAsFixed(2)}')),
-                              DataCell(Text(
-                                  '${project.budgetList['bt7']['estimate'].toStringAsFixed(2)}')),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              DataCell(Text(project.budgetList['bt8']['name'])),
-                              DataCell(Text(
-                                  '${project.budgetList['bt8']['percentage']}')),
-                              DataCell(Text(
-                                  '${(project.budgetList['bt8']['spent']).toStringAsFixed(2)}')),
-                              DataCell(Text(
-                                  '${project.budgetList['bt8']['estimate'].toStringAsFixed(2)}')),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              DataCell(Text(project.budgetList['bt9']['name'])),
-                              DataCell(Text(
-                                  '${project.budgetList['bt9']['percentage']}')),
-                              DataCell(Text(
-                                  '${(project.budgetList['bt9']['spent']).toStringAsFixed(2)}')),
-                              DataCell(Text(
-                                  '${project.budgetList['bt9']['estimate'].toStringAsFixed(2)}')),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              DataCell(Text(project.budgetList['bt10']['name'])),
-                              DataCell(Text(
-                                  '${project.budgetList['bt10']['percentage']}')),
-                              DataCell(Text(
-                                  '${(project.budgetList['bt10']['spent']).toStringAsFixed(2)}')),
-                              DataCell(Text(
-                                  '${project.budgetList['bt10']['estimate'].toStringAsFixed(2)}')),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              DataCell(Text(project.budgetList['bt11']['name'])),
-                              DataCell(Text(
-                                  '${project.budgetList['bt11']['percentage']}')),
-                              DataCell(Text(
-                                  '${(project.budgetList['bt11']['spent']).toStringAsFixed(2)}')),
-                              DataCell(Text(
-                                  '${project.budgetList['bt11']['estimate'].toStringAsFixed(2)}')),
-                            ],
-                          ),
-                        ],
+                        rows: dataRowList,
+//                        [
+//                          DataRow(
+//                            cells: [
+//                              DataCell(Text(project.budgetList['bt1']['name'])),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt1']['percentage']}')),
+//                              DataCell(Text(
+//                                  '${(project.budgetList['bt1']['spent']).toStringAsFixed(2)}')),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt1']['estimate'].toStringAsFixed(2)}')),
+//                            ],
+//                          ),
+//                          DataRow(
+//                            cells: [
+//                              DataCell(Text(project.budgetList['bt2']['name'])),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt2']['percentage']}')),
+//                              DataCell(Text(
+//                                  '${(project.budgetList['bt2']['spent']).toStringAsFixed(2)}')),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt2']['estimate'].toStringAsFixed(2)}')),
+//                            ],
+//                          ),
+//                          DataRow(
+//                            cells: [
+//                              DataCell(Text(project.budgetList['bt3']['name'])),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt3']['percentage']}')),
+//                              DataCell(Text(
+//                                  '${(project.budgetList['bt3']['spent']).toStringAsFixed(2)}')),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt3']['estimate'].toStringAsFixed(2)}')),
+//                            ],
+//                          ),
+//                          DataRow(
+//                            cells: [
+//                              DataCell(Text(project.budgetList['bt4']['name'])),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt4']['percentage']}')),
+//                              DataCell(Text(
+//                                  '${(project.budgetList['bt4']['spent']).toStringAsFixed(2)}')),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt4']['estimate'].toStringAsFixed(2)}')),
+//                            ],
+//                          ),
+//                          DataRow(
+//                            cells: [
+//                              DataCell(Text(project.budgetList['bt5']['name'])),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt5']['percentage']}')),
+//                              DataCell(Text(
+//                                  '${(project.budgetList['bt5']['spent']).toStringAsFixed(2)}')),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt5']['estimate'].toStringAsFixed(2)}')),
+//                            ],
+//                          ),
+//                          DataRow(
+//                            cells: [
+//                              DataCell(Text(project.budgetList['bt6']['name'])),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt6']['percentage']}')),
+//                              DataCell(Text(
+//                                  '${(project.budgetList['bt6']['spent']).toStringAsFixed(2)}')),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt6']['estimate'].toStringAsFixed(2)}')),
+//                            ],
+//                          ),
+//                          DataRow(
+//                            cells: [
+//                              DataCell(Text(project.budgetList['bt7']['name'])),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt7']['percentage']}')),
+//                              DataCell(Text(
+//                                  '${(project.budgetList['bt7']['spent']).toStringAsFixed(2)}')),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt7']['estimate'].toStringAsFixed(2)}')),
+//                            ],
+//                          ),
+//                          DataRow(
+//                            cells: [
+//                              DataCell(Text(project.budgetList['bt8']['name'])),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt8']['percentage']}')),
+//                              DataCell(Text(
+//                                  '${(project.budgetList['bt8']['spent']).toStringAsFixed(2)}')),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt8']['estimate'].toStringAsFixed(2)}')),
+//                            ],
+//                          ),
+//                          DataRow(
+//                            cells: [
+//                              DataCell(Text(project.budgetList['bt9']['name'])),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt9']['percentage']}')),
+//                              DataCell(Text(
+//                                  '${(project.budgetList['bt9']['spent']).toStringAsFixed(2)}')),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt9']['estimate'].toStringAsFixed(2)}')),
+//                            ],
+//                          ),
+//                          DataRow(
+//                            cells: [
+//                              DataCell(
+//                                  Text(project.budgetList['bt10']['name'])),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt10']['percentage']}')),
+//                              DataCell(Text(
+//                                  '${(project.budgetList['bt10']['spent']).toStringAsFixed(2)}')),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt10']['estimate'].toStringAsFixed(2)}')),
+//                            ],
+//                          ),
+//                          DataRow(
+//                            cells: [
+//                              DataCell(
+//                                  Text(project.budgetList['bt11']['name'])),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt11']['percentage']}')),
+//                              DataCell(Text(
+//                                  '${(project.budgetList['bt11']['spent']).toStringAsFixed(2)}')),
+//                              DataCell(Text(
+//                                  '${project.budgetList['bt11']['estimate'].toStringAsFixed(2)}')),
+//                            ],
+//                          ),
+//                        ],
                       ),
                     ),
                   ],
