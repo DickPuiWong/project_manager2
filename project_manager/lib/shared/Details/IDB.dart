@@ -129,92 +129,112 @@ class _IDBState extends State<IDB> {
                           ),
                           DataRow(
                             cells: [
-                              DataCell(Text('adhesive')),
-                              DataCell(Text('4')),
+                              DataCell(Text(project.budgetList['bt2']['name'])),
                               DataCell(Text(
-                                  (project.adhesivePrice).toStringAsFixed(2))),
-                              DataCell(Text('4')),
+                                  '${project.budgetList['bt2']['percentage']}')),
+                              DataCell(Text(
+                                  '${(project.budgetList['bt2']['spent']).toStringAsFixed(2)}')),
+                              DataCell(Text(
+                                  '${project.budgetList['bt2']['estimate'].toStringAsFixed(2)}')),
                             ],
                           ),
                           DataRow(
                             cells: [
-                              DataCell(Text('paint')),
-                              DataCell(Text('4')),
+                              DataCell(Text(project.budgetList['bt3']['name'])),
                               DataCell(Text(
-                                  (project.paintPrice).toStringAsFixed(2))),
-                              DataCell(Text('4')),
+                                  '${project.budgetList['bt3']['percentage']}')),
+                              DataCell(Text(
+                                  '${(project.budgetList['bt3']['spent']).toStringAsFixed(2)}')),
+                              DataCell(Text(
+                                  '${project.budgetList['bt3']['estimate'].toStringAsFixed(2)}')),
                             ],
                           ),
                           DataRow(
                             cells: [
-                              DataCell(Text('consumables')),
-                              DataCell(Text('4')),
+                              DataCell(Text(project.budgetList['bt4']['name'])),
                               DataCell(Text(
-                                  (project.paintPrice).toStringAsFixed(2))),
-                              DataCell(Text('4')),
+                                  '${project.budgetList['bt4']['percentage']}')),
+                              DataCell(Text(
+                                  '${(project.budgetList['bt4']['spent']).toStringAsFixed(2)}')),
+                              DataCell(Text(
+                                  '${project.budgetList['bt4']['estimate'].toStringAsFixed(2)}')),
                             ],
                           ),
                           DataRow(
                             cells: [
-                              DataCell(Text('labour')),
-                              DataCell(Text('4')),
+                              DataCell(Text(project.budgetList['bt5']['name'])),
                               DataCell(Text(
-                                  (project.paintPrice).toStringAsFixed(2))),
-                              DataCell(Text('4')),
+                                  '${project.budgetList['bt5']['percentage']}')),
+                              DataCell(Text(
+                                  '${(project.budgetList['bt5']['spent']).toStringAsFixed(2)}')),
+                              DataCell(Text(
+                                  '${project.budgetList['bt5']['estimate'].toStringAsFixed(2)}')),
                             ],
                           ),
                           DataRow(
                             cells: [
-                              DataCell(Text('Equipment')),
-                              DataCell(Text('4')),
+                              DataCell(Text(project.budgetList['bt6']['name'])),
                               DataCell(Text(
-                                  (project.paintPrice).toStringAsFixed(2))),
-                              DataCell(Text('4')),
+                                  '${project.budgetList['bt6']['percentage']}')),
+                              DataCell(Text(
+                                  '${(project.budgetList['bt6']['spent']).toStringAsFixed(2)}')),
+                              DataCell(Text(
+                                  '${project.budgetList['bt6']['estimate'].toStringAsFixed(2)}')),
                             ],
                           ),
                           DataRow(
                             cells: [
-                              DataCell(Text('food')),
-                              DataCell(Text('4')),
+                              DataCell(Text(project.budgetList['bt7']['name'])),
                               DataCell(Text(
-                                  (project.paintPrice).toStringAsFixed(2))),
-                              DataCell(Text('4')),
+                                  '${project.budgetList['bt7']['percentage']}')),
+                              DataCell(Text(
+                                  '${(project.budgetList['bt7']['spent']).toStringAsFixed(2)}')),
+                              DataCell(Text(
+                                  '${project.budgetList['bt7']['estimate'].toStringAsFixed(2)}')),
                             ],
                           ),
                           DataRow(
                             cells: [
-                              DataCell(Text('freight & delivery')),
-                              DataCell(Text('4')),
+                              DataCell(Text(project.budgetList['bt8']['name'])),
                               DataCell(Text(
-                                  (project.paintPrice).toStringAsFixed(2))),
-                              DataCell(Text('4')),
+                                  '${project.budgetList['bt8']['percentage']}')),
+                              DataCell(Text(
+                                  '${(project.budgetList['bt8']['spent']).toStringAsFixed(2)}')),
+                              DataCell(Text(
+                                  '${project.budgetList['bt8']['estimate'].toStringAsFixed(2)}')),
                             ],
                           ),
                           DataRow(
                             cells: [
-                              DataCell(Text('water')),
-                              DataCell(Text('4')),
+                              DataCell(Text(project.budgetList['bt9']['name'])),
                               DataCell(Text(
-                                  (project.paintPrice).toStringAsFixed(2))),
-                              DataCell(Text('4')),
+                                  '${project.budgetList['bt9']['percentage']}')),
+                              DataCell(Text(
+                                  '${(project.budgetList['bt9']['spent']).toStringAsFixed(2)}')),
+                              DataCell(Text(
+                                  '${project.budgetList['bt9']['estimate'].toStringAsFixed(2)}')),
                             ],
                           ),
                           DataRow(
                             cells: [
-                              DataCell(Text('materials & supplies')),
-                              DataCell(Text('4')),
+                              DataCell(Text(project.budgetList['bt10']['name'])),
                               DataCell(Text(
-                                  (project.paintPrice).toStringAsFixed(2))),
-                              DataCell(Text('4')),
+                                  '${project.budgetList['bt10']['percentage']}')),
+                              DataCell(Text(
+                                  '${(project.budgetList['bt10']['spent']).toStringAsFixed(2)}')),
+                              DataCell(Text(
+                                  '${project.budgetList['bt10']['estimate'].toStringAsFixed(2)}')),
                             ],
                           ),
                           DataRow(
                             cells: [
-                              DataCell(Text('diesel/electric meter')),
-                              DataCell(Text('4')),
+                              DataCell(Text(project.budgetList['bt11']['name'])),
                               DataCell(Text(
-                                  (project.paintPrice).toStringAsFixed(2))),
-                              DataCell(Text('4')),
+                                  '${project.budgetList['bt11']['percentage']}')),
+                              DataCell(Text(
+                                  '${(project.budgetList['bt11']['spent']).toStringAsFixed(2)}')),
+                              DataCell(Text(
+                                  '${project.budgetList['bt11']['estimate'].toStringAsFixed(2)}')),
                             ],
                           ),
                         ],
@@ -231,120 +251,120 @@ class _IDBState extends State<IDB> {
   }
 }
 
-class RowLister extends StatefulWidget {
-  @override
-  _RowListerState createState() => _RowListerState();
-}
-
-class _RowListerState extends State<RowLister> {
-  @override
-  Widget build(BuildContext context) {
-    List rowList = [
-      DataRow(
-        cells: [
-          DataCell(Text(project.budgetList['bt1']['name'])),
-          DataCell(Text(
-              '${project.budgetList['bt1']['percentage']}')),
-          DataCell(Text(
-              '${(project.budgetList['bt1']['spent']).toStringAsFixed(2)}')),
-          DataCell(Text(
-              '${project.budgetList['bt1']['estimate'].toStringAsFixed(2)}')),
-        ],
-      ),
-      DataRow(
-        cells: [
-          DataCell(Text('adhesive')),
-          DataCell(Text('4')),
-          DataCell(Text(
-              (project.adhesivePrice).toStringAsFixed(2))),
-          DataCell(Text('4')),
-        ],
-      ),
-      DataRow(
-        cells: [
-          DataCell(Text('paint')),
-          DataCell(Text('4')),
-          DataCell(Text(
-              (project.paintPrice).toStringAsFixed(2))),
-          DataCell(Text('4')),
-        ],
-      ),
-      DataRow(
-        cells: [
-          DataCell(Text('consumables')),
-          DataCell(Text('4')),
-          DataCell(Text(
-              (project.paintPrice).toStringAsFixed(2))),
-          DataCell(Text('4')),
-        ],
-      ),
-      DataRow(
-        cells: [
-          DataCell(Text('labour')),
-          DataCell(Text('4')),
-          DataCell(Text(
-              (project.paintPrice).toStringAsFixed(2))),
-          DataCell(Text('4')),
-        ],
-      ),
-      DataRow(
-        cells: [
-          DataCell(Text('Equipment')),
-          DataCell(Text('4')),
-          DataCell(Text(
-              (project.paintPrice).toStringAsFixed(2))),
-          DataCell(Text('4')),
-        ],
-      ),
-      DataRow(
-        cells: [
-          DataCell(Text('food')),
-          DataCell(Text('4')),
-          DataCell(Text(
-              (project.paintPrice).toStringAsFixed(2))),
-          DataCell(Text('4')),
-        ],
-      ),
-      DataRow(
-        cells: [
-          DataCell(Text('freight & delivery')),
-          DataCell(Text('4')),
-          DataCell(Text(
-              (project.paintPrice).toStringAsFixed(2))),
-          DataCell(Text('4')),
-        ],
-      ),
-      DataRow(
-        cells: [
-          DataCell(Text('water')),
-          DataCell(Text('4')),
-          DataCell(Text(
-              (project.paintPrice).toStringAsFixed(2))),
-          DataCell(Text('4')),
-        ],
-      ),
-      DataRow(
-        cells: [
-          DataCell(Text('materials & supplies')),
-          DataCell(Text('4')),
-          DataCell(Text(
-              (project.paintPrice).toStringAsFixed(2))),
-          DataCell(Text('4')),
-        ],
-      ),
-      DataRow(
-        cells: [
-          DataCell(Text('diesel/electric meter')),
-          DataCell(Text('4')),
-          DataCell(Text(
-              (project.paintPrice).toStringAsFixed(2))),
-          DataCell(Text('4')),
-        ],
-      ),
-    ];
-    return Container();
-  }
-}
+//class RowLister extends StatefulWidget {
+//  @override
+//  _RowListerState createState() => _RowListerState();
+//}
+//
+//class _RowListerState extends State<RowLister> {
+//  @override
+//  Widget build(BuildContext context) {
+//    List rowList = [
+////      DataRow(
+////        cells: [
+////          DataCell(Text(project.budgetList['bt1']['name'])),
+////          DataCell(Text(
+////              '${project.budgetList['bt1']['percentage']}')),
+////          DataCell(Text(
+////              '${(project.budgetList['bt1']['spent']).toStringAsFixed(2)}')),
+////          DataCell(Text(
+////              '${project.budgetList['bt1']['estimate'].toStringAsFixed(2)}')),
+////        ],
+////      ),
+////      DataRow(
+////        cells: [
+////          DataCell(Text('adhesive')),
+////          DataCell(Text('4')),
+////          DataCell(Text(
+////              (project.adhesivePrice).toStringAsFixed(2))),
+////          DataCell(Text('4')),
+////        ],
+////      ),
+////      DataRow(
+////        cells: [
+////          DataCell(Text('paint')),
+////          DataCell(Text('4')),
+////          DataCell(Text(
+////              (project.paintPrice).toStringAsFixed(2))),
+////          DataCell(Text('4')),
+////        ],
+////      ),
+////      DataRow(
+////        cells: [
+////          DataCell(Text('consumables')),
+////          DataCell(Text('4')),
+////          DataCell(Text(
+////              (project.paintPrice).toStringAsFixed(2))),
+////          DataCell(Text('4')),
+////        ],
+////      ),
+////      DataRow(
+////        cells: [
+////          DataCell(Text('labour')),
+////          DataCell(Text('4')),
+////          DataCell(Text(
+////              (project.paintPrice).toStringAsFixed(2))),
+////          DataCell(Text('4')),
+////        ],
+////      ),
+////      DataRow(
+////        cells: [
+////          DataCell(Text('Equipment')),
+////          DataCell(Text('4')),
+////          DataCell(Text(
+////              (project.paintPrice).toStringAsFixed(2))),
+////          DataCell(Text('4')),
+////        ],
+////      ),
+////      DataRow(
+////        cells: [
+////          DataCell(Text('food')),
+////          DataCell(Text('4')),
+////          DataCell(Text(
+////              (project.paintPrice).toStringAsFixed(2))),
+////          DataCell(Text('4')),
+////        ],
+////      ),
+////      DataRow(
+////        cells: [
+////          DataCell(Text('freight & delivery')),
+////          DataCell(Text('4')),
+////          DataCell(Text(
+////              (project.paintPrice).toStringAsFixed(2))),
+////          DataCell(Text('4')),
+////        ],
+////      ),
+////      DataRow(
+////        cells: [
+////          DataCell(Text('water')),
+////          DataCell(Text('4')),
+////          DataCell(Text(
+////              (project.paintPrice).toStringAsFixed(2))),
+////          DataCell(Text('4')),
+////        ],
+////      ),
+////      DataRow(
+////        cells: [
+////          DataCell(Text('materials & supplies')),
+////          DataCell(Text('4')),
+////          DataCell(Text(
+////              (project.paintPrice).toStringAsFixed(2))),
+////          DataCell(Text('4')),
+////        ],
+////      ),
+////      DataRow(
+////        cells: [
+////          DataCell(Text('diesel/electric meter')),
+////          DataCell(Text('4')),
+////          DataCell(Text(
+////              (project.paintPrice).toStringAsFixed(2))),
+////          DataCell(Text('4')),
+////        ],
+////      ),
+//    ];
+//    return Container();
+//  }
+//}
 
 class IDBSettings extends StatefulWidget {
   final Project proj;
