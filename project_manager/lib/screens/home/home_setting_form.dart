@@ -48,15 +48,21 @@ class _HSFState extends State<HSF> {
                 FlatButton(
                   onPressed: () {
                     var date = new DateTime.now();
-                    List<BlastPot> t1 = [];
+                    List<String> t1 = [
+                      'abrasive',
+                      'adhesive',
+                      'consumables',
+                      'diesel/electric meter',
+                      'equipment',
+                      'food',
+                      'freight & delivery',
+                      'labour',
+                      'material & supplies',
+                      'paint',
+                      'water',
+                    ];
                     Map t2 = {};
                     Map t4 = {};
-                    t4['bt1'] = {
-                      'name': 'abrasive',
-                      'percentage': 4,
-                      'spent': 400,
-                      'estimate': 4000,
-                    };
                     void t3(Map x, int i, BlastPot y) {
                       t2['Blast Pot $i'] = {
                         'Assigned num': y.num,
@@ -65,16 +71,26 @@ class _HSFState extends State<HSF> {
                         'used paint': y.usedPaint
                       };
                     }
-
                     for (int i = 0; i < 3; i++) {
-                      t1.add(BlastPot(
-                        num: i + 1,
-                        usedAbrasive: 0,
-                        usedAdhesive: 0,
-                        usedPaint: 0,
-                      ));
-                      t3(t2, i + 1, t1[i]);
+                      t3(
+                          t2,
+                          i + 1,
+                          BlastPot(
+                            num: i + 1,
+                            usedAbrasive: 0,
+                            usedAdhesive: 0,
+                            usedPaint: 0,
+                          ));
                     }
+                    for(int i=0;i<t1.length;i++){
+                      t4['bt${i+1}'] = {
+                        'name': t1[i],
+                        'percentage': 0,
+                        'spent': 0,
+                        'estimate': 0,
+                      };
+                    }
+
                     String id = Firestore.instance
                         .collection('projects')
                         .document()
