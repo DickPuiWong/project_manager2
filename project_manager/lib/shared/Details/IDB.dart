@@ -171,9 +171,9 @@ class _IDBSettingsState extends State<IDBSettings> {
                 children: <Widget>[
                   Text(widget.proj.budgetList['bt${i+1}']['name'],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
                   Divider(height: 10),
-                  Text('${widget.proj.budgetList['bt${i+1}']['percentage']}'),
-                  Text('${widget.proj.budgetList['bt${i+1}']['spent']}'),
-                  Text('${widget.proj.budgetList['bt${i+1}']['estimate']}'),
+                  Text('Percentage: ${widget.proj.budgetList['bt${i+1}']['percentage']}%'),
+                  Text('Spent: RM${(widget.proj.budgetList['bt${i+1}']['spent']).toStringAsFixed(2)}'),
+                  Text('Estimate: RM${(widget.proj.budgetList['bt${i+1}']['estimate']).toStringAsFixed(2)}'),
                 ],
               ),
             ),
