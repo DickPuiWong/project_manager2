@@ -49,17 +49,17 @@ class _HSFState extends State<HSF> {
                   onPressed: () {
                     var date = new DateTime.now();
                     List<String> t1 = [
-                      'abrasive',
-                      'adhesive',
-                      'consumables',
-                      'diesel/electric meter',
-                      'equipment',
-                      'food',
-                      'freight & delivery',
-                      'labour',
-                      'material & supplies',
-                      'paint',
-                      'water',
+                      'Abrasive',
+                      'Adhesive',
+                      'Consumables',
+                      'Diesel/Electric meter',
+                      'Equipment',
+                      'Food',
+                      'Freight & Delivery',
+                      'Labour',
+                      'Material & Supplies',
+                      'Paint',
+                      'Water',
                     ];
                     Map t2 = {};
                     Map t4 = {};
