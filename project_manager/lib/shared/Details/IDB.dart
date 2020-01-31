@@ -30,12 +30,24 @@ class _IDBState extends State<IDB> {
     for (int i = 0; i < project.budgetList.length; i++) {
       dataRowList.add(DataRow(
         cells: [
-          DataCell(Text(project.budgetList['bt${i + 1}']['name'])),
-          DataCell(Text('${project.budgetList['bt${i + 1}']['percentage']}')),
-          DataCell(Text(
-              '${(project.budgetList['bt${i + 1}']['spent']).toStringAsFixed(2)}')),
-          DataCell(Text(
-              '${project.budgetList['bt${i + 1}']['estimate'].toStringAsFixed(2)}')),
+          DataCell(
+            Text(project.budgetList['bt${i + 1}']['name']),
+            onTap: () {},
+          ),
+          DataCell(
+            Text('${project.budgetList['bt${i + 1}']['percentage']}'),
+            onTap: () {},
+          ),
+          DataCell(
+            Text(
+                '${(project.budgetList['bt${i + 1}']['spent']).toStringAsFixed(2)}'),
+            onTap: () {},
+          ),
+          DataCell(
+            Text(
+                '${project.budgetList['bt${i + 1}']['estimate'].toStringAsFixed(2)}'),
+            onTap: () {},
+          ),
         ],
       ));
     }
@@ -165,15 +177,30 @@ class _IDBSettingsState extends State<IDBSettings> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 5),
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2.6),
               color: Colors.white,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(widget.proj.budgetList['bt${i+1}']['name'],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+                  Center(
+                      child: Text(
+                    widget.proj.budgetList['bt${i + 1}']['name'],
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  )),
                   Divider(height: 10),
-                  Text('Percentage: ${widget.proj.budgetList['bt${i+1}']['percentage']}%'),
-                  Text('Spent: RM${(widget.proj.budgetList['bt${i+1}']['spent']).toStringAsFixed(2)}'),
-                  Text('Estimate: RM${(widget.proj.budgetList['bt${i+1}']['estimate']).toStringAsFixed(2)}'),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                          'Spent: RM${(widget.proj.budgetList['bt${i + 1}']['spent']).toStringAsFixed(2)}'),
+                    ],
+                  ),
+                  SizedBox(height: 5),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                          'Estimate: RM${(widget.proj.budgetList['bt${i + 1}']['estimate']).toStringAsFixed(2)}'),
+                    ],
+                  ),
                 ],
               ),
             ),
