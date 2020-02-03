@@ -261,6 +261,10 @@ class _DataRowSettingState extends State<DataRowSetting> {
                       ),
                     ),
                   ),
+                  ButtonTheme(
+                      minWidth: 45,
+                      child: FlatButton(
+                          child: Icon(Icons.refresh), onPressed: () {})),
                 ], 
               ),
               Row(
@@ -274,10 +278,6 @@ class _DataRowSettingState extends State<DataRowSetting> {
                           minWidth: 45,
                           child: FlatButton(
                               child: Icon(Icons.add), onPressed: () {})),
-                      ButtonTheme(
-                          minWidth: 45,
-                          child: FlatButton(
-                              child: Icon(Icons.refresh), onPressed: () {})),
                       ButtonTheme(
                           minWidth: 45,
                           child: FlatButton(
