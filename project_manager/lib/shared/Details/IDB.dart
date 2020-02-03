@@ -248,25 +248,26 @@ class _DataRowSettingState extends State<DataRowSetting> {
                 children: <Widget>[
                   Text('Spent:',
                     style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-                  Text('RM${widget.bt.spent.toStringAsFixed(2)}',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-                ],
+
+                  Flexible(
+                    child: Container(
+                      color: Colors.grey[50],
+                      child: TextFormField(
+                        style: TextStyle(fontSize: 15),
+                        initialValue: '${25.toStringAsFixed(2)}',
+                        decoration: textInputDecoration2.copyWith(hintText: 'RM'),
+                        validator: (val) => (val.isEmpty ? 'Enter amount' : null),
+                        onChanged: (val) {},
+                      ),
+                    ),
+                  ),
+                ], 
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Container(
-                    width: 95,
-                    color: Colors.grey[50],
-                    child: TextFormField(
-                      style: TextStyle(fontSize: 15),
-                      textAlign: TextAlign.end,
-                      initialValue: (25).toString(),
-                      decoration: textInputDecoration2.copyWith(hintText: 'RM'),
-                      validator: (val) => (val.isEmpty ? 'Enter amount' : null),
-                      onChanged: (val) {},
-                    ),
-                  ),
+                  Text('RM${widget.bt.spent.toStringAsFixed(2)}',
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
                   Row(
                     children: <Widget>[
                       ButtonTheme(
