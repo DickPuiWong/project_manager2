@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:project_manager/models/Project.dart';
@@ -28,25 +29,71 @@ class _IDBState extends State<IDB> {
     final project = Provider.of<Project>(context);
     List<DataRow> dataRowList = [];
     for (int i = 0; i < project.budgetList.length; i++) {
+      BudgetType ttt = new BudgetType(
+        name: project.budgetList['bt${i + 1}']['name'],
+        percentage: project.budgetList['bt${i + 1}']['percentage'].toDouble(),
+        spent: project.budgetList['bt${i + 1}']['spent'].toDouble(),
+        estimate: project.budgetList['bt${i + 1}']['estimate'].toDouble(),
+      );
       dataRowList.add(DataRow(
         cells: [
           DataCell(
             Text(project.budgetList['bt${i + 1}']['name']),
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return DataRowSetting(
+                    num: (i + 1),
+                    bt: ttt,
+                  );
+                },
+              );
+            },
           ),
           DataCell(
             Text('${project.budgetList['bt${i + 1}']['percentage']}'),
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return DataRowSetting(
+                    num: (i + 1),
+                    bt: ttt,
+                  );
+                },
+              );
+            },
           ),
           DataCell(
             Text(
                 '${(project.budgetList['bt${i + 1}']['spent']).toStringAsFixed(2)}'),
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return DataRowSetting(
+                    num: (i + 1),
+                    bt: ttt,
+                  );
+                },
+              );
+            },
           ),
           DataCell(
             Text(
                 '${project.budgetList['bt${i + 1}']['estimate'].toStringAsFixed(2)}'),
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return DataRowSetting(
+                    num: (i + 1),
+                    bt: ttt,
+                  );
+                },
+              );
+            },
           ),
         ],
       ));
@@ -149,6 +196,74 @@ class _IDBState extends State<IDB> {
                   ],
                 ),
               ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DataRowSetting extends StatefulWidget {
+  final int num;
+  final BudgetType bt;
+  DataRowSetting({this.num, this.bt});
+  @override
+  _DataRowSettingState createState() => _DataRowSettingState();
+}
+
+class _DataRowSettingState extends State<DataRowSetting> {
+  final _formKey = GlobalKey<FormState>();
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Dialog(
+        child: Container(
+          height: 400,
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    '${widget.bt.name}',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '${widget.bt.percentage.toStringAsFixed(1)}%',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Divider(
+                height: 20,
+                color: Colors.grey[600],
+              ),
+              SizedBox(height: 10),
+              Text('Spent: RM${widget.bt.spent.toStringAsFixed(2)}'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width:80,
+                    color: Colors.grey[50],
+                    child: TextFormField(
+                      initialValue: (25).toString(),
+                      decoration: textInputDecoration.copyWith(
+                          hintText: 'kg'),
+                      validator: (val) =>
+                      (val.isEmpty ? 'Enter amount' : null),
+                      onChanged: (val) {
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Text('Estimate: RM${widget.bt.estimate.toStringAsFixed(2)}'),
             ],
           ),
         ),
