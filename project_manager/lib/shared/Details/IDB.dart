@@ -230,11 +230,11 @@ class _DataRowSettingState extends State<DataRowSetting> {
                 children: <Widget>[
                   Text(
                     '${widget.bt.name}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     '${widget.bt.percentage.toStringAsFixed(1)}%',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -243,22 +243,45 @@ class _DataRowSettingState extends State<DataRowSetting> {
                 color: Colors.grey[600],
               ),
               SizedBox(height: 10),
-              Text('Spent: RM${widget.bt.spent.toStringAsFixed(2)}'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('Spent:',
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
+                  Text('RM${widget.bt.spent.toStringAsFixed(2)}',
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
+                ],
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
-                    width:80,
+                    width: 95,
                     color: Colors.grey[50],
                     child: TextFormField(
+                      style: TextStyle(fontSize: 15),
+                      textAlign: TextAlign.end,
                       initialValue: (25).toString(),
-                      decoration: textInputDecoration.copyWith(
-                          hintText: 'kg'),
-                      validator: (val) =>
-                      (val.isEmpty ? 'Enter amount' : null),
-                      onChanged: (val) {
-                      },
+                      decoration: textInputDecoration2.copyWith(hintText: 'RM'),
+                      validator: (val) => (val.isEmpty ? 'Enter amount' : null),
+                      onChanged: (val) {},
                     ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      ButtonTheme(
+                          minWidth: 45,
+                          child: FlatButton(
+                              child: Icon(Icons.add), onPressed: () {})),
+                      ButtonTheme(
+                          minWidth: 45,
+                          child: FlatButton(
+                              child: Icon(Icons.refresh), onPressed: () {})),
+                      ButtonTheme(
+                          minWidth: 45,
+                          child: FlatButton(
+                              child: Icon(Icons.remove), onPressed: () {})),
+                    ],
                   ),
                 ],
               ),
