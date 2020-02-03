@@ -524,29 +524,33 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                           ),
                           Row(
                             children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.add),
-                                onPressed: () {
-                                  _currUsedAdhesive = nullChecker(
-                                      _currUsedAdhesive,
-                                      widget.bp.usedAdhesive);
-                                  setState(() {
-                                    _currUsedAdhesive++;
-                                  });
-                                },
-                                tooltip: 'Add',
+                              ButtonTheme(
+                                minWidth: 45,
+                                child: FlatButton(
+                                  child: Icon(Icons.add),
+                                  onPressed: () {
+                                    _currUsedAdhesive = nullChecker(
+                                        _currUsedAdhesive,
+                                        widget.bp.usedAdhesive);
+                                    setState(() {
+                                      _currUsedAdhesive++;
+                                    });
+                                  },
+                                ),
                               ),
-                              IconButton(
-                                icon: Icon(Icons.remove),
-                                onPressed: () {
-                                  _currUsedAdhesive = nullChecker(
-                                      _currUsedAdhesive,
-                                      widget.bp.usedAdhesive);
-                                  setState(() {
-                                    _currUsedAdhesive--;
-                                  });
-                                },
-                                tooltip: 'Remove',
+                              ButtonTheme(
+                                minWidth: 45,
+                                child: FlatButton(
+                                  child: Icon(Icons.remove),
+                                  onPressed: () {
+                                    _currUsedAdhesive = nullChecker(
+                                        _currUsedAdhesive,
+                                        widget.bp.usedAdhesive);
+                                    setState(() {
+                                      _currUsedAdhesive--;
+                                    });
+                                  },
+                                ),
                               ),
                             ],
                           ),
