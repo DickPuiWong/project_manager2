@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
@@ -46,13 +47,14 @@ class _IDBState extends State<IDB> {
                   return DataRowSetting(
                     num: (i + 1),
                     bt: ttt,
+                    project: project,
                   );
                 },
               );
             },
           ),
           DataCell(
-            Text('${project.budgetList['bt${i + 1}']['percentage']}'),
+            Text('${project.budgetList['bt${i + 1}']['percentage'].toStringAsFixed(1)}'),
             onTap: () {
               showDialog(
                 context: context,
@@ -60,6 +62,7 @@ class _IDBState extends State<IDB> {
                   return DataRowSetting(
                     num: (i + 1),
                     bt: ttt,
+                    project: project,
                   );
                 },
               );
@@ -75,6 +78,7 @@ class _IDBState extends State<IDB> {
                   return DataRowSetting(
                     num: (i + 1),
                     bt: ttt,
+                    project: project,
                   );
                 },
               );
@@ -90,6 +94,7 @@ class _IDBState extends State<IDB> {
                   return DataRowSetting(
                     num: (i + 1),
                     bt: ttt,
+                    project: project,
                   );
                 },
               );
@@ -207,7 +212,8 @@ class _IDBState extends State<IDB> {
 class DataRowSetting extends StatefulWidget {
   final int num;
   final BudgetType bt;
-  DataRowSetting({this.num, this.bt});
+  final Project project;
+  DataRowSetting({this.num, this.bt, this.project});
   @override
   _DataRowSettingState createState() => _DataRowSettingState();
 }
@@ -220,7 +226,8 @@ class _DataRowSettingState extends State<DataRowSetting> {
     void percentCalculator() {
       setState(() {
         _newPercent = (_newSpent ?? widget.bt.spent) /
-            (_newEstimate ?? widget.bt.estimate);
+            (_newEstimate ?? widget.bt.estimate) *
+            100;
       });
     }
 
@@ -282,7 +289,12 @@ class _DataRowSettingState extends State<DataRowSetting> {
                         validator: (val) =>
                             (val.isEmpty ? 'Enter amount' : null),
                         onChanged: (val) {
-                          _newSpent = double.tryParse(val);
+                          if (double.tryParse(val) >=
+                              (_newEstimate ?? widget.bt.estimate)) {
+                            _newSpent = (_newEstimate ?? widget.bt.estimate);
+                          } else {
+                            _newSpent = double.tryParse(val);
+                          }
                           percentCalculator();
                         },
                       ),
@@ -369,7 +381,59 @@ class _DataRowSettingState extends State<DataRowSetting> {
                     'Update',
                     style: TextStyle(color: Colors.white),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    Map listChanger() {
+                      Map x = widget.project.budgetList;
+                      for (int i = 0;
+                          i < widget.project.budgetList.length;
+                          i++) {
+                        if ((i + 1) == widget.num) {
+                          x['bt${i + 1}'] = {
+                            'name': widget.bt.name,
+                            'percentage': (_newPercent ?? widget.bt.percentage),
+                            'spent': (_newSpent ?? widget.bt.spent),
+                            'estimate': (_newEstimate ?? widget.bt.estimate),
+                          };
+                        }
+                      }
+                      return x;
+                    }
+
+                    await Firestore.instance
+                        .collection('projects')
+                        .document(widget.project.projID)
+                        .setData({
+                      'blast pot': widget.project.blastPot,
+                      'used abrasive weight': widget.project.abrasiveUsedWeight,
+                      'total abrasive weight':
+                          widget.project.abrasiveTotalWeight,
+                      'used adhesive litres': widget.project.adhesiveUsedLitre,
+                      'total adhesive litres':
+                          widget.project.adhesiveTotalLitre,
+                      'used paint litres': widget.project.paintUsedLitre,
+                      'total paint litres': widget.project.paintTotalLitre,
+                      'ID': widget.project.projID,
+                      'name': widget.project.projname,
+                      'location': widget.project.location,
+                      'completion': widget.project.completion,
+                      'budget': widget.project.budget + _newEstimate,
+                      'spent budget': widget.project.spentBudget + _newSpent,
+                      'adhesive price': widget.project.adhesivePrice,
+                      'abrasive price': widget.project.abrasivePrice,
+                      'paint price': widget.project.paintPrice,
+                      'total area needed blasting':
+                          widget.project.totalSurfaceAreaB,
+                      'blasted area': widget.project.blastedArea,
+                      'total area needed painting':
+                          widget.project.totalSurfaceAreaP,
+                      'painted area': widget.project.paintedArea,
+                      'users assigned': widget.project.userAssigned,
+                      'blast pot list': widget.project.blastPotList,
+                      'budget list': listChanger(),
+                      'Date Created': widget.project.date,
+                    });
+                    Navigator.pop(context);
+                  },
                 ),
               ),
             ],
