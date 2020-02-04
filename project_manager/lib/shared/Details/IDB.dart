@@ -529,6 +529,17 @@ class _IDBSettingsState extends State<IDBSettings> {
               ],
             ),
           ),
+          bottomNavigationBar: BottomAppBar(
+            elevation: 0.0,
+            color: Colors.indigo[100],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                FlatButton.icon(icon: Icon(Icons.add),label: Text('Add  Type'),color: Colors.white,onPressed: (){},) ,
+                FlatButton.icon(icon: Icon(Icons.cancel),label: Text('Delete Type'),color: Colors.redAccent,onPressed: (){},),
+              ],
+            ),
+          ),
         ),
       ),
     );
