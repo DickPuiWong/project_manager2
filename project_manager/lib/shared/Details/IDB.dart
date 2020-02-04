@@ -214,14 +214,22 @@ class DataRowSetting extends StatefulWidget {
 
 class _DataRowSettingState extends State<DataRowSetting> {
   final _formKey = GlobalKey<FormState>();
+  double _newSpent, _newEstimate, _newPercent;
   @override
   Widget build(BuildContext context) {
+    void percentCalculator() {
+      setState(() {
+        _newPercent = (_newSpent ?? widget.bt.spent) /
+            (_newEstimate ?? widget.bt.estimate);
+      });
+    }
+
     return Form(
       key: _formKey,
       child: Dialog(
         child: Container(
-          height: 400,
-          padding: const EdgeInsets.all(8.0),
+          height: 240,
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -229,12 +237,13 @@ class _DataRowSettingState extends State<DataRowSetting> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    '${widget.bt.name}',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    '${widget.bt.name} budget(RM)',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    '${widget.bt.percentage.toStringAsFixed(1)}%',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    '${(_newPercent ?? widget.bt.percentage).toStringAsFixed(1)}%',
+                    style:
+                        TextStyle(fontSize: 20.5, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -242,52 +251,127 @@ class _DataRowSettingState extends State<DataRowSetting> {
                 height: 20,
                 color: Colors.grey[600],
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text('Spent:',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-
+                  Text(
+                    'Spent:',
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  ),
                   Flexible(
                     child: Container(
                       color: Colors.grey[50],
                       child: TextFormField(
-                        style: TextStyle(fontSize: 15),
-                        initialValue: '${25.toStringAsFixed(2)}',
-                        decoration: textInputDecoration2.copyWith(hintText: 'RM'),
-                        validator: (val) => (val.isEmpty ? 'Enter amount' : null),
-                        onChanged: (val) {},
+                        style: TextStyle(fontSize: 14),
+                        keyboardType: TextInputType.number,
+                        initialValue:
+                            (_newSpent ?? widget.bt.spent).toStringAsFixed(2),
+                        decoration: InputDecoration(
+                          hintText: 'RM',
+                          isDense: true,
+                          fillColor: Colors.white,
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.indigo[50], width: 2.0)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.indigo[900], width: 2.0)),
+                        ),
+                        validator: (val) =>
+                            (val.isEmpty ? 'Enter amount' : null),
+                        onChanged: (val) {
+                          _newSpent = double.tryParse(val);
+                          percentCalculator();
+                        },
                       ),
                     ),
                   ),
                   ButtonTheme(
-                      minWidth: 45,
+                    minWidth: 45,
+                    child: Tooltip(
+                      message: 'revert to initial value',
                       child: FlatButton(
-                          child: Icon(Icons.refresh), onPressed: () {})),
-                ], 
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text('RM${widget.bt.spent.toStringAsFixed(2)}',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-                  Row(
-                    children: <Widget>[
-                      ButtonTheme(
-                          minWidth: 45,
-                          child: FlatButton(
-                              child: Icon(Icons.add), onPressed: () {})),
-                      ButtonTheme(
-                          minWidth: 45,
-                          child: FlatButton(
-                              child: Icon(Icons.remove), onPressed: () {})),
-                    ],
+                        child: Icon(Icons.refresh),
+                        onPressed: () {
+                          setState(() {
+                            _newSpent = widget.bt.spent;
+                          });
+                        },
+                      ),
+                    ),
                   ),
                 ],
               ),
               SizedBox(height: 10),
-              Text('Estimate: RM${widget.bt.estimate.toStringAsFixed(2)}'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Estimate:',
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  ),
+                  Flexible(
+                    child: Container(
+                      color: Colors.grey[50],
+                      child: TextFormField(
+                        style: TextStyle(fontSize: 14),
+                        keyboardType: TextInputType.number,
+                        initialValue: (_newEstimate ?? widget.bt.estimate)
+                            .toStringAsFixed(2),
+                        decoration: InputDecoration(
+                          hintText: 'RM',
+                          isDense: true,
+                          fillColor: Colors.white,
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.indigo[50], width: 2.0)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.indigo[900], width: 2.0)),
+                        ),
+                        validator: (val) =>
+                            (val.isEmpty ? 'Enter amount' : null),
+                        onChanged: (val) {
+                          _newEstimate = double.tryParse(val);
+                          percentCalculator();
+                        },
+                      ),
+                    ),
+                  ),
+                  ButtonTheme(
+                    minWidth: 45,
+                    child: Tooltip(
+                      message: 'revert to initial value',
+                      child: FlatButton(
+                        child: Icon(Icons.refresh),
+                        onPressed: () {
+                          setState(() {
+                            _newEstimate = widget.bt.estimate;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 9),
+              Center(
+                child: RaisedButton.icon(
+                  color: Colors.indigo[900],
+                  icon: Icon(
+                    Icons.update,
+                    color: Colors.white,
+                  ),
+                  label: Text(
+                    'Update',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () {},
+                ),
+              ),
             ],
           ),
         ),
