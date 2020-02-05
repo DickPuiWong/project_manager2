@@ -54,7 +54,8 @@ class _IDBState extends State<IDB> {
             },
           ),
           DataCell(
-            Text('${project.budgetList['bt${i + 1}']['percentage'].toStringAsFixed(1)}'),
+            Text(
+                '${project.budgetList['bt${i + 1}']['percentage'].toStringAsFixed(1)}'),
             onTap: () {
               showDialog(
                 context: context,
@@ -128,7 +129,11 @@ class _IDBState extends State<IDB> {
                         context,
                         MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              IDBSettings(proj: project),
+                              StreamProvider<Project>.value(
+                                  value: ProjectDatabaseService(
+                                          projID: project.projID)
+                                      .project,
+                                  child: IDBSettings(),),
                         ),
                       );
                     },
@@ -445,19 +450,31 @@ class _DataRowSettingState extends State<DataRowSetting> {
 }
 
 class IDBSettings extends StatefulWidget {
-  final Project proj;
-  IDBSettings({this.proj});
   @override
   _IDBSettingsState createState() => _IDBSettingsState();
 }
 
 class _IDBSettingsState extends State<IDBSettings> {
-  final _formKey = GlobalKey<FormState>();
+  bool canDelete = false;
   double x;
   @override
   Widget build(BuildContext context) {
+    final project = Provider.of<Project>(context);
+
     List<Widget> cards = [];
-    for (int i = 0; i < widget.proj.budgetList.length; i++) {
+    var _checkEnable, _textState, _colorState;
+    if (canDelete == false) {
+      _checkEnable = null;
+      _textState = 'Enable Delete';
+      _colorState = Colors.redAccent;
+    } else {
+      _checkEnable = () {
+        print('taped');
+      };
+      _textState = 'Disable Delete';
+      _colorState = Colors.lightGreenAccent;
+    }
+    for (int i = 0; i < project.budgetList.length; i++) {
       cards.add(
         Padding(
           padding: const EdgeInsets.all(5),
@@ -471,21 +488,28 @@ class _IDBSettingsState extends State<IDBSettings> {
                 children: <Widget>[
                   Center(
                       child: Text(
-                    widget.proj.budgetList['bt${i + 1}']['name'],
+                    project.budgetList['bt${i + 1}']['name'],
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   )),
                   Divider(height: 10),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                          'Spent: RM${(widget.proj.budgetList['bt${i + 1}']['spent']).toStringAsFixed(2)}'),
-                    ],
-                  ),
-                  SizedBox(height: 5),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                          'Estimate: RM${(widget.proj.budgetList['bt${i + 1}']['estimate']).toStringAsFixed(2)}'),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                              'Spent: RM${(project.budgetList['bt${i + 1}']['spent']).toStringAsFixed(2)}'),
+                          SizedBox(height: 5),
+                          Text(
+                              'Estimate: RM${(project.budgetList['bt${i + 1}']['estimate']).toStringAsFixed(2)}'),
+                        ],
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.delete),
+                        color: Colors.redAccent,
+                        disabledColor: Colors.transparent,
+                        onPressed: _checkEnable,
+                      ),
                     ],
                   ),
                 ],
@@ -496,49 +520,240 @@ class _IDBSettingsState extends State<IDBSettings> {
       );
     }
 
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.indigo[50],
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 0),
+          child: Column(
+            children: <Widget>[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.file_upload),
+                    onPressed: () async {},
+                  ),
+                ],
+              ),
+              Flexible(
+                child: ListView(
+                  children: cards,
+                ),
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          elevation: 0.0,
+          color: Colors.indigo[100],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              FlatButton.icon(
+                icon: Icon(Icons.add),
+                label: Text('Add Type'),
+                color: Colors.white,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AddType(project: project);
+                    },
+                  );
+                },
+              ),
+              FlatButton.icon(
+                icon: Icon(Icons.cancel),
+                label: Text(_textState),
+                color: _colorState,
+                onPressed: () {
+                  setState(() {
+                    canDelete = !canDelete;
+                  });
+                  print(canDelete);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AddType extends StatefulWidget {
+  final Project project;
+  AddType({this.project});
+  @override
+  _AddTypeState createState() => _AddTypeState();
+}
+
+class _AddTypeState extends State<AddType> {
+  final _formKey = GlobalKey<FormState>();
+  String _newName;
+  double _newPercent, _newSpent, _newEstimate;
+
+  @override
+  Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: Colors.indigo[50],
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.file_upload),
-                      onPressed: () async {},
-                    ),
-                  ],
+      child: Dialog(
+        child: Container(
+          height: 320,
+          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Center(
+                child: Text(
+                  'Add New Type',
+                  style: TextStyle(fontSize: 22),
                 ),
-                Flexible(
-                  child: ListView(
-                    children: cards,
+              ),
+              Divider(
+                height: 14,
+                color: Colors.blueGrey,
+              ),
+              TextFormField(
+                style: TextStyle(fontSize: 14),
+                keyboardType: TextInputType.text,
+                initialValue: (_newName ?? ''),
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(fontSize: 20),
+                  labelText: 'Name',
+                  hintText: 'A name for the new budget type',
+                  isDense: true,
+                  fillColor: Colors.white,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.indigo[50], width: 2.0)),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.indigo[900], width: 2.0)),
+                ),
+                validator: (val) => (val.isEmpty ? 'Enter amount' : null),
+                onChanged: (val) {
+                  _newName = val;
+                },
+              ),
+              SizedBox(height: 12),
+              TextFormField(
+                style: TextStyle(fontSize: 14),
+                keyboardType: TextInputType.number,
+                initialValue: '${(_newSpent ?? '')}',
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(fontSize: 20),
+                  labelText: 'Spent Budget',
+                  hintText: 'RM',
+                  isDense: true,
+                  fillColor: Colors.white,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.indigo[50], width: 2.0)),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.indigo[900], width: 2.0)),
+                ),
+                validator: (val) => (val.isEmpty ? 'Enter amount' : null),
+                onChanged: (val) {
+                  _newSpent = double.tryParse(val);
+                },
+              ),
+              SizedBox(height: 12),
+              TextFormField(
+                style: TextStyle(fontSize: 14),
+                keyboardType: TextInputType.number,
+                initialValue: '${(_newEstimate ?? '')}',
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(fontSize: 20),
+                  labelText: 'Estimated Budget',
+                  hintText: 'RM',
+                  isDense: true,
+                  fillColor: Colors.white,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.indigo[50], width: 2.0)),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.indigo[900], width: 2.0)),
+                ),
+                validator: (val) => (val.isEmpty ? 'Enter amount' : null),
+                onChanged: (val) {
+                  _newEstimate = double.tryParse(val);
+                },
+              ),
+              SizedBox(height: 20),
+              Center(
+                child: FlatButton(
+                  color: Colors.indigo[900],
+                  child: Text(
+                    'Add',
+                    style: TextStyle(color: Colors.white, fontSize: 15),
                   ),
+                  onPressed: () async {
+                    Map listChanger() {
+                      Map x = widget.project.budgetList;
+                      int i = widget.project.budgetList.length;
+                      x['bt${i+1}'] = {
+                        'name': _newName,
+                        'percentage': ((_newSpent) / (_newEstimate) * 100) ?? 0,
+                        'spent': (_newSpent ?? 0),
+                        'estimate': (_newEstimate ?? 0),
+                      };
+                      print(x['bt${i+1}']);
+                      return x;
+                    }
+
+                    await Firestore.instance
+                        .collection('projects')
+                        .document(widget.project.projID)
+                        .setData({
+                      'blast pot': widget.project.blastPot,
+                      'used abrasive weight': widget.project.abrasiveUsedWeight,
+                      'total abrasive weight':
+                          widget.project.abrasiveTotalWeight,
+                      'used adhesive litres': widget.project.adhesiveUsedLitre,
+                      'total adhesive litres':
+                          widget.project.adhesiveTotalLitre,
+                      'used paint litres': widget.project.paintUsedLitre,
+                      'total paint litres': widget.project.paintTotalLitre,
+                      'ID': widget.project.projID,
+                      'name': widget.project.projname,
+                      'location': widget.project.location,
+                      'completion': widget.project.completion,
+                      'budget': widget.project.budget + _newEstimate,
+                      'spent budget': widget.project.spentBudget + _newSpent,
+                      'adhesive price': widget.project.adhesivePrice,
+                      'abrasive price': widget.project.abrasivePrice,
+                      'paint price': widget.project.paintPrice,
+                      'total area needed blasting':
+                          widget.project.totalSurfaceAreaB,
+                      'blasted area': widget.project.blastedArea,
+                      'total area needed painting':
+                          widget.project.totalSurfaceAreaP,
+                      'painted area': widget.project.paintedArea,
+                      'users assigned': widget.project.userAssigned,
+                      'blast pot list': widget.project.blastPotList,
+                      'budget list': listChanger(),
+                      'Date Created': widget.project.date,
+                    });
+                    Navigator.pop(context);
+                  },
                 ),
-              ],
-            ),
-          ),
-          bottomNavigationBar: BottomAppBar(
-            elevation: 0.0,
-            color: Colors.indigo[100],
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                FlatButton.icon(icon: Icon(Icons.add),label: Text('Add  Type'),color: Colors.white,onPressed: (){},) ,
-                FlatButton.icon(icon: Icon(Icons.cancel),label: Text('Delete Type'),color: Colors.redAccent,onPressed: (){},),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
