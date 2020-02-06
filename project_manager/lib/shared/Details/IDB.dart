@@ -130,10 +130,11 @@ class _IDBState extends State<IDB> {
                         MaterialPageRoute(
                           builder: (BuildContext context) =>
                               StreamProvider<Project>.value(
-                                  value: ProjectDatabaseService(
-                                          projID: project.projID)
-                                      .project,
-                                  child: IDBSettings(),),
+                            value:
+                                ProjectDatabaseService(projID: project.projID)
+                                    .project,
+                            child: IDBSettings(),
+                          ),
                         ),
                       );
                     },
@@ -455,25 +456,24 @@ class IDBSettings extends StatefulWidget {
 }
 
 class _IDBSettingsState extends State<IDBSettings> {
-  bool canDelete = false;
+  bool canDelete = true;
   double x;
   @override
   Widget build(BuildContext context) {
     final project = Provider.of<Project>(context);
 
     List<Widget> cards = [];
-    var _checkEnable, _textState, _colorState;
+    var _textState, _colorState, _colorState2;
     if (canDelete == false) {
-      _checkEnable = null;
-      _textState = 'Enable Delete';
-      _colorState = Colors.redAccent;
-    } else {
-      _checkEnable = () {
-        print('taped');
-      };
       _textState = 'Disable Delete';
       _colorState = Colors.lightGreenAccent;
+      _colorState2 = Colors.redAccent;
+    } else {
+      _textState = 'Enable Delete';
+      _colorState = Colors.redAccent;
+      _colorState2 = Colors.transparent;
     }
+
     for (int i = 0; i < project.budgetList.length; i++) {
       cards.add(
         Padding(
@@ -504,11 +504,79 @@ class _IDBSettingsState extends State<IDBSettings> {
                               'Estimate: RM${(project.budgetList['bt${i + 1}']['estimate']).toStringAsFixed(2)}'),
                         ],
                       ),
-                      IconButton(
-                        icon: Icon(Icons.delete),
-                        color: Colors.redAccent,
-                        disabledColor: Colors.transparent,
-                        onPressed: _checkEnable,
+                      AbsorbPointer(
+                        absorbing: canDelete,
+                        child: IconButton(
+                          icon: Icon(Icons.delete),
+                          color: _colorState2,
+                          onPressed: () async {
+                            print('hi');
+                            Map listChanger() {
+                              Map temp = project.budgetList;
+                              int x = 1;
+                              for (int ii = 0;
+                                  ii < project.budgetList.length;
+                                  i++) {
+//                                if ((ii + 1) != i) {
+//                                  print(
+//                                      '${project.budgetList['bt${ii + 1}']} ----- ${project.budgetList['bt$num']}');
+//                                }
+//                                if ((ii + 1) != i) {
+//                                  temp['bt$x'] = {
+//                                    'name': project.budgetList['bt$x']['name'],
+//                                    'percentage': project.budgetList['bt$x']
+//                                        ['percentage'],
+//                                    'spent': project.budgetList['bt$x']
+//                                        ['spent'],
+//                                    'estimate': project.budgetList['bt$x']
+//                                        ['estimate'],
+//                                  };
+//                                  x++;
+//                                }
+                              }
+//                              for(int ii=0;ii<temp.length;ii++){
+//                                print(temp['bt$ii']);
+//                              }
+                              return temp;
+                            }
+                            listChanger();
+
+//                            await Firestore.instance
+//                                .collection('projects')
+//                                .document(project.projID)
+//                                .setData({
+//                              'blast pot': project.blastPot,
+//                              'used abrasive weight':
+//                                  project.abrasiveUsedWeight,
+//                              'total abrasive weight':
+//                                  project.abrasiveTotalWeight,
+//                              'used adhesive litres': project.adhesiveUsedLitre,
+//                              'total adhesive litres':
+//                                  project.adhesiveTotalLitre,
+//                              'used paint litres': project.paintUsedLitre,
+//                              'total paint litres': project.paintTotalLitre,
+//                              'ID': project.projID,
+//                              'name': project.projname,
+//                              'location': project.location,
+//                              'completion': project.completion,
+//                              'budget': project.budget + _newEstimate,
+//                              'spent budget': project.spentBudget + _newSpent,
+//                              'adhesive price': project.adhesivePrice,
+//                              'abrasive price': project.abrasivePrice,
+//                              'paint price': project.paintPrice,
+//                              'total area needed blasting':
+//                                  project.totalSurfaceAreaB,
+//                              'blasted area': project.blastedArea,
+//                              'total area needed painting':
+//                                  project.totalSurfaceAreaP,
+//                              'painted area': project.paintedArea,
+//                              'users assigned': project.userAssigned,
+//                              'blast pot list': project.blastPotList,
+//                              'budget list': listChanger(),
+//                              'Date Created': project.date,
+//                            });
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -578,7 +646,6 @@ class _IDBSettingsState extends State<IDBSettings> {
                   setState(() {
                     canDelete = !canDelete;
                   });
-                  print(canDelete);
                 },
               ),
             ],
@@ -706,13 +773,13 @@ class _AddTypeState extends State<AddType> {
                     Map listChanger() {
                       Map x = widget.project.budgetList;
                       int i = widget.project.budgetList.length;
-                      x['bt${i+1}'] = {
+                      x['bt${i + 1}'] = {
                         'name': _newName,
                         'percentage': ((_newSpent) / (_newEstimate) * 100) ?? 0,
                         'spent': (_newSpent ?? 0),
                         'estimate': (_newEstimate ?? 0),
                       };
-                      print(x['bt${i+1}']);
+                      print(x['bt${i + 1}']);
                       return x;
                     }
 
