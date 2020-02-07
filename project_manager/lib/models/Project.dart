@@ -23,6 +23,7 @@ class Project {
   final double blastPot;
   final Map blastPotList;
   final Map budgetList;
+  final Map progressesTracked;
   var date;
 
   Project({
@@ -50,6 +51,7 @@ class Project {
     this.blastPot,
     this.blastPotList,
     this.budgetList,
+    this.progressesTracked,
     this.date,
   });
 }
@@ -77,5 +79,17 @@ class BudgetType {
     this.name,
     this.spent,
     this.estimate,
+  });
+}
+
+class ProgressType {
+  final String name;
+  final double done;
+  final double total;
+
+  ProgressType({
+    this.name,
+    this.done,
+    this.total,
   });
 }
