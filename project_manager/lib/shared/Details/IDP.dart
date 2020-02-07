@@ -23,9 +23,29 @@ class IDP extends StatefulWidget {
 }
 
 class _IDPState extends State<IDP> {
+  double _totalDone=0, _totalOverall=0;
   @override
   Widget build(BuildContext context) {
     final project = Provider.of<Project>(context);
+    List<DataRow> dataRowList = [];
+
+    for (int i = 0; i < project.progressesTracked.length; i++) {
+      dataRowList.add(
+        DataRow(
+          cells: [
+            DataCell(Text(project.progressesTracked['pt${i + 1}']['name'])),
+            DataCell(Text(
+                '${((project.progressesTracked['pt${i + 1}']['done'] / project.progressesTracked['pt${i + 1}']['total']) * 100).toStringAsFixed(1)}')),
+            DataCell(
+                Text('${project.progressesTracked['pt${i + 1}']['done']}m²')),
+            DataCell(
+                Text('${project.progressesTracked['pt${i + 1}']['total']}m²')),
+          ],
+        ),
+      );
+      _totalDone += project.progressesTracked['pt${i + 1}']['done'];
+      _totalOverall += project.progressesTracked['pt${i + 1}']['total'];
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -64,14 +84,10 @@ class _IDPState extends State<IDP> {
                   width: 250,
                   child: CircularProgressIndicator(
                     strokeWidth: 12,
-                    value: (((project.paintedArea /
-                        project.totalSurfaceAreaP) +
-                        (project.blastedArea /
-                            project.totalSurfaceAreaB)) /
-                        2),
+                    value: (_totalDone / _totalOverall),
                     backgroundColor: Colors.redAccent,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Colors.lightGreenAccent),
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(Colors.lightGreenAccent),
                   ),
                 ),
               ),
@@ -93,28 +109,7 @@ class _IDPState extends State<IDP> {
                             DataColumn(label: Text('Done')),
                             DataColumn(label: Text('Total')),
                           ],
-                          rows: [
-                            DataRow(
-                              cells: [
-                                DataCell(Text('Blasting')),
-                                DataCell(Text(
-                                    '${((project.blastedArea / project.totalSurfaceAreaB) * 100).toStringAsFixed(1)}')),
-                                DataCell(Text('${project.blastedArea}m²')),
-                                DataCell(
-                                    Text('${project.totalSurfaceAreaB}m²')),
-                              ],
-                            ),
-                            DataRow(
-                              cells: [
-                                DataCell(Text('Painting')),
-                                DataCell(Text(
-                                    '${((project.paintedArea / project.totalSurfaceAreaP) * 100).toStringAsFixed(1)}')),
-                                DataCell(Text('${project.paintedArea}m²')),
-                                DataCell(
-                                    Text('${project.totalSurfaceAreaP}m²')),
-                              ],
-                            ),
-                          ],
+                          rows: dataRowList,
                         ),
                       ),
                     ),
@@ -122,6 +117,16 @@ class _IDPState extends State<IDP> {
                   ],
                 ),
               ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.indigo[100],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              FlatButton(onPressed: () {}, child: Text('Add')),
+              FlatButton(onPressed: () {}, child: Text('Add')),
             ],
           ),
         ),
@@ -168,15 +173,13 @@ class _IDPSettingsState extends State<IDPSettings> {
                     ),
                     IconButton(
                       icon: Icon(Icons.file_upload),
-                      onPressed: () async {
-                      },
+                      onPressed: () async {},
                     ),
                   ],
                 ),
                 Flexible(
                   child: ListView(
                     children: <Widget>[
-
                       SizedBox(height: 34),
                       Container(
                         child: Column(
@@ -192,11 +195,14 @@ class _IDPSettingsState extends State<IDPSettings> {
                             ),
                             TextFormField(
                               initialValue: widget.proj.blastedArea.toString(),
-                              decoration:
-                              textInputDecoration.copyWith(hintText: 'Total Area Blasted(m²)'),
-                              validator: (val) => (val.isEmpty ? 'Enter area Blasted(m²)' : null),
+                              decoration: textInputDecoration.copyWith(
+                                  hintText: 'Total Area Blasted(m²)'),
+                              validator: (val) => (val.isEmpty
+                                  ? 'Enter area Blasted(m²)'
+                                  : null),
                               onChanged: (val) {
-                                setState(() => (_currBlastedArea = double.tryParse(val)));
+                                setState(() =>
+                                    (_currBlastedArea = double.tryParse(val)));
                               },
                             ),
                             SizedBox(height: 10),
@@ -205,18 +211,21 @@ class _IDPSettingsState extends State<IDPSettings> {
                               style: TextStyle(fontSize: 16),
                             ),
                             TextFormField(
-                              initialValue: widget.proj.totalSurfaceAreaB.toString(),
-                              decoration:
-                              textInputDecoration.copyWith(hintText: 'Total Area Needed to Blast(m²)'),
-                              validator: (val) => (val.isEmpty ? 'Enter area needed to be blast(m²)' : null),
+                              initialValue:
+                                  widget.proj.totalSurfaceAreaB.toString(),
+                              decoration: textInputDecoration.copyWith(
+                                  hintText: 'Total Area Needed to Blast(m²)'),
+                              validator: (val) => (val.isEmpty
+                                  ? 'Enter area needed to be blast(m²)'
+                                  : null),
                               onChanged: (val) {
-                                setState(() => (_currBlastTotalArea = double.tryParse(val)));
+                                setState(() => (_currBlastTotalArea =
+                                    double.tryParse(val)));
                               },
                             ),
                           ],
                         ),
                       ),
-
                       SizedBox(height: 34),
                       Container(
                         child: Column(
@@ -232,11 +241,14 @@ class _IDPSettingsState extends State<IDPSettings> {
                             ),
                             TextFormField(
                               initialValue: widget.proj.paintedArea.toString(),
-                              decoration:
-                              textInputDecoration.copyWith(hintText: 'Total Area Painted(m²)'),
-                              validator: (val) => (val.isEmpty ? 'Enter area Painted(m²)' : null),
+                              decoration: textInputDecoration.copyWith(
+                                  hintText: 'Total Area Painted(m²)'),
+                              validator: (val) => (val.isEmpty
+                                  ? 'Enter area Painted(m²)'
+                                  : null),
                               onChanged: (val) {
-                                setState(() => (_currPaintedArea = double.tryParse(val)));
+                                setState(() =>
+                                    (_currPaintedArea = double.tryParse(val)));
                               },
                             ),
                             SizedBox(height: 10),
@@ -245,12 +257,16 @@ class _IDPSettingsState extends State<IDPSettings> {
                               style: TextStyle(fontSize: 16),
                             ),
                             TextFormField(
-                              initialValue: widget.proj.abrasivePrice.toString(),
-                              decoration:
-                              textInputDecoration.copyWith(hintText: 'Total Area Needed to Paint(m²)'),
-                              validator: (val) => (val.isEmpty ? 'Enter area needed to be paint(m²)' : null),
+                              initialValue:
+                                  widget.proj.abrasivePrice.toString(),
+                              decoration: textInputDecoration.copyWith(
+                                  hintText: 'Total Area Needed to Paint(m²)'),
+                              validator: (val) => (val.isEmpty
+                                  ? 'Enter area needed to be paint(m²)'
+                                  : null),
                               onChanged: (val) {
-                                setState(() => (_currPaintTotalArea = double.tryParse(val)));
+                                setState(() => (_currPaintTotalArea =
+                                    double.tryParse(val)));
                               },
                             ),
                           ],
