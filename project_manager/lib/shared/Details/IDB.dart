@@ -83,6 +83,42 @@ class _IDBState extends State<IDB> {
               );
             },
           ),
+          DataCell(
+            Text(((project.budgetList['bt${i + 1}']['spent']) /
+                    (project.budgetList['bt${i + 1}']['estimate']) *
+                    100)
+                .toStringAsFixed(1)),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return DataRowSetting(
+                    num: (i + 1),
+                    bt: ttt,
+                    project: project,
+                  );
+                },
+              );
+            },
+          ),
+          DataCell(
+            Text(((project.budgetList['bt${i + 1}']['spent']) /
+                    (project.budget) *
+                    100)
+                .toStringAsFixed(1)),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return DataRowSetting(
+                    num: (i + 1),
+                    bt: ttt,
+                    project: project,
+                  );
+                },
+              );
+            },
+          ),
         ],
       ));
     }
@@ -176,6 +212,14 @@ class _IDBState extends State<IDB> {
                           ),
                           DataColumn(
                             label: Text('Estimate(RM)'),
+                            numeric: true,
+                          ),
+                          DataColumn(
+                            label: Text('Spent/Estimate(%)'),
+                            numeric: true,
+                          ),
+                          DataColumn(
+                            label: Text('Spent/Total(%)'),
                             numeric: true,
                           ),
                         ],
