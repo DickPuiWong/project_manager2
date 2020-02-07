@@ -38,6 +38,7 @@ class DatabaseService {
         blastPot: (doc.data['blast pot']).toDouble() ?? 0.0,
         blastPotList: doc.data['blast pot list'] ?? {},
         budgetList: doc.data['budget list'] ?? {},
+        progressesTracked: doc.data['progresses tracked'] ?? {},
         date: doc.data['Date Created'],
       );
     }).toList();
@@ -83,6 +84,7 @@ class ProjectDatabaseService {
       blastPot: (snapshot.data['blast pot']).toDouble(),
       blastPotList: snapshot.data['blast pot list'],
       budgetList: snapshot.data['budget list'],
+      progressesTracked: snapshot.data['progresses tracked'],
       date: snapshot.data['Date Created'],
     );
   }
