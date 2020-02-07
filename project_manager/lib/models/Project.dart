@@ -18,6 +18,7 @@ class Project {
   final double blastedArea;
   final double totalSurfaceAreaP;
   final double paintedArea;
+  final List projectSupervisor;
   final List userAssigned;
   final double blastPot;
   final Map blastPotList;
@@ -45,6 +46,7 @@ class Project {
     this.totalSurfaceAreaP,
     this.paintedArea,
     this.userAssigned,
+    this.projectSupervisor,
     this.blastPot,
     this.blastPotList,
     this.budgetList,
