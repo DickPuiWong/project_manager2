@@ -85,7 +85,6 @@ class _HSFState extends State<HSF> {
                     for(int i=0;i<t1.length;i++){
                       t4['bt${i+1}'] = {
                         'name': t1[i],
-                        'percentage': 0,
                         'spent': 0,
                         'estimate': 0,
                       };
