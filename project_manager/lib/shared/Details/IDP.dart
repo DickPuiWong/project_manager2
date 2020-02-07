@@ -23,7 +23,6 @@ class IDP extends StatefulWidget {
 }
 
 class _IDPState extends State<IDP> {
-  double _totalDone=0, _totalOverall=0;
   @override
   Widget build(BuildContext context) {
     final project = Provider.of<Project>(context);
@@ -35,16 +34,25 @@ class _IDPState extends State<IDP> {
           cells: [
             DataCell(Text(project.progressesTracked['pt${i + 1}']['name'])),
             DataCell(Text(
-                '${((project.progressesTracked['pt${i + 1}']['done'] / project.progressesTracked['pt${i + 1}']['total']) * 100).toStringAsFixed(1)}')),
-            DataCell(
-                Text('${project.progressesTracked['pt${i + 1}']['done']}m²')),
-            DataCell(
-                Text('${project.progressesTracked['pt${i + 1}']['total']}m²')),
+                '${(((project.progressesTracked['pt${i + 1}']['done'] / project.progressesTracked['pt${i + 1}']['total']) * 100)).toStringAsFixed(1)}')),
+            DataCell(Text(
+                '${project.progressesTracked['pt${i + 1}']['done'].toStringAsFixed(2)}m²')),
+            DataCell(Text(
+                '${project.progressesTracked['pt${i + 1}']['total'].toStringAsFixed(2)}m²')),
           ],
         ),
       );
-      _totalDone += project.progressesTracked['pt${i + 1}']['done'];
-      _totalOverall += project.progressesTracked['pt${i + 1}']['total'];
+    }
+
+    double findPercent() {
+      double percent;
+      double _totalDone = 0, _totalOverall = 0;
+      for (int i = 0; i < project.progressesTracked.length; i++) {
+        _totalDone += project.progressesTracked['pt${i + 1}']['done'];
+        _totalOverall += project.progressesTracked['pt${i + 1}']['total'];
+      }
+      percent = _totalDone / _totalOverall;
+      return percent;
     }
 
     return SafeArea(
@@ -84,7 +92,7 @@ class _IDPState extends State<IDP> {
                   width: 250,
                   child: CircularProgressIndicator(
                     strokeWidth: 12,
-                    value: (_totalDone / _totalOverall),
+                    value: findPercent(),
                     backgroundColor: Colors.redAccent,
                     valueColor:
                         AlwaysStoppedAnimation<Color>(Colors.lightGreenAccent),
