@@ -32,7 +32,6 @@ class _IDBState extends State<IDB> {
     for (int i = 0; i < project.budgetList.length; i++) {
       BudgetType ttt = new BudgetType(
         name: project.budgetList['bt${i + 1}']['name'],
-        percentage: project.budgetList['bt${i + 1}']['percentage'].toDouble(),
         spent: project.budgetList['bt${i + 1}']['spent'].toDouble(),
         estimate: project.budgetList['bt${i + 1}']['estimate'].toDouble(),
       );
@@ -40,22 +39,6 @@ class _IDBState extends State<IDB> {
         cells: [
           DataCell(
             Text(project.budgetList['bt${i + 1}']['name']),
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return DataRowSetting(
-                    num: (i + 1),
-                    bt: ttt,
-                    project: project,
-                  );
-                },
-              );
-            },
-          ),
-          DataCell(
-            Text(
-                '${project.budgetList['bt${i + 1}']['percentage'].toStringAsFixed(1)}'),
             onTap: () {
               showDialog(
                 context: context,
@@ -189,10 +172,6 @@ class _IDBState extends State<IDB> {
                         columns: [
                           DataColumn(label: Text('Types')),
                           DataColumn(
-                            label: Text('Percent(%)'),
-                            numeric: true,
-                          ),
-                          DataColumn(
                             label: Text('Spent(RM)'),
                             numeric: true,
                           ),
@@ -241,22 +220,20 @@ class _DataRowSettingState extends State<DataRowSetting> {
       key: _formKey,
       child: Dialog(
         child: Container(
-          height: 240,
+          height: 260,
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 5),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    '${widget.bt.name} budget(RM)',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    '${(_newPercent ?? widget.bt.percentage).toStringAsFixed(1)}%',
-                    style:
-                        TextStyle(fontSize: 20.5, fontWeight: FontWeight.bold),
+                  Flexible(
+                    child: Text(
+                      '${widget.bt.name} budget(RM)',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
@@ -268,10 +245,6 @@ class _DataRowSettingState extends State<DataRowSetting> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    'Spent:',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                  ),
                   Flexible(
                     child: Container(
                       color: Colors.grey[50],
@@ -281,6 +254,9 @@ class _DataRowSettingState extends State<DataRowSetting> {
                         initialValue:
                             (_newSpent ?? widget.bt.spent).toStringAsFixed(2),
                         decoration: InputDecoration(
+                          labelText: 'Spent(RM)',
+                          labelStyle: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
                           hintText: 'RM',
                           isDense: true,
                           fillColor: Colors.white,
@@ -295,12 +271,7 @@ class _DataRowSettingState extends State<DataRowSetting> {
                         validator: (val) =>
                             (val.isEmpty ? 'Enter amount' : null),
                         onChanged: (val) {
-                          if (double.tryParse(val) >=
-                              (_newEstimate ?? widget.bt.estimate)) {
-                            _newSpent = (_newEstimate ?? widget.bt.estimate);
-                          } else {
                             _newSpent = double.tryParse(val);
-                          }
                           percentCalculator();
                         },
                       ),
@@ -326,10 +297,6 @@ class _DataRowSettingState extends State<DataRowSetting> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    'Estimate:',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                  ),
                   Flexible(
                     child: Container(
                       color: Colors.grey[50],
@@ -339,6 +306,9 @@ class _DataRowSettingState extends State<DataRowSetting> {
                         initialValue: (_newEstimate ?? widget.bt.estimate)
                             .toStringAsFixed(2),
                         decoration: InputDecoration(
+                          labelText: 'Estimate(RM)',
+                          labelStyle: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
                           hintText: 'RM',
                           isDense: true,
                           fillColor: Colors.white,
@@ -396,7 +366,6 @@ class _DataRowSettingState extends State<DataRowSetting> {
                         if ((i + 1) == widget.num) {
                           x['bt${i + 1}'] = {
                             'name': widget.bt.name,
-                            'percentage': (_newPercent ?? widget.bt.percentage),
                             'spent': (_newSpent ?? widget.bt.spent),
                             'estimate': (_newEstimate ?? widget.bt.estimate),
                           };
@@ -422,8 +391,9 @@ class _DataRowSettingState extends State<DataRowSetting> {
                       'name': widget.project.projname,
                       'location': widget.project.location,
                       'completion': widget.project.completion,
-                      'budget': widget.project.budget + _newEstimate,
-                      'spent budget': widget.project.spentBudget + _newSpent,
+                      'budget': widget.project.budget + (_newEstimate ?? 0),
+                      'spent budget':
+                          widget.project.spentBudget + (_newSpent ?? 0),
                       'adhesive price': widget.project.adhesivePrice,
                       'abrasive price': widget.project.abrasivePrice,
                       'paint price': widget.project.paintPrice,
@@ -510,71 +480,75 @@ class _IDBSettingsState extends State<IDBSettings> {
                           icon: Icon(Icons.delete),
                           color: _colorState2,
                           onPressed: () async {
-                            print('hi');
+                            double _newEstimate, _newSpent;
                             Map listChanger() {
-                              Map temp = project.budgetList;
-                              int x = 1;
+                              Map temp = {};
+                              int z = 1;
                               for (int ii = 0;
                                   ii < project.budgetList.length;
-                                  i++) {
-//                                if ((ii + 1) != i) {
-//                                  print(
-//                                      '${project.budgetList['bt${ii + 1}']} ----- ${project.budgetList['bt$num']}');
-//                                }
-//                                if ((ii + 1) != i) {
-//                                  temp['bt$x'] = {
-//                                    'name': project.budgetList['bt$x']['name'],
-//                                    'percentage': project.budgetList['bt$x']
-//                                        ['percentage'],
-//                                    'spent': project.budgetList['bt$x']
-//                                        ['spent'],
-//                                    'estimate': project.budgetList['bt$x']
-//                                        ['estimate'],
-//                                  };
-//                                  x++;
-//                                }
+                                  ii++) {
+                                if (ii != i) {
+                                  temp['bt$z'] = {
+                                    'name': project.budgetList['bt${ii + 1}']
+                                        ['name'],
+                                    'spent': project.budgetList['bt${ii + 1}']
+                                        ['spent'],
+                                    'estimate': project
+                                        .budgetList['bt${ii + 1}']['estimate'],
+                                  };
+                                  z++;
+                                } else {
+                                  _newEstimate = project.budget -
+                                      project.budgetList['bt${ii + 1}']
+                                          ['estimate'];
+                                  _newSpent = project.spentBudget -
+                                      project.budgetList['bt${ii + 1}']
+                                          ['spent'];
+                                }
                               }
-//                              for(int ii=0;ii<temp.length;ii++){
-//                                print(temp['bt$ii']);
+//                              for (int x = 0; x < temp.length; x++) {
+//                                print(
+//                                    'x=${x + 1} --- ${temp['bt${x + 1}']['name']}');
 //                              }
                               return temp;
                             }
+
                             listChanger();
 
-//                            await Firestore.instance
-//                                .collection('projects')
-//                                .document(project.projID)
-//                                .setData({
-//                              'blast pot': project.blastPot,
-//                              'used abrasive weight':
-//                                  project.abrasiveUsedWeight,
-//                              'total abrasive weight':
-//                                  project.abrasiveTotalWeight,
-//                              'used adhesive litres': project.adhesiveUsedLitre,
-//                              'total adhesive litres':
-//                                  project.adhesiveTotalLitre,
-//                              'used paint litres': project.paintUsedLitre,
-//                              'total paint litres': project.paintTotalLitre,
-//                              'ID': project.projID,
-//                              'name': project.projname,
-//                              'location': project.location,
-//                              'completion': project.completion,
-//                              'budget': project.budget + _newEstimate,
-//                              'spent budget': project.spentBudget + _newSpent,
-//                              'adhesive price': project.adhesivePrice,
-//                              'abrasive price': project.abrasivePrice,
-//                              'paint price': project.paintPrice,
-//                              'total area needed blasting':
-//                                  project.totalSurfaceAreaB,
-//                              'blasted area': project.blastedArea,
-//                              'total area needed painting':
-//                                  project.totalSurfaceAreaP,
-//                              'painted area': project.paintedArea,
-//                              'users assigned': project.userAssigned,
-//                              'blast pot list': project.blastPotList,
-//                              'budget list': listChanger(),
-//                              'Date Created': project.date,
-//                            });
+                            await Firestore.instance
+                                .collection('projects')
+                                .document(project.projID)
+                                .setData({
+                              'blast pot': project.blastPot,
+                              'used abrasive weight':
+                                  project.abrasiveUsedWeight,
+                              'total abrasive weight':
+                                  project.abrasiveTotalWeight,
+                              'used adhesive litres': project.adhesiveUsedLitre,
+                              'total adhesive litres':
+                                  project.adhesiveTotalLitre,
+                              'used paint litres': project.paintUsedLitre,
+                              'total paint litres': project.paintTotalLitre,
+                              'ID': project.projID,
+                              'name': project.projname,
+                              'location': project.location,
+                              'completion': project.completion,
+                              'budget': _newEstimate,
+                              'spent budget': _newSpent,
+                              'adhesive price': project.adhesivePrice,
+                              'abrasive price': project.abrasivePrice,
+                              'paint price': project.paintPrice,
+                              'total area needed blasting':
+                                  project.totalSurfaceAreaB,
+                              'blasted area': project.blastedArea,
+                              'total area needed painting':
+                                  project.totalSurfaceAreaP,
+                              'painted area': project.paintedArea,
+                              'users assigned': project.userAssigned,
+                              'blast pot list': project.blastPotList,
+                              'budget list': listChanger(),
+                              'Date Created': project.date,
+                            });
                           },
                         ),
                       ),
@@ -666,7 +640,7 @@ class AddType extends StatefulWidget {
 class _AddTypeState extends State<AddType> {
   final _formKey = GlobalKey<FormState>();
   String _newName;
-  double _newPercent, _newSpent, _newEstimate;
+  double _newSpent, _newEstimate;
 
   @override
   Widget build(BuildContext context) {
@@ -775,7 +749,6 @@ class _AddTypeState extends State<AddType> {
                       int i = widget.project.budgetList.length;
                       x['bt${i + 1}'] = {
                         'name': _newName,
-                        'percentage': ((_newSpent) / (_newEstimate) * 100) ?? 0,
                         'spent': (_newSpent ?? 0),
                         'estimate': (_newEstimate ?? 0),
                       };
