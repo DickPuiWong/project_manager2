@@ -71,6 +71,7 @@ class _HSFState extends State<HSF> {
                         'used paint': y.usedPaint
                       };
                     }
+
                     for (int i = 0; i < 3; i++) {
                       t3(
                           t2,
@@ -82,8 +83,8 @@ class _HSFState extends State<HSF> {
                             usedPaint: 0,
                           ));
                     }
-                    for(int i=0;i<t1.length;i++){
-                      t4['bt${i+1}'] = {
+                    for (int i = 0; i < t1.length; i++) {
+                      t4['bt${i + 1}'] = {
                         'name': t1[i],
                         'spent': 0,
                         'estimate': 0,
@@ -118,6 +119,7 @@ class _HSFState extends State<HSF> {
                       'total area needed painting': 1000.00,
                       'painted area': 250.0,
                       'users assigned': [],
+                      'project supervisor': ['zac', 2],
                       'blast pot': 3,
                       'blast pot list': t2,
                       'budget list': t4,
