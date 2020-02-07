@@ -5,7 +5,6 @@ import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.da
 import 'package:project_manager/models/Project.dart';
 import 'package:project_manager/services/database.dart';
 import 'package:provider/provider.dart';
-import 'package:project_manager/shared/constants.dart';
 
 class IDBWrapper extends StatelessWidget {
   final Project project;
@@ -205,17 +204,9 @@ class DataRowSetting extends StatefulWidget {
 
 class _DataRowSettingState extends State<DataRowSetting> {
   final _formKey = GlobalKey<FormState>();
-  double _newSpent, _newEstimate, _newPercent;
+  double _newSpent, _newEstimate;
   @override
   Widget build(BuildContext context) {
-    void percentCalculator() {
-      setState(() {
-        _newPercent = (_newSpent ?? widget.bt.spent) /
-            (_newEstimate ?? widget.bt.estimate) *
-            100;
-      });
-    }
-
     return Form(
       key: _formKey,
       child: Dialog(
@@ -232,7 +223,8 @@ class _DataRowSettingState extends State<DataRowSetting> {
                   Flexible(
                     child: Text(
                       '${widget.bt.name} budget(RM)',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
@@ -271,8 +263,7 @@ class _DataRowSettingState extends State<DataRowSetting> {
                         validator: (val) =>
                             (val.isEmpty ? 'Enter amount' : null),
                         onChanged: (val) {
-                            _newSpent = double.tryParse(val);
-                          percentCalculator();
+                          _newSpent = double.tryParse(val);
                         },
                       ),
                     ),
@@ -324,7 +315,6 @@ class _DataRowSettingState extends State<DataRowSetting> {
                             (val.isEmpty ? 'Enter amount' : null),
                         onChanged: (val) {
                           _newEstimate = double.tryParse(val);
-                          percentCalculator();
                         },
                       ),
                     ),
