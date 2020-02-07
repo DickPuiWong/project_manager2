@@ -68,13 +68,11 @@ class BlastPot {
 
 class BudgetType {
   final String name;
-  final double percentage;
   final double spent;
   final double estimate;
 
   BudgetType({
     this.name,
-    this.percentage,
     this.spent,
     this.estimate,
   });
