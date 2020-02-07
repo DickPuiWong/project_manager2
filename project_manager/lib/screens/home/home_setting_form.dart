@@ -62,7 +62,6 @@ class _HSFState extends State<HSF> {
                       'Water',
                     ];
                     Map t2 = {};
-                    Map t4 = {};
                     void t3(Map x, int i, BlastPot y) {
                       t2['Blast Pot $i'] = {
                         'Assigned num': y.num,
@@ -83,6 +82,7 @@ class _HSFState extends State<HSF> {
                             usedPaint: 0,
                           ));
                     }
+                    Map t4 = {};
                     for (int i = 0; i < t1.length; i++) {
                       t4['bt${i + 1}'] = {
                         'name': t1[i],
@@ -90,6 +90,17 @@ class _HSFState extends State<HSF> {
                         'estimate': 0,
                       };
                     }
+                    Map t5 = {};
+                    t5['pt1'] = {
+                      'name': 'Blasting',
+                      'done': 500.0,
+                      'total': 1000.0,
+                    };
+                    t5['pt2'] = {
+                      'name': 'Painting',
+                      'done': 250.0,
+                      'total': 1000.0,
+                    };
 
                     String id = Firestore.instance
                         .collection('projects')
@@ -123,6 +134,7 @@ class _HSFState extends State<HSF> {
                       'blast pot': 3,
                       'blast pot list': t2,
                       'budget list': t4,
+                      'progresses tracked': t5,
                       'Date Created': date.millisecondsSinceEpoch,
                     });
                   },
