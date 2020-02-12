@@ -275,7 +275,7 @@ class _DataRowSettingState extends State<DataRowSetting> {
               ),
               Divider(
                 height: 20,
-                color: Colors.grey[600],
+                color: Colors.blueGrey[600],
               ),
               SizedBox(height: 5),
               Row(
