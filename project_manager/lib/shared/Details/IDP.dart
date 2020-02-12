@@ -203,8 +203,8 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
   final _formKey = GlobalKey<FormState>();
   double _newDone;
   double _newTotal;
-  double _addsub1;
-  double _addsub2;
+  double _addsub1 = 100;
+  double _addsub2 = 100;
 
   @override
   Widget build(BuildContext context) {
@@ -212,292 +212,295 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
       if (one == null) {
         one = two;
       }
-      print(one);
       return one;
     }
 
     return Form(
       key: _formKey,
       child: Dialog(
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-          height: 420,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Center(
-                child: Text(
-                  '${widget.pt.name}',
-                  style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(5),
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+            height: 420,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Center(
+                  child: Text(
+                    '${widget.pt.name}',
+                    style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              Divider(
-                height: 30,
-                color: Colors.blueGrey[600],
-              ),
-              SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    flex: 3,
-                    child: Container(
-                      color: Colors.grey[50],
-                      child: TextFormField(
-                        style: TextStyle(fontSize: 14),
-                        keyboardType: TextInputType.number,
-                        initialValue:
-                            (_newDone ?? widget.pt.done).toStringAsFixed(1),
-                        decoration: InputDecoration(
-                          labelText: 'Done(m²)',
-                          labelStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                          hintText: 'm²',
-                          isDense: true,
-                          fillColor: Colors.white,
-                          filled: true,
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.indigo[50], width: 2.0)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.indigo[900], width: 2.0)),
+                Divider(
+                  height: 30,
+                  color: Colors.blueGrey[600],
+                ),
+                SizedBox(height: 5),
+                Text('${(_newDone ?? widget.pt.done)}'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Flexible(
+                      flex: 3,
+                      child: Container(
+                        color: Colors.grey[50],
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 14),
+                          keyboardType: TextInputType.number,
+                          initialValue:
+                              (_newDone ?? widget.pt.done).toStringAsFixed(1),
+                          decoration: InputDecoration(
+                            labelText: 'Done(m²)',
+                            labelStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                            hintText: 'm²',
+                            isDense: true,
+                            fillColor: Colors.white,
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[50], width: 2.0)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[900], width: 2.0)),
+                          ),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter amount' : null),
+                          onChanged: (val) {
+                            _newDone = double.tryParse(val);
+                            print(_newDone);
+                          },
                         ),
-                        validator: (val) =>
-                            (val.isEmpty ? 'Enter amount' : null),
-                        onChanged: (val) {
-                          _newDone = double.tryParse(val);
-                          print(_newDone);
-                        },
                       ),
                     ),
-                  ),
-                  Flexible(
-                    flex: 2,
-                    child: Container(
-                      child: TextFormField(
-                        style: TextStyle(fontSize: 14),
-                        keyboardType: TextInputType.number,
-                        initialValue:
-                            '${(_addsub1 ?? 500)}' /*(1).toStringAsFixed(2)*/,
-                        decoration: InputDecoration(
-                          labelText: '+/-',
-                          labelStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                          hintText: 'm²',
-                          isDense: true,
-                          fillColor: Colors.white,
-                          filled: true,
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.indigo[50], width: 2.0)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.indigo[900], width: 2.0)),
+                    Flexible(
+                      flex: 2,
+                      child: Container(
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 14),
+                          keyboardType: TextInputType.number,
+                          initialValue:
+                              '$_addsub1' /*(1).toStringAsFixed(2)*/,
+                          decoration: InputDecoration(
+                            labelText: '+/-',
+                            labelStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                            hintText: 'm²',
+                            isDense: true,
+                            fillColor: Colors.white,
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[50], width: 2.0)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[900], width: 2.0)),
+                          ),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter amount' : null),
+                          onChanged: (val) {
+                            _addsub1 = double.tryParse(val);
+                          },
                         ),
-                        validator: (val) =>
-                            (val.isEmpty ? 'Enter amount' : null),
-                        onChanged: (val) {
-                          _addsub1 = double.tryParse(val);
-                        },
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  ButtonTheme(
-                    minWidth: 45,
-                    child: Tooltip(
-                      message: 'revert to initial value',
-                      child: FlatButton(
-                        child: Icon(Icons.refresh),
-                        onPressed: () {
-                          setState(() {
-                            _newDone = widget.pt.done;
-                            print('$_newDone = ${widget.pt.done}');
-                          });
-                        },
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    ButtonTheme(
+                      minWidth: 45,
+                      child: Tooltip(
+                        message: 'revert to initial value',
+                        child: FlatButton(
+                          child: Icon(Icons.refresh),
+                          onPressed: () {
+                            setState(() {
+                              _newDone = widget.pt.done;
+                              print('$_newDone = ${widget.pt.done}');
+                            });
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      ButtonTheme(
-                        minWidth: 45,
-                        child: Tooltip(
-                          message: 'add',
-                          child: FlatButton(
-                            child: Icon(Icons.add),
-                            onPressed: () {
-                              _newDone = nullChecker(_newDone, widget.pt.done);
-                              setState(() {
-                                _newDone += _addsub1;
+                    Row(
+                      children: <Widget>[
+                        ButtonTheme(
+                          minWidth: 45,
+                          child: Tooltip(
+                            message: 'add',
+                            child: FlatButton(
+                              child: Icon(Icons.add),
+                              onPressed: () {
+                                _newDone = nullChecker(_newDone, widget.pt.done);
                                 print('$_newDone += $_addsub1');
-                              });
-                            },
+                                setState(() {
+                                  _newDone += _addsub1;
+                                  print('$_newDone += $_addsub1');
+                                });
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                      ButtonTheme(
-                        minWidth: 45,
-                        child: Tooltip(
-                          message: 'subtract',
-                          child: FlatButton(
-                            child: Icon(Icons.remove),
-                            onPressed: () {
-                              _newDone = nullChecker(_newDone, widget.pt.done);
-                              setState(() {
-                                _newDone -= _addsub1;
-                              });
-                            },
+                        ButtonTheme(
+                          minWidth: 45,
+                          child: Tooltip(
+                            message: 'subtract',
+                            child: FlatButton(
+                              child: Icon(Icons.remove),
+                              onPressed: () {
+                                _newDone = nullChecker(_newDone, widget.pt.done);
+                                setState(() {
+                                  _newDone -= _addsub1;
+                                });
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    flex: 3,
-                    child: Container(
-                      color: Colors.grey[50],
-                      child: TextFormField(
-                        style: TextStyle(fontSize: 14),
-                        keyboardType: TextInputType.number,
-                        initialValue:
-                            (_newTotal ?? widget.pt.total).toStringAsFixed(1),
-                        decoration: InputDecoration(
-                          labelText: 'Total(m²)',
-                          labelStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                          hintText: 'm²',
-                          isDense: true,
-                          fillColor: Colors.white,
-                          filled: true,
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.indigo[50], width: 2.0)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.indigo[900], width: 2.0)),
-                        ),
-                        validator: (val) =>
-                            (val.isEmpty ? 'Enter amount' : null),
-                        onChanged: (val) {
-                          _newTotal = double.tryParse(val);
-                        },
-                      ),
+                      ],
                     ),
-                  ),
-                  Flexible(
-                    flex: 2,
-                    child: Container(
-                      child: TextFormField(
-                        style: TextStyle(fontSize: 14),
-                        keyboardType: TextInputType.number,
-                        initialValue:
-                            '${(_addsub2 ?? 100)}' /*(1).toStringAsFixed(2)*/,
-                        decoration: InputDecoration(
-                          labelText: '+/-',
-                          labelStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                          hintText: 'm²',
-                          isDense: true,
-                          fillColor: Colors.white,
-                          filled: true,
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.indigo[50], width: 2.0)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.indigo[900], width: 2.0)),
-                        ),
-                        validator: (val) =>
-                            (val.isEmpty ? 'Enter amount' : null),
-                        onChanged: (val) {
-                          _newDone = double.tryParse(val);
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  ButtonTheme(
-                    minWidth: 45,
-                    child: Tooltip(
-                      message: 'revert to initial value',
-                      child: FlatButton(
-                        child: Icon(Icons.refresh),
-                        onPressed: () {
-                          setState(() {
-                            _newTotal = widget.pt.total;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      ButtonTheme(
-                        minWidth: 45,
-                        child: Tooltip(
-                          message: 'add',
-                          child: FlatButton(
-                            child: Icon(Icons.add),
-                            onPressed: () {
-                              _newTotal =
-                                  nullChecker(_newTotal, widget.pt.total);
-                              setState(() {
-                                _newDone += _addsub2;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                      ButtonTheme(
-                        minWidth: 45,
-                        child: Tooltip(
-                          message: 'subtract',
-                          child: FlatButton(
-                            child: Icon(Icons.remove),
-                            onPressed: () {
-                              _newTotal =
-                                  nullChecker(_newTotal, widget.pt.total);
-                              setState(() {
-                                _newDone += _addsub2;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 9),
-            Center(
-              child: RaisedButton.icon(
-                color: Colors.indigo[900],
-                icon: Icon(
-                  Icons.update,
-                  color: Colors.white,
+                  ],
                 ),
-                label: Text(
-                  'Update',
-                  style: TextStyle(color: Colors.white),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Flexible(
+                      flex: 3,
+                      child: Container(
+                        color: Colors.grey[50],
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 14),
+                          keyboardType: TextInputType.number,
+                          initialValue:
+                              (_newTotal ?? widget.pt.total).toStringAsFixed(1),
+                          decoration: InputDecoration(
+                            labelText: 'Total(m²)',
+                            labelStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                            hintText: 'm²',
+                            isDense: true,
+                            fillColor: Colors.white,
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[50], width: 2.0)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[900], width: 2.0)),
+                          ),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter amount' : null),
+                          onChanged: (val) {
+                            _newTotal = double.tryParse(val);
+                          },
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 2,
+                      child: Container(
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 14),
+                          keyboardType: TextInputType.number,
+                          initialValue:
+                              '${(_addsub2 ?? 100)}' /*(1).toStringAsFixed(2)*/,
+                          decoration: InputDecoration(
+                            labelText: '+/-',
+                            labelStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                            hintText: 'm²',
+                            isDense: true,
+                            fillColor: Colors.white,
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[50], width: 2.0)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[900], width: 2.0)),
+                          ),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter amount' : null),
+                          onChanged: (val) {
+                            _newDone = double.tryParse(val);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                onPressed: () async {
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    ButtonTheme(
+                      minWidth: 45,
+                      child: Tooltip(
+                        message: 'revert to initial value',
+                        child: FlatButton(
+                          child: Icon(Icons.refresh),
+                          onPressed: () {
+                            setState(() {
+                              _newTotal = widget.pt.total;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        ButtonTheme(
+                          minWidth: 45,
+                          child: Tooltip(
+                            message: 'add',
+                            child: FlatButton(
+                              child: Icon(Icons.add),
+                              onPressed: () {
+                                _newTotal =
+                                    nullChecker(_newTotal, widget.pt.total);
+                                setState(() {
+                                  _newDone += _addsub2;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        ButtonTheme(
+                          minWidth: 45,
+                          child: Tooltip(
+                            message: 'subtract',
+                            child: FlatButton(
+                              child: Icon(Icons.remove),
+                              onPressed: () {
+                                _newTotal =
+                                    nullChecker(_newTotal, widget.pt.total);
+                                setState(() {
+                                  _newTotal -= _addsub2;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 40),
+              Center(
+                child: RaisedButton.icon(
+                  color: Colors.indigo[900],
+                  icon: Icon(
+                    Icons.update,
+                    color: Colors.white,
+                  ),
+                  label: Text(
+                    'Update',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () async {
 //                  Map listChanger() {
 //                    Map x = widget.project.budgetList;
 //                    for (int i = 0;
@@ -548,11 +551,12 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
 //                    'budget list': listChanger(),
 //                    'Date Created': widget.project.date,
 //                  });
-                  Navigator.pop(context);
-                },
+                    Navigator.pop(context);
+                  },
+                ),
               ),
+              ],
             ),
-            ],
           ),
         ),
       ),
