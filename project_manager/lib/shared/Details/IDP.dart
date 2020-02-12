@@ -29,16 +29,44 @@ class _IDPState extends State<IDP> {
     List<DataRow> dataRowList = [];
 
     for (int i = 0; i < project.progressesTracked.length; i++) {
+      ProgressType temp = new ProgressType(
+        name: project.progressesTracked['pt${i + 1}']['name'],
+        done: project.progressesTracked['pt${i + 1}']['done'].toDouble(),
+        total: project.progressesTracked['pt${i + 1}']['total'].toDouble(),
+      );
       dataRowList.add(
         DataRow(
           cells: [
-            DataCell(Text(project.progressesTracked['pt${i + 1}']['name'])),
-            DataCell(Text(
-                '${(((project.progressesTracked['pt${i + 1}']['done'] / project.progressesTracked['pt${i + 1}']['total']) * 100)).toStringAsFixed(1)}')),
-            DataCell(Text(
-                '${project.progressesTracked['pt${i + 1}']['done'].toStringAsFixed(2)}m²')),
-            DataCell(Text(
-                '${project.progressesTracked['pt${i + 1}']['total'].toStringAsFixed(2)}m²')),
+            DataCell(
+              Text(project.progressesTracked['pt${i + 1}']['name']),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return IDPRowSetting(
+                      num: (i + 1),
+                      project: project,
+                      pt: temp,
+                    );
+                  },
+                );
+              },
+            ),
+            DataCell(
+              Text(
+                  '${(((project.progressesTracked['pt${i + 1}']['done'] / project.progressesTracked['pt${i + 1}']['total']) * 100)).toStringAsFixed(1)}'),
+              onTap: () {},
+            ),
+            DataCell(
+              Text(
+                  '${project.progressesTracked['pt${i + 1}']['done'].toStringAsFixed(2)}m²'),
+              onTap: () {},
+            ),
+            DataCell(
+              Text(
+                  '${project.progressesTracked['pt${i + 1}']['total'].toStringAsFixed(2)}m²'),
+              onTap: () {},
+            ),
           ],
         ),
       );
@@ -137,6 +165,276 @@ class _IDPState extends State<IDP> {
               FlatButton(onPressed: () {}, child: Text('Add')),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class IDPRowSetting extends StatefulWidget {
+  final int num;
+  final Project project;
+  final ProgressType pt;
+  IDPRowSetting({this.num, this.project, this.pt});
+  @override
+  _IDPRowSettingState createState() => _IDPRowSettingState();
+}
+
+class _IDPRowSettingState extends State<IDPRowSetting> {
+  final _formKey = GlobalKey<FormState>();
+  double _newDone, _newTotal;
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+        height: 500,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Center(
+              child: Text(
+                '${widget.pt.name}',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Divider(
+              height: 30,
+              color: Colors.blueGrey[600],
+            ),
+            SizedBox(height: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Flexible(
+                  flex: 3,
+                  child: Container(
+                    color: Colors.grey[50],
+                    child: TextFormField(
+                      style: TextStyle(fontSize: 14),
+                      keyboardType: TextInputType.number,
+                      initialValue:
+                          (_newDone ?? widget.pt.done).toStringAsFixed(2),
+                      decoration: InputDecoration(
+                        labelText: 'Done(m²)',
+                        labelStyle: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                        hintText: 'm²',
+                        isDense: true,
+                        fillColor: Colors.white,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.indigo[50], width: 2.0)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.indigo[900], width: 2.0)),
+                      ),
+                      validator: (val) => (val.isEmpty ? 'Enter amount' : null),
+                      onChanged: (val) {
+                        _newDone = double.tryParse(val);
+                      },
+                    ),
+                  ),
+                ),
+                Flexible(
+                  flex: 2,
+                  child: Container(
+                    child: TextFormField(
+                      style: TextStyle(fontSize: 14),
+                      keyboardType: TextInputType.number,
+                      initialValue: '56'/*(1).toStringAsFixed(2)*/,
+                      decoration: InputDecoration(
+                        labelText: '+/-',
+                        labelStyle: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                        hintText: 'm²',
+                        isDense: true,
+                        fillColor: Colors.white,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.indigo[50], width: 2.0)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.indigo[900], width: 2.0)),
+                      ),
+                      validator: (val) => (val.isEmpty ? 'Enter amount' : null),
+                      onChanged: (val) {
+                        _newDone = double.tryParse(val);
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                ButtonTheme(
+                  minWidth: 45,
+                  child: Tooltip(
+                    message: 'revert to initial value',
+                    child: FlatButton(
+                      child: Icon(Icons.refresh),
+                      onPressed: () {
+                        setState(() {
+                          _newDone = widget.pt.done;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    ButtonTheme(
+                      minWidth: 45,
+                      child: Tooltip(
+                        message: 'add',
+                        child: FlatButton(
+                          child: Icon(Icons.add),
+                          onPressed: () {
+                            setState(() {
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    ButtonTheme(
+                      minWidth: 45,
+                      child: Tooltip(
+                        message: 'add',
+                        child: FlatButton(
+                          child: Icon(Icons.remove),
+                          onPressed: () {
+                            setState(() {
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Flexible(
+                  child: Container(
+                    color: Colors.grey[50],
+                    child: TextFormField(
+                      style: TextStyle(fontSize: 14),
+                      keyboardType: TextInputType.number,
+                      initialValue:
+                          (_newTotal ?? widget.pt.total).toStringAsFixed(2),
+                      decoration: InputDecoration(
+                        labelText: 'Total(m²)',
+                        labelStyle: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                        hintText: 'm²',
+                        isDense: true,
+                        fillColor: Colors.white,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.indigo[50], width: 2.0)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.indigo[900], width: 2.0)),
+                      ),
+                      validator: (val) => (val.isEmpty ? 'Enter amount' : null),
+                      onChanged: (val) {
+                        _newTotal = double.tryParse(val);
+                      },
+                    ),
+                  ),
+                ),
+                ButtonTheme(
+                  minWidth: 45,
+                  child: Tooltip(
+                    message: 'revert to initial value',
+                    child: FlatButton(
+                      child: Icon(Icons.refresh),
+                      onPressed: () {
+                        setState(() {
+                          _newTotal = widget.pt.total;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 9),
+//            Center(
+//              child: RaisedButton.icon(
+//                color: Colors.indigo[900],
+//                icon: Icon(
+//                  Icons.update,
+//                  color: Colors.white,
+//                ),
+//                label: Text(
+//                  'Update',
+//                  style: TextStyle(color: Colors.white),
+//                ),
+//                onPressed: () async {
+//                  Map listChanger() {
+//                    Map x = widget.project.budgetList;
+//                    for (int i = 0;
+//                    i < widget.project.budgetList.length;
+//                    i++) {
+//                      if ((i + 1) == widget.num) {
+//                        x['bt${i + 1}'] = {
+//                          'name': widget.bt.name,
+//                          'spent': (_newSpent ?? widget.bt.spent),
+//                          'estimate': (_newEstimate ?? widget.bt.estimate),
+//                        };
+//                      }
+//                    }
+//                    return x;
+//                  }
+//
+//                  await Firestore.instance
+//                      .collection('projects')
+//                      .document(widget.project.projID)
+//                      .setData({
+//                    'blast pot': widget.project.blastPot,
+//                    'used abrasive weight': widget.project.abrasiveUsedWeight,
+//                    'total abrasive weight':
+//                    widget.project.abrasiveTotalWeight,
+//                    'used adhesive litres': widget.project.adhesiveUsedLitre,
+//                    'total adhesive litres':
+//                    widget.project.adhesiveTotalLitre,
+//                    'used paint litres': widget.project.paintUsedLitre,
+//                    'total paint litres': widget.project.paintTotalLitre,
+//                    'ID': widget.project.projID,
+//                    'name': widget.project.projname,
+//                    'location': widget.project.location,
+//                    'completion': widget.project.completion,
+//                    'budget': widget.project.budget + (_newEstimate ?? 0),
+//                    'spent budget':
+//                    widget.project.spentBudget + (_newSpent ?? 0),
+//                    'adhesive price': widget.project.adhesivePrice,
+//                    'abrasive price': widget.project.abrasivePrice,
+//                    'paint price': widget.project.paintPrice,
+//                    'total area needed blasting':
+//                    widget.project.totalSurfaceAreaB,
+//                    'blasted area': widget.project.blastedArea,
+//                    'total area needed painting':
+//                    widget.project.totalSurfaceAreaP,
+//                    'painted area': widget.project.paintedArea,
+//                    'users assigned': widget.project.userAssigned,
+//                    'blast pot list': widget.project.blastPotList,
+//                    'budget list': listChanger(),
+//                    'Date Created': widget.project.date,
+//                  });
+//                  Navigator.pop(context);
+//                },
+//              ),
+//            ),
+          ],
         ),
       ),
     );
