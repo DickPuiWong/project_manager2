@@ -5,7 +5,6 @@ import 'package:project_manager/shared/Details/IDB.dart';
 import 'package:project_manager/shared/Details/IDM.dart';
 import 'package:project_manager/shared/Details/IDP.dart';
 import 'package:project_manager/shared/Details/IDS.dart';
-import 'package:project_manager/shared/Details/detail_settings.dart';
 import 'package:project_manager/services/database.dart';
 import 'package:provider/provider.dart';
 
