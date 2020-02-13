@@ -222,15 +222,19 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
           borderRadius: BorderRadius.circular(5),
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-            height: 420,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            height: 400,
+            child: ListView(
               children: <Widget>[
                 Center(
-                  child: Text(
-                    '${widget.pt.name}',
-                    style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text(
+                      '${widget.pt.name}',
+                      style: TextStyle(
+                        fontSize: 27,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
                 Divider(
@@ -238,41 +242,50 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                   color: Colors.blueGrey[600],
                 ),
                 SizedBox(height: 5),
-                Text('${(_newDone ?? widget.pt.done)}'),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Flexible(
                       flex: 3,
-                      child: Container(
-                        color: Colors.grey[50],
-                        child: TextFormField(
-                          style: TextStyle(fontSize: 14),
-                          keyboardType: TextInputType.number,
-                          initialValue:
-                              (_newDone ?? widget.pt.done).toStringAsFixed(1),
-                          decoration: InputDecoration(
-                            labelText: 'Done(m²)',
-                            labelStyle: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                            hintText: 'm²',
-                            isDense: true,
-                            fillColor: Colors.white,
-                            filled: true,
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.indigo[50], width: 2.0)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.indigo[900], width: 2.0)),
+                      child: Stack(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.indigo[50],
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(3.5),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 14, horizontal: 12),
+                                  child: Text((_newDone ?? widget.pt.done)
+                                      .toStringAsFixed(1)),
+                                ),
+                              ],
+                            ),
                           ),
-                          validator: (val) =>
-                              (val.isEmpty ? 'Enter amount' : null),
-                          onChanged: (val) {
-                            _newDone = double.tryParse(val);
-                            print(_newDone);
-                          },
-                        ),
+                          Positioned(
+                            left: 12,
+                            child: Container(
+                              padding: EdgeInsets.fromLTRB(2, 0, 4, 0),
+                              color: Colors.white,
+                              child: Text(
+                                'Done(m²)',
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Flexible(
@@ -281,8 +294,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                         child: TextFormField(
                           style: TextStyle(fontSize: 14),
                           keyboardType: TextInputType.number,
-                          initialValue:
-                              '$_addsub1' /*(1).toStringAsFixed(2)*/,
+                          initialValue: '$_addsub1' /*(1).toStringAsFixed(2)*/,
                           decoration: InputDecoration(
                             labelText: '+/-',
                             labelStyle: TextStyle(
@@ -320,7 +332,6 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                           onPressed: () {
                             setState(() {
                               _newDone = widget.pt.done;
-                              print('$_newDone = ${widget.pt.done}');
                             });
                           },
                         ),
@@ -335,11 +346,11 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                             child: FlatButton(
                               child: Icon(Icons.add),
                               onPressed: () {
-                                _newDone = nullChecker(_newDone, widget.pt.done);
+                                _newDone =
+                                    nullChecker(_newDone, widget.pt.done);
                                 print('$_newDone += $_addsub1');
                                 setState(() {
                                   _newDone += _addsub1;
-                                  print('$_newDone += $_addsub1');
                                 });
                               },
                             ),
@@ -352,7 +363,8 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                             child: FlatButton(
                               child: Icon(Icons.remove),
                               onPressed: () {
-                                _newDone = nullChecker(_newDone, widget.pt.done);
+                                _newDone =
+                                    nullChecker(_newDone, widget.pt.done);
                                 setState(() {
                                   _newDone -= _addsub1;
                                 });
@@ -364,40 +376,51 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 14),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Flexible(
                       flex: 3,
-                      child: Container(
-                        color: Colors.grey[50],
-                        child: TextFormField(
-                          style: TextStyle(fontSize: 14),
-                          keyboardType: TextInputType.number,
-                          initialValue:
-                              (_newTotal ?? widget.pt.total).toStringAsFixed(1),
-                          decoration: InputDecoration(
-                            labelText: 'Total(m²)',
-                            labelStyle: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                            hintText: 'm²',
-                            isDense: true,
-                            fillColor: Colors.white,
-                            filled: true,
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.indigo[50], width: 2.0)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.indigo[900], width: 2.0)),
+                      child: Stack(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.indigo[50],
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(3.5),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 14, horizontal: 12),
+                                  child: Text((_newTotal ?? widget.pt.total)
+                                      .toStringAsFixed(1)),
+                                ),
+                              ],
+                            ),
                           ),
-                          validator: (val) =>
-                              (val.isEmpty ? 'Enter amount' : null),
-                          onChanged: (val) {
-                            _newTotal = double.tryParse(val);
-                          },
-                        ),
+                          Positioned(
+                            left: 12,
+                            child: Container(
+                              padding: EdgeInsets.fromLTRB(2, 0, 4, 0),
+                              color: Colors.white,
+                              child: Text(
+                                'Total(m²)',
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Flexible(
@@ -426,7 +449,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                           validator: (val) =>
                               (val.isEmpty ? 'Enter amount' : null),
                           onChanged: (val) {
-                            _newDone = double.tryParse(val);
+                            _newTotal = double.tryParse(val);
                           },
                         ),
                       ),
@@ -462,7 +485,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                                 _newTotal =
                                     nullChecker(_newTotal, widget.pt.total);
                                 setState(() {
-                                  _newDone += _addsub2;
+                                  _newTotal += _addsub2;
                                 });
                               },
                             ),
@@ -489,18 +512,18 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                   ],
                 ),
                 SizedBox(height: 40),
-              Center(
-                child: RaisedButton.icon(
-                  color: Colors.indigo[900],
-                  icon: Icon(
-                    Icons.update,
-                    color: Colors.white,
-                  ),
-                  label: Text(
-                    'Update',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () async {
+                Center(
+                  child: RaisedButton.icon(
+                    color: Colors.indigo[900],
+                    icon: Icon(
+                      Icons.update,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      'Update',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () async {
 //                  Map listChanger() {
 //                    Map x = widget.project.budgetList;
 //                    for (int i = 0;
@@ -551,10 +574,10 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
 //                    'budget list': listChanger(),
 //                    'Date Created': widget.project.date,
 //                  });
-                    Navigator.pop(context);
-                  },
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
-              ),
               ],
             ),
           ),
