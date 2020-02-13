@@ -93,10 +93,8 @@ class _PDExtendState extends State<PDExtend> {
   Widget build(BuildContext context) {
     //declare and initialise the object project and assigned it to the provider of Project() class contexts
     final project = Provider.of<Project>(context);
-<<<<<<< HEAD
 
     //return the Column widget
-=======
     double findPercent() {
       double percent;
       double _totalDone = 0, _totalOverall = 0;
@@ -108,7 +106,6 @@ class _PDExtendState extends State<PDExtend> {
       return percent;
     }
 
->>>>>>> master
     return Padding(
       padding: EdgeInsets.fromLTRB(5, 25, 5, 30),
       child: Column(
@@ -174,7 +171,6 @@ class _PDExtendState extends State<PDExtend> {
                               style: TextStyle(fontSize: 22),
                             ),
                           ),
-<<<<<<< HEAD
                           Divider(
                             height: 60,
                             color: Colors.blue[300],
@@ -182,8 +178,7 @@ class _PDExtendState extends State<PDExtend> {
                           Center(
                             child: Text(
                               'Supervisor',
-=======
-                        ],
+                            ),), ],
                       ),
                     ),
                   ),
@@ -214,13 +209,12 @@ class _PDExtendState extends State<PDExtend> {
                           children: [
                             TextSpan(
                               text: '${(findPercent() * 100).toInt()}%',
->>>>>>> master
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 24,
                               ),
                             ),
-                          ),
+                          ),),
                           Center(
                             child: Text(
                               'Zack',
@@ -234,7 +228,7 @@ class _PDExtendState extends State<PDExtend> {
                   SizedBox(
                     height: 30,
                   ),
-                ],
+                ]],
               ),
             ),
           ),
@@ -320,8 +314,8 @@ class _PDExtendState extends State<PDExtend> {
                 ],
               ),
             ),
-          ),
-          SizedBox(height: 40),
+          );
+          SizedBox(height: 40);
 
           //this container contains the budget aspect
           ClipRRect(
@@ -434,12 +428,12 @@ class _PDExtendState extends State<PDExtend> {
                 ],
               ),
             ),
-          ),
+          );
 //          Divider(
 //            height: 34,
 //            color: Colors.indigo[600],
 //          ),
-          SizedBox(height: 40),
+          SizedBox(height: 40);
 
           //this Container contains the blast pot and material usage aspect
           ClipRRect(
@@ -522,10 +516,10 @@ class _PDExtendState extends State<PDExtend> {
                 ],
               ),
             ),
-          ),
+          );
           SizedBox(
             height: 40,
-          ),
+          );
 
           //this Container contains the staff related aspect
           ClipRRect(
@@ -570,9 +564,9 @@ class _PDExtendState extends State<PDExtend> {
                 ],
               ),
             ),
-          ),
-        ],
-      ),
+          );
+          ];
+      );
     );
   }
 }
