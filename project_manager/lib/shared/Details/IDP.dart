@@ -1,10 +1,8 @@
-<<<<<<< HEAD
 // Name : IDP.dart
 // Purpose :
 // Function :
-=======
+
 import 'package:cloud_firestore/cloud_firestore.dart';
->>>>>>> master
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
@@ -567,7 +565,6 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-<<<<<<< HEAD
 //                  Map listChanger() {
 //                    Map x = widget.project.budgetList;
 //                    for (int i = 0;
@@ -618,7 +615,6 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
 //                    'budget list': listChanger(),
 //                    'Date Created': widget.project.date,
 //                  });
-=======
                       Map listChanger() {
                         Map x = widget.project.progressesTracked;
                         if (widget.num == widget.num) {
@@ -667,7 +663,6 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                         'progresses tracked': listChanger(),
                         'Date Created': widget.project.date,
                       });
->>>>>>> master
                       Navigator.pop(context);
                     },
                   ),
