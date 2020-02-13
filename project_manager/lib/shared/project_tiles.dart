@@ -1,18 +1,24 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// Name : project_tiles.dart
+// Purpose : to show the users the brief details of the projects
+// Function : This page will display the brief details of the project
+
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
 import 'package:project_manager/shared/Details/project_details.dart';
 
 class ProjTile extends StatelessWidget {
+  //object creation and assigned in ProjTile() class
   final Project proj;
   final int num;
   ProjTile({this.proj, this.num});
 
   @override
   Widget build(BuildContext context) {
+    //ProjTile class will return Card widget to the home page
     return Padding(
       padding: EdgeInsets.only(top: 10.0),
       child: Card(
+        color: Colors.white,
         margin: EdgeInsets.fromLTRB(10, 6, 10, 0),
         child: Padding(
           padding: const EdgeInsets.all(5),
@@ -35,19 +41,27 @@ class ProjTile extends StatelessWidget {
               children: <Widget>[
                 Text(
                   '${num + 1}. ',
-                  style: TextStyle(fontSize: 21),
+                  style: TextStyle(fontSize: 21, color: Colors.black),
                 ),
                 Text(
                   proj.projname,
-                  style: TextStyle(fontSize: 21),
+                  style: TextStyle(fontSize: 21, color: Colors.black),
                 ),
               ],
             ),
-            subtitle: Text('Budget:RM ${proj.budget.toStringAsFixed(2)}\nID: ${proj.projID}\nLOCATION: ${proj.location}'),
-            trailing: Container(
-              width: 10,
-              color: Colors.lightGreenAccent,
+            subtitle: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Text(
+                'Budget:RM ${proj.budget.toStringAsFixed(2)}\nID: ${proj.projID}\nLocation: ${proj.location}',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
+//            trailing: Container(
+//              width: 5,
+//              color: Colors.lightGreenAccent,
+//            ),
+
+            //when user tap the project tile, they will be navigated to the project details in ProjectDetails()
             onTap: () async {
               await Navigator.push(
                 context,

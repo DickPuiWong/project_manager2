@@ -1,3 +1,7 @@
+// Name : IDP.dart
+// Purpose :
+// Function :
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -616,6 +620,56 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
+//                  Map listChanger() {
+//                    Map x = widget.project.budgetList;
+//                    for (int i = 0;
+//                    i < widget.project.budgetList.length;
+//                    i++) {
+//                      if ((i + 1) == widget.num) {
+//                        x['bt${i + 1}'] = {
+//                          'name': widget.bt.name,
+//                          'spent': (_newSpent ?? widget.bt.spent),
+//                          'estimate': (_newEstimate ?? widget.bt.estimate),
+//                        };
+//                      }
+//                    }
+//                    return x;
+//                  }
+
+//                  await Firestore.instance
+//                      .collection('projects')
+//                      .document(widget.project.projID)
+//                      .setData({
+//                    'blast pot': widget.project.blastPot,
+//                    'used abrasive weight': widget.project.abrasiveUsedWeight,
+//                    'total abrasive weight':
+//                    widget.project.abrasiveTotalWeight,
+//                    'used adhesive litres': widget.project.adhesiveUsedLitre,
+//                    'total adhesive litres':
+//                    widget.project.adhesiveTotalLitre,
+//                    'used paint litres': widget.project.paintUsedLitre,
+//                    'total paint litres': widget.project.paintTotalLitre,
+//                    'ID': widget.project.projID,
+//                    'name': widget.project.projname,
+//                    'location': widget.project.location,
+//                    'completion': widget.project.completion,
+//                    'budget': widget.project.budget + (_newEstimate ?? 0),
+//                    'spent budget':
+//                    widget.project.spentBudget + (_newSpent ?? 0),
+//                    'adhesive price': widget.project.adhesivePrice,
+//                    'abrasive price': widget.project.abrasivePrice,
+//                    'paint price': widget.project.paintPrice,
+//                    'total area needed blasting':
+//                    widget.project.totalSurfaceAreaB,
+//                    'blasted area': widget.project.blastedArea,
+//                    'total area needed painting':
+//                    widget.project.totalSurfaceAreaP,
+//                    'painted area': widget.project.paintedArea,
+//                    'users assigned': widget.project.userAssigned,
+//                    'blast pot list': widget.project.blastPotList,
+//                    'budget list': listChanger(),
+//                    'Date Created': widget.project.date,
+//                  });
                       Map listChanger() {
                         Map x = widget.project.progressesTracked;
                         if (widget.num == widget.num) {

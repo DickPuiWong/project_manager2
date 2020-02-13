@@ -1,3 +1,7 @@
+// Name : wrapper2.dart
+// Purpose : to check the user's permission type such as admin or worker
+// Function :
+
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/user.dart';
 import 'package:project_manager/screens/home/home.dart';

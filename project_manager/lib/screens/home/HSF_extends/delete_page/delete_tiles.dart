@@ -1,7 +1,12 @@
+// Name : delete_tiles.dart
+// Purpose : To enable user delete any project that has been created
+// Function : This file contains all the structure that will ask for confirmation from the user if they want to delete the project or not
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
 
+//DeleteTile class will run a function call _showCDPanel that will do all the confirmation of deletion
 class DeleteTile extends StatelessWidget {
   final Project proj;
   final int num;
@@ -9,18 +14,20 @@ class DeleteTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Function _showCDPanel which will display a modal bottom sheet and return ConfirmDelete function
     void _showCDPanel() {
       showModalBottomSheet(
         context: context,
         builder: (context) {
-          return  ConfirmDelete(
-              proj: proj,
-              num: num,
-            );
+          return ConfirmDelete(
+            proj: proj,
+            num: num,
+          );
         },
       );
     }
 
+    //This Card widget will display all the project and when user tap on the project that they want to delete, it will return _showCDPanel function
     return Padding(
       padding: EdgeInsets.only(top: 10.0),
       child: Card(
@@ -34,7 +41,7 @@ class DeleteTile extends StatelessWidget {
               child: CircularProgressIndicator(
                 strokeWidth: 9,
                 value: (((proj.paintedArea / proj.totalSurfaceAreaP) +
-                    (proj.blastedArea / proj.totalSurfaceAreaB)) /
+                        (proj.blastedArea / proj.totalSurfaceAreaB)) /
                     2),
                 backgroundColor: Colors.redAccent,
                 valueColor:
@@ -64,6 +71,8 @@ class DeleteTile extends StatelessWidget {
   }
 }
 
+//ConfirmDelete class contain all the buttons which ask the user to confirm the deletion or cancel
+//The project card will also be displayed so user can double check the project that they want to delete is the right one
 class ConfirmDelete extends StatefulWidget {
   final Project proj;
   final int num;
