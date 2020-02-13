@@ -31,9 +31,9 @@ class _IDPState extends State<IDP> {
 
     for (int i = 0; i < project.progressesTracked.length; i++) {
       ProgressType temp = new ProgressType(
-        name: project.progressesTracked['pt${i + 1}']['name'],
-        done: project.progressesTracked['pt${i + 1}']['done'].toDouble(),
-        total: project.progressesTracked['pt${i + 1}']['total'].toDouble(),
+        name: project.progressesTracked['pt${i + 1}']['name'] ?? 'error',
+        done: project.progressesTracked['pt${i + 1}']['done'].toDouble() ?? 0.0,
+        total: project.progressesTracked['pt${i + 1}']['total'].toDouble() ?? 0.0,
       );
       dataRowList.add(
         DataRow(
