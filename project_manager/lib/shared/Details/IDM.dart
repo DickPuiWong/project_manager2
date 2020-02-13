@@ -104,7 +104,7 @@ class _IDMState extends State<IDM> {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                              '${project.abrasiveUsedWeight}(${project.abrasiveUsedWeight / 250})'),
+                              '${project.abrasiveUsedWeight}(${project.abrasiveUsedWeight / 25})'),
                           Text('${project.adhesiveUsedLitre}'),
                         ],
                       ),
@@ -133,7 +133,7 @@ class _IDMState extends State<IDM> {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                              '${project.abrasiveTotalWeight}(${project.abrasiveTotalWeight / 250})'),
+                              '${project.abrasiveTotalWeight}(${project.abrasiveTotalWeight / 25})'),
                           Text('${project.adhesiveTotalLitre}'),
                         ],
                       ),
@@ -221,7 +221,7 @@ class _IDMListTilesState extends State<IDMListTiles> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                    'Abrasive used : ${widget.bp.usedAbrasive} kg(${widget.bp.usedAbrasive / 250} bags)'),
+                    'Abrasive used : ${widget.bp.usedAbrasive} kg(${widget.bp.usedAbrasive / 25} bags)'),
                 Text('Adhesive used : ${widget.bp.usedAdhesive} L'),
               ],
             ),
@@ -436,7 +436,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                 ),
                                 TextSpan(
                                     text:
-                                        '${(_currUsedAbrasive ?? widget.bp.usedAbrasive).toStringAsFixed(2)}kg\n(${((_currUsedAbrasive ?? widget.bp.usedAbrasive) / 250).toStringAsFixed(2)} bags)'),
+                                        '${(_currUsedAbrasive ?? widget.bp.usedAbrasive).toStringAsFixed(2)}kg\n(${((_currUsedAbrasive ?? widget.bp.usedAbrasive) / 25).toStringAsFixed(2)} bags)'),
                               ],
                             ),
                           ),
@@ -465,7 +465,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                       _currUsedAbrasive,
                                       widget.bp.usedAbrasive);
                                   setState(() {
-                                    _currUsedAbrasive += 250;
+                                    _currUsedAbrasive += 25;
                                   });
                                 },
                                 tooltip: 'Add',
@@ -477,7 +477,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                       _currUsedAbrasive,
                                       widget.bp.usedAbrasive);
                                   setState(() {
-                                    _currUsedAbrasive -= 250;
+                                    _currUsedAbrasive -= 25;
                                   });
                                 },
                                 tooltip: 'Remove',
