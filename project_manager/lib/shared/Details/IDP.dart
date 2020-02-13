@@ -123,7 +123,10 @@ class _IDPState extends State<IDP> {
                     children: <Widget>[
                       Align(
                         alignment: Alignment.center,
-                        child: Text('hi'),
+                        child: Text(
+                          '${(findPercent() * 100).toInt()}%',
+                          style: TextStyle(fontSize: 50),
+                        ),
                       ),
                       Container(
                         height: 240,
