@@ -63,7 +63,6 @@ class _IDPState extends State<IDP> {
                   },
                 );
               },
-              showEditIcon: true,
             ),
             DataCell(
               Text(
@@ -320,14 +319,8 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
             child: ListView(
               children: <Widget>[
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    ButtonTheme(
-                      minWidth: 30,
-                      child: FlatButton(
-                        child: Icon(Icons.refresh),
-                        onPressed: () {},
-                      ),
-                    ),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Text(
@@ -336,6 +329,13 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                           fontSize: 27,
                           fontWeight: FontWeight.bold,
                         ),
+                      ),
+                    ),
+                    ButtonTheme(
+                      minWidth: 30,
+                      child: FlatButton(
+                        child: Icon(Icons.refresh),
+                        onPressed: () {},
                       ),
                     ),
                   ],
