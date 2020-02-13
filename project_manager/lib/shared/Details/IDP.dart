@@ -1,3 +1,6 @@
+// Name : IDP.dart
+// Purpose :
+// Function :
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
@@ -281,8 +284,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                         child: TextFormField(
                           style: TextStyle(fontSize: 14),
                           keyboardType: TextInputType.number,
-                          initialValue:
-                              '$_addsub1' /*(1).toStringAsFixed(2)*/,
+                          initialValue: '$_addsub1' /*(1).toStringAsFixed(2)*/,
                           decoration: InputDecoration(
                             labelText: '+/-',
                             labelStyle: TextStyle(
@@ -335,7 +337,8 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                             child: FlatButton(
                               child: Icon(Icons.add),
                               onPressed: () {
-                                _newDone = nullChecker(_newDone, widget.pt.done);
+                                _newDone =
+                                    nullChecker(_newDone, widget.pt.done);
                                 print('$_newDone += $_addsub1');
                                 setState(() {
                                   _newDone += _addsub1;
@@ -352,7 +355,8 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                             child: FlatButton(
                               child: Icon(Icons.remove),
                               onPressed: () {
-                                _newDone = nullChecker(_newDone, widget.pt.done);
+                                _newDone =
+                                    nullChecker(_newDone, widget.pt.done);
                                 setState(() {
                                   _newDone -= _addsub1;
                                 });
@@ -489,18 +493,18 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                   ],
                 ),
                 SizedBox(height: 40),
-              Center(
-                child: RaisedButton.icon(
-                  color: Colors.indigo[900],
-                  icon: Icon(
-                    Icons.update,
-                    color: Colors.white,
-                  ),
-                  label: Text(
-                    'Update',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () async {
+                Center(
+                  child: RaisedButton.icon(
+                    color: Colors.indigo[900],
+                    icon: Icon(
+                      Icons.update,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      'Update',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () async {
 //                  Map listChanger() {
 //                    Map x = widget.project.budgetList;
 //                    for (int i = 0;
@@ -551,10 +555,10 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
 //                    'budget list': listChanger(),
 //                    'Date Created': widget.project.date,
 //                  });
-                    Navigator.pop(context);
-                  },
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
-              ),
               ],
             ),
           ),
