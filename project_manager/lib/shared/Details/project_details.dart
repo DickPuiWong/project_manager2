@@ -93,8 +93,22 @@ class _PDExtendState extends State<PDExtend> {
   Widget build(BuildContext context) {
     //declare and initialise the object project and assigned it to the provider of Project() class contexts
     final project = Provider.of<Project>(context);
+<<<<<<< HEAD
 
     //return the Column widget
+=======
+    double findPercent() {
+      double percent;
+      double _totalDone = 0, _totalOverall = 0;
+      for (int i = 0; i < project.progressesTracked.length; i++) {
+        _totalDone += project.progressesTracked['pt${i + 1}']['done'];
+        _totalOverall += project.progressesTracked['pt${i + 1}']['total'];
+      }
+      percent = _totalDone / _totalOverall;
+      return percent;
+    }
+
+>>>>>>> master
     return Padding(
       padding: EdgeInsets.fromLTRB(5, 25, 5, 30),
       child: Column(
@@ -160,6 +174,7 @@ class _PDExtendState extends State<PDExtend> {
                               style: TextStyle(fontSize: 22),
                             ),
                           ),
+<<<<<<< HEAD
                           Divider(
                             height: 60,
                             color: Colors.blue[300],
@@ -167,6 +182,39 @@ class _PDExtendState extends State<PDExtend> {
                           Center(
                             child: Text(
                               'Supervisor',
+=======
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 34,
+                    color: Colors.indigo[600],
+                  ),
+                  Container(
+                    height: 10,
+                    child: LinearProgressIndicator(
+                      value:
+                          (((project.paintedArea / project.totalSurfaceAreaP) +
+                                  (project.blastedArea /
+                                      project.totalSurfaceAreaB)) /
+                              2),
+                      backgroundColor: Colors.redAccent,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          Colors.lightGreenAccent[400]),
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(fontSize: 20, color: Colors.black),
+                          children: [
+                            TextSpan(
+                              text: '${(findPercent() * 100).toInt()}%',
+>>>>>>> master
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 24,
