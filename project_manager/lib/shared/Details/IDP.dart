@@ -56,17 +56,50 @@ class _IDPState extends State<IDP> {
             DataCell(
               Text(
                   '${(((project.progressesTracked['pt${i + 1}']['done'] / project.progressesTracked['pt${i + 1}']['total']) * 100)).toInt()}'),
-              onTap: () {},
+              onTap: () async {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return IDPRowSetting(
+                      num: (i + 1),
+                      project: project,
+                      pt: temp,
+                    );
+                  },
+                );
+              },
             ),
             DataCell(
               Text(
                   '${project.progressesTracked['pt${i + 1}']['done'].toStringAsFixed(2)}m²'),
-              onTap: () {},
+              onTap: () async {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return IDPRowSetting(
+                      num: (i + 1),
+                      project: project,
+                      pt: temp,
+                    );
+                  },
+                );
+              },
             ),
             DataCell(
               Text(
                   '${project.progressesTracked['pt${i + 1}']['total'].toStringAsFixed(2)}m²'),
-              onTap: () {},
+              onTap: () async {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return IDPRowSetting(
+                      num: (i + 1),
+                      project: project,
+                      pt: temp,
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
