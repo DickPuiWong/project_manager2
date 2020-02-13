@@ -29,6 +29,16 @@ class _IDPState extends State<IDP> {
     final project = Provider.of<Project>(context);
     List<DataRow> dataRowList = [];
 
+    double errorAvoider(double one, double two) {
+      double x;
+      if (two == 0) {
+        x = 0;
+      } else {
+        x = one / two;
+      }
+      return x;
+    }
+
     for (int i = 0; i < project.progressesTracked.length; i++) {
       ProgressType temp = new ProgressType(
         name: project.progressesTracked['pt${i + 1}']['name'] ?? 'error',
@@ -53,10 +63,11 @@ class _IDPState extends State<IDP> {
                   },
                 );
               },
+              showEditIcon: true,
             ),
             DataCell(
               Text(
-                  '${(((project.progressesTracked['pt${i + 1}']['done'] / project.progressesTracked['pt${i + 1}']['total']) * 100)).toInt()}'),
+                  '${((errorAvoider(project.progressesTracked['pt${i + 1}']['done'], project.progressesTracked['pt${i + 1}']['total']) * 100)).toInt()}'),
               onTap: () async {
                 showDialog(
                   context: context,
@@ -313,7 +324,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                     ButtonTheme(
                       minWidth: 30,
                       child: FlatButton(
-                        child: Icon(Icons.edit),
+                        child: Icon(Icons.refresh),
                         onPressed: () {},
                       ),
                     ),
