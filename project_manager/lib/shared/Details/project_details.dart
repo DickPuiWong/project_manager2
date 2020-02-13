@@ -82,6 +82,17 @@ class _PDExtendState extends State<PDExtend> {
   @override
   Widget build(BuildContext context) {
     final project = Provider.of<Project>(context);
+    double findPercent() {
+      double percent;
+      double _totalDone = 0, _totalOverall = 0;
+      for (int i = 0; i < project.progressesTracked.length; i++) {
+        _totalDone += project.progressesTracked['pt${i + 1}']['done'];
+        _totalOverall += project.progressesTracked['pt${i + 1}']['total'];
+      }
+      percent = _totalDone / _totalOverall;
+      return percent;
+    }
+
     return Padding(
       padding: EdgeInsets.fromLTRB(5, 25, 5, 30),
       child: Column(
@@ -154,8 +165,7 @@ class _PDExtendState extends State<PDExtend> {
                           style: TextStyle(fontSize: 20, color: Colors.black),
                           children: [
                             TextSpan(
-                              text:
-                                  '${((((project.paintedArea / project.totalSurfaceAreaP) + (project.blastedArea / project.totalSurfaceAreaB)) / 2) * 100).toInt()}%',
+                              text: '${(findPercent() * 100).toInt()}%',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 44,
