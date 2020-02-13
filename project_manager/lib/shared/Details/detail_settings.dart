@@ -1,3 +1,7 @@
+// Name : details_settings.dart
+// Purpose : to edit the project details
+// Function : This page will provide users with text field to edit the details of the project
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
