@@ -1,6 +1,6 @@
 // Name : IDB.dart
-// Purpose :
-// Function :
+// Purpose : This file contain all the functionality for the Budget aspect
+// Function : Display, edit, add and delete the types of budget, spent and percentage of budget reached
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,10 +11,13 @@ import 'package:project_manager/services/database.dart';
 import 'package:provider/provider.dart';
 
 class IDBWrapper extends StatelessWidget {
+  //create a Project object and assigned to IDBWrapper class
   final Project project;
   IDBWrapper({this.project});
   @override
   Widget build(BuildContext context) {
+    //IDBWrapper returns stream provider of Project class where the value returned is the project ID
+    //Then called the class IDB()
     return StreamProvider<Project>.value(
       value: ProjectDatabaseService(projID: project.projID).project,
       child: IDB(),
@@ -22,6 +25,7 @@ class IDBWrapper extends StatelessWidget {
   }
 }
 
+//IDB class show the table of budget and spending
 class IDB extends StatefulWidget {
   @override
   _IDBState createState() => _IDBState();
@@ -127,6 +131,7 @@ class _IDBState extends State<IDB> {
       ));
     }
 
+    //This Scaffold functions as editor for the budget and expenditure
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -241,6 +246,7 @@ class _IDBState extends State<IDB> {
   }
 }
 
+//DataRowSetting class will display the page where users update their budget
 class DataRowSetting extends StatefulWidget {
   final int num;
   final BudgetType bt;
