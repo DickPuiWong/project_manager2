@@ -35,9 +35,10 @@ class _IDPState extends State<IDP> {
 
     for (int i = 0; i < project.progressesTracked.length; i++) {
       ProgressType temp = new ProgressType(
-        name: project.progressesTracked['pt${i + 1}']['name'],
-        done: project.progressesTracked['pt${i + 1}']['done'].toDouble(),
-        total: project.progressesTracked['pt${i + 1}']['total'].toDouble(),
+        name: project.progressesTracked['pt${i + 1}']['name'] ?? 'error',
+        done: project.progressesTracked['pt${i + 1}']['done'].toDouble() ?? 0.0,
+        total:
+            project.progressesTracked['pt${i + 1}']['total'].toDouble() ?? 0.0,
       );
       dataRowList.add(
         DataRow(
@@ -75,7 +76,7 @@ class _IDPState extends State<IDP> {
             ),
             DataCell(
               Text(
-                  '${project.progressesTracked['pt${i + 1}']['done'].toStringAsFixed(2)}m²'),
+                  '${project.progressesTracked['pt${i + 1}']['done'].toStringAsFixed(1)}'),
               onTap: () async {
                 showDialog(
                   context: context,
@@ -91,7 +92,7 @@ class _IDPState extends State<IDP> {
             ),
             DataCell(
               Text(
-                  '${project.progressesTracked['pt${i + 1}']['total'].toStringAsFixed(2)}m²'),
+                  '${project.progressesTracked['pt${i + 1}']['total'].toStringAsFixed(1)}'),
               onTap: () async {
                 showDialog(
                   context: context,
@@ -118,17 +119,20 @@ class _IDPState extends State<IDP> {
         _totalOverall += project.progressesTracked['pt${i + 1}']['total'];
       }
       percent = _totalDone / _totalOverall;
+      if (_totalDone == 0 && _totalOverall == 0) {
+        percent = 0;
+      }
       return percent;
     }
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.indigo[50],
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: Column(
-            children: <Widget>[
-              Row(
+        backgroundColor: Colors.white,
+        body: Column(
+          children: <Widget>[
+            Container(
+              color: Colors.indigo[50],
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -152,7 +156,11 @@ class _IDPState extends State<IDP> {
                   ),
                 ],
               ),
-              Center(
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 15),
+              color: Colors.indigo[50],
+              child: Center(
                 child: Container(
                   height: 240,
                   width: 240,
@@ -180,35 +188,31 @@ class _IDPState extends State<IDP> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
-              SizedBox(height: 20),
-              Flexible(
-                child: ListView(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      color: Colors.white,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DataTable(
-                          columnSpacing: 15,
-                          columns: [
-                            DataColumn(label: Text('Type')),
-                            DataColumn(
-                                label: Text('Progress(%)'), numeric: true),
-                            DataColumn(label: Text('Done(m²)'), numeric: true),
-                            DataColumn(label: Text('Total(m²)'), numeric: true),
-                          ],
-                          rows: dataRowList,
-                        ),
+            ),
+            Flexible(
+              child: ListView(
+                children: <Widget>[
+                  Container(
+//                      padding: EdgeInsets.symmetric(vertical: 5),
+                    color: Colors.white,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                        columnSpacing: 15,
+                        columns: [
+                          DataColumn(label: Text('Type')),
+                          DataColumn(label: Text('Progress(%)'), numeric: true),
+                          DataColumn(label: Text('Done(m²)'), numeric: true),
+                          DataColumn(label: Text('Total(m²)'), numeric: true),
+                        ],
+                        rows: dataRowList,
                       ),
                     ),
-                    SizedBox(height: 20),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         bottomNavigationBar: BottomAppBar(
           color: Colors.indigo[100],
@@ -216,12 +220,53 @@ class _IDPState extends State<IDP> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               FlatButton(
-                onPressed: () {},
                 child: Text('Add Field'),
+                onPressed: () async {
+                  Map listChanger() {
+                    Map x = project.progressesTracked;
+                    x['pt${project.progressesTracked.length + 1}'] = {
+                      'name': 'filename',
+                      'done': 0.0,
+                      'total': 0.0,
+                    };
+                    return x;
+                  }
+
+                  await Firestore.instance
+                      .collection('projects')
+                      .document(project.projID)
+                      .setData({
+                    'blast pot': project.blastPot,
+                    'used abrasive weight': project.abrasiveUsedWeight,
+                    'total abrasive weight': project.abrasiveTotalWeight,
+                    'used adhesive litres': project.adhesiveUsedLitre,
+                    'total adhesive litres': project.adhesiveTotalLitre,
+                    'used paint litres': project.paintUsedLitre,
+                    'total paint litres': project.paintTotalLitre,
+                    'ID': project.projID,
+                    'name': project.projname,
+                    'location': project.location,
+                    'completion': project.completion,
+                    'budget': project.budget,
+                    'spent budget': project.spentBudget,
+                    'adhesive price': project.adhesivePrice,
+                    'abrasive price': project.abrasivePrice,
+                    'paint price': project.paintPrice,
+                    'total area needed blasting': project.totalSurfaceAreaB,
+                    'blasted area': project.blastedArea,
+                    'total area needed painting': project.totalSurfaceAreaP,
+                    'painted area': project.paintedArea,
+                    'users assigned': project.userAssigned,
+                    'blast pot list': project.blastPotList,
+                    'budget list': project.budgetList,
+                    'progresses tracked': listChanger(),
+                    'Date Created': project.date,
+                  });
+                },
               ),
               FlatButton(
-                onPressed: () {},
                 child: Text('Delete Field'),
+                onPressed: () {},
               ),
             ],
           ),
@@ -242,6 +287,7 @@ class IDPRowSetting extends StatefulWidget {
 
 class _IDPRowSettingState extends State<IDPRowSetting> {
   final _formKey = GlobalKey<FormState>();
+  String name;
   double _newDone;
   double _newTotal;
   double _addsub1 = 100;
@@ -262,24 +308,33 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(5),
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             height: 400,
             child: ListView(
               children: <Widget>[
-                Center(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Text(
-                      '${widget.pt.name}',
-                      style: TextStyle(
-                        fontSize: 27,
-                        fontWeight: FontWeight.bold,
+                Row(
+                  children: <Widget>[
+                    ButtonTheme(
+                      minWidth: 30,
+                      child: FlatButton(
+                        child: Icon(Icons.edit),
+                        onPressed: () {},
                       ),
                     ),
-                  ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Text(
+                        '${widget.pt.name}',
+                        style: TextStyle(
+                          fontSize: 27,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Divider(
-                  height: 30,
+                  height: 20,
                   color: Colors.blueGrey[600],
                 ),
                 SizedBox(height: 5),

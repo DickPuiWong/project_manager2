@@ -103,6 +103,9 @@ class _PDExtendState extends State<PDExtend> {
         _totalOverall += project.progressesTracked['pt${i + 1}']['total'];
       }
       percent = _totalDone / _totalOverall;
+      if (_totalDone == 0 && _totalOverall == 0) {
+        percent = 0;
+      }
       return percent;
     }
 
