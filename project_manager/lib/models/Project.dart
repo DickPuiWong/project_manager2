@@ -1,3 +1,7 @@
+// Name : Project.dart
+// Purpose : all the variables that is needed in Project class
+// Function : This file contains all the declared and initialised variables for Project, BlastPot, BudgetType, ProgressType  classes
+
 class Project {
   final String projID;
   final double budget;
@@ -56,6 +60,8 @@ class Project {
   });
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 class BlastPot {
   final int num;
   final double usedAbrasive;
@@ -70,6 +76,8 @@ class BlastPot {
   });
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 class BudgetType {
   final String name;
   final double spent;
@@ -81,6 +89,8 @@ class BudgetType {
     this.estimate,
   });
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 class ProgressType {
   final String name;
