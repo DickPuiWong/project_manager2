@@ -339,6 +339,7 @@ class _AssignSheetState extends State<AssignSheet> {
                             assignToListP(widget.project.userAssigned),
                         'blast pot': widget.project.blastPot,
                         'blast pot list': widget.project.blastPotList,
+                        'budget list': widget.project.budgetList,
                         'Date Created': widget.project.date,
                       });
                       await Firestore.instance
