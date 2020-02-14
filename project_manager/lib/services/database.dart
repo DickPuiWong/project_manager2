@@ -1,3 +1,7 @@
+// Name : database.dart
+// Purpose : to access data for User and Project
+// Function : This page will act as the data service which get, store and display data
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_manager/models/Project.dart';
 import 'package:project_manager/models/user.dart';

@@ -1,3 +1,7 @@
+// Name : home_setting_form.dart
+// Purpose : to show the user(admin) the modal bottom sheet
+// Function : This page will display the settings which enable the admin to add/delete the project, edit the details and test
+
 import 'package:flutter/material.dart';
 import 'package:project_manager/screens/home/HSF_extends/add_project.dart';
 import 'package:project_manager/screens/home/HSF_extends/delete_project.dart';
@@ -11,10 +15,12 @@ class HSF extends StatefulWidget {
 }
 
 class _HSFState extends State<HSF> {
+  //declare and initialise the object _formKey into GlobalKey
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    //HSF class will return Form() that contains all the structure and functionality to edit the settings in homepage
     return Form(
       key: _formKey,
       child: Column(
@@ -22,17 +28,17 @@ class _HSFState extends State<HSF> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Text(
-              'Settings Menu',
+              'Settings',
               style: TextStyle(
-                fontSize: 34,
+                fontSize: 30,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
           Divider(
             thickness: 1.2,
-            height: 29,
-            color: Colors.indigo[300],
+            height: 28,
+            color: Colors.blue[900],
             indent: 5,
             endIndent: 5,
           ),
@@ -45,6 +51,7 @@ class _HSFState extends State<HSF> {
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
               children: <Widget>[
+                //this flat button function's is to add a dummy project when pressed
                 FlatButton(
                   onPressed: () {
                     var date = new DateTime.now();
@@ -62,6 +69,7 @@ class _HSFState extends State<HSF> {
                       'Water',
                     ];
                     Map t2 = {};
+                    Map t4 = {};
                     void t3(Map x, int i, BlastPot y) {
                       t2['Blast Pot $i'] = {
                         'Assigned num': y.num,
@@ -82,25 +90,14 @@ class _HSFState extends State<HSF> {
                             usedPaint: 0,
                           ));
                     }
-                    Map t4 = {};
                     for (int i = 0; i < t1.length; i++) {
                       t4['bt${i + 1}'] = {
                         'name': t1[i],
+                        'percentage': 0,
                         'spent': 0,
                         'estimate': 0,
                       };
                     }
-                    Map t5 = {};
-                    t5['pt1'] = {
-                      'name': 'Blasting',
-                      'done': 500.0,
-                      'total': 1000.0,
-                    };
-                    t5['pt2'] = {
-                      'name': 'Painting',
-                      'done': 250.0,
-                      'total': 1000.0,
-                    };
 
                     String id = Firestore.instance
                         .collection('projects')
@@ -130,11 +127,9 @@ class _HSFState extends State<HSF> {
                       'total area needed painting': 1000.00,
                       'painted area': 250.0,
                       'users assigned': [],
-                      'project supervisor': ['zac', 2],
                       'blast pot': 3,
                       'blast pot list': t2,
                       'budget list': t4,
-                      'progresses tracked': t5,
                       'Date Created': date.millisecondsSinceEpoch,
                     });
                   },
@@ -149,6 +144,8 @@ class _HSFState extends State<HSF> {
                     ),
                   ),
                 ),
+
+                //this flat button function's is to add a project when pressed
                 FlatButton(
                   onPressed: () {
                     Navigator.push(
@@ -156,7 +153,7 @@ class _HSFState extends State<HSF> {
                         MaterialPageRoute(
                             builder: (BuildContext context) => AddProject()));
                   },
-                  color: Colors.indigo[900],
+                  color: Colors.blue[900],
                   child: Text(
                     'Add Project',
                     textAlign: TextAlign.center,
@@ -167,6 +164,8 @@ class _HSFState extends State<HSF> {
                     ),
                   ),
                 ),
+
+                ////this flat button function's is to delete a project when pressed
                 FlatButton(
                   onPressed: () {
                     Navigator.push(
@@ -186,6 +185,8 @@ class _HSFState extends State<HSF> {
                     ),
                   ),
                 ),
+
+                //this flat button function's is navigate the user to UserManager() class when pressed
                 FlatButton(
                   onPressed: () {
                     Navigator.push(
@@ -203,6 +204,8 @@ class _HSFState extends State<HSF> {
                     ),
                   ),
                 ),
+
+                //this flat button function's is for testing to see if the button works when pressed
                 FlatButton(
                   onPressed: () {
                     Map x = {};
@@ -214,7 +217,7 @@ class _HSFState extends State<HSF> {
                   },
                   color: Colors.amberAccent[400],
                   child: Text(
-                    'test',
+                    'Test',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,

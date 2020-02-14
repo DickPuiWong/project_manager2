@@ -1,8 +1,13 @@
+// Name : userTiles.dart
+// Purpose : To enable user delete any project that has been created
+// Function : This file contains all the structure that will ask for confirmation from the user if they want to delete the project or not
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/user.dart';
 
+//UserTiles class will run a function call _showBottomPanel that will
 class UserTiles extends StatelessWidget {
   final UserData currUser;
   final int index;
@@ -10,6 +15,7 @@ class UserTiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Function _showBottomPanel which will display a modal bottom sheet and return PrivilegeSheet function
     void _showBottomPanel() {
       showModalBottomSheet(
         context: context,
@@ -21,6 +27,7 @@ class UserTiles extends StatelessWidget {
       );
     }
 
+    //This Card widget will display all the user name and their permission type
     return Padding(
       padding: EdgeInsets.all(5),
       child: Card(
@@ -65,6 +72,7 @@ class UserTiles extends StatelessWidget {
   }
 }
 
+//PrivilegeSheet class will show the buttons and slider for the bottom sheet part when user long pressed the user card
 class PrivilegeSheet extends StatefulWidget {
   final UserData user;
   PrivilegeSheet({this.user});
@@ -121,7 +129,10 @@ class _PrivilegeSheetState extends State<PrivilegeSheet> {
             Container(
               child: FlatButton(
                 onPressed: () {
-                  Firestore.instance.collection('UserData').document(widget.user.uid).setData({
+                  Firestore.instance
+                      .collection('UserData')
+                      .document(widget.user.uid)
+                      .setData({
                     'ID': widget.user.uid,
                     'Username': widget.user.userName,
                     'permissionType': _newPermissionType,
