@@ -32,6 +32,8 @@ class _IDPState extends State<IDP> {
   Widget build(BuildContext context) {
     final project = Provider.of<Project>(context);
     List<DataRow> dataRowList = [];
+    List<bool> dataRowSelected =[];
+
 
     double errorAvoider(double one, double two) {
       double x;
@@ -52,6 +54,8 @@ class _IDPState extends State<IDP> {
       );
       dataRowList.add(
         DataRow(
+          selected: false,
+//          onSelectChanged: ,
           cells: [
             DataCell(
               Text(project.progressesTracked['pt${i + 1}']['name']),
