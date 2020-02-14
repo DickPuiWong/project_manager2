@@ -297,7 +297,7 @@ class IDPRowSetting extends StatefulWidget {
 
 class _IDPRowSettingState extends State<IDPRowSetting> {
   final _formKey = GlobalKey<FormState>();
-  String name;
+  String _newName;
   double _newDone;
   double _newTotal;
   double _addsub1 = 100;
@@ -325,13 +325,32 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Text(
-                        '${widget.pt.name}',
-                        style: TextStyle(
-                          fontSize: 27,
-                          fontWeight: FontWeight.bold,
+                    Flexible(
+                      flex: 2,
+                      child: Container(
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 14),
+                          initialValue: '${(_newName ?? widget.pt.name)}' /*(1).toStringAsFixed(2)*/,
+                          decoration: InputDecoration(
+                            labelText: 'Name',
+                            labelStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                            hintText: 'name here',
+                            isDense: true,
+                            fillColor: Colors.white,
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[50], width: 2.0)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[900], width: 2.0)),
+                          ),
+                          validator: (val) =>
+                          (val.isEmpty ? 'Enter fieldname' : null),
+                          onChanged: (val) {
+                            _newName = val;
+                          },
                         ),
                       ),
                     ),
@@ -685,7 +704,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                         Map x = widget.project.progressesTracked;
                         if (widget.num == widget.num) {
                           x['pt${widget.num}'] = {
-                            'name': widget.pt.name,
+                            'name': _newName ?? widget.pt.name,
                             'done': (_newDone ?? widget.pt.done),
                             'total': (_newTotal ?? widget.pt.total),
                           };
