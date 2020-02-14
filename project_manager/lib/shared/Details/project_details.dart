@@ -47,38 +47,6 @@ class ProjectDetails extends StatelessWidget {
   }
 }
 
-//class AppbarButtons extends StatefulWidget {
-//  @override
-//  _AppbarButtonsState createState() => _AppbarButtonsState();
-//}
-//
-//class _AppbarButtonsState extends State<AppbarButtons> {
-//  @override
-//  Widget build(BuildContext context) {
-//    final project = Provider.of<Project>(context);
-//    return FlatButton.icon(
-//      onPressed: () async {
-////        await Navigator.push(
-////          context,
-////          MaterialPageRoute(
-////            builder: (BuildContext context) => DSP(
-////              proj: project,
-////            ),
-////          ),
-////        );
-//      },
-//      icon: Icon(
-//        Icons.edit,
-//        color: Colors.white,
-//      ),
-//      label: Text(
-//        'Edit',
-//        style: TextStyle(color: Colors.white),
-//      ),
-//    );
-//  }
-//}
-
 //PDExtend class is the class that contains structure of all the main aspect involved
 class PDExtend extends StatefulWidget {
   //object creation and initialised in the PDExtend() class
@@ -93,6 +61,20 @@ class _PDExtendState extends State<PDExtend> {
   Widget build(BuildContext context) {
     //declare and initialise the object project and assigned it to the provider of Project() class contexts
     final project = Provider.of<Project>(context);
+
+    double findPercent() {
+      double percent;
+      double _totalDone = 0, _totalOverall = 0;
+      for (int i = 0; i < project.progressesTracked.length; i++) {
+        _totalDone += project.progressesTracked['pt${i + 1}']['done'];
+        _totalOverall += project.progressesTracked['pt${i + 1}']['total'];
+      }
+      percent = _totalDone / _totalOverall;
+      if (_totalDone == 0 && _totalOverall == 0) {
+        percent = 0;
+      }
+      return percent;
+    }
 
     //return the Column widget
     return Padding(
@@ -210,11 +192,12 @@ class _PDExtendState extends State<PDExtend> {
                           width: 150,
                           child: CircularProgressIndicator(
                             strokeWidth: 12,
-                            value: (((project.paintedArea /
-                                        project.totalSurfaceAreaP) +
-                                    (project.blastedArea /
-                                        project.totalSurfaceAreaB)) /
-                                2),
+                            value: ((findPercent())),
+//                            (((project.paintedArea /
+//                                        project.totalSurfaceAreaP) +
+//                                    (project.blastedArea /
+//                                        project.totalSurfaceAreaB)) /
+//                                2),
                             backgroundColor: Colors.redAccent,
                             valueColor: AlwaysStoppedAnimation<Color>(
                                 Colors.lightGreenAccent),
@@ -242,7 +225,7 @@ class _PDExtendState extends State<PDExtend> {
                                 children: [
                                   TextSpan(
                                     text:
-                                        ' ${((((project.paintedArea / project.totalSurfaceAreaP) + (project.blastedArea / project.totalSurfaceAreaB)) / 2) * 100).toInt()}%\n',
+                                        ' ${(findPercent() * 100).toInt()}%\n',
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 35,
