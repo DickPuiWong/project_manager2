@@ -33,6 +33,16 @@ class _IDPState extends State<IDP> {
     final project = Provider.of<Project>(context);
     List<DataRow> dataRowList = [];
 
+    double errorAvoider(double one, double two) {
+      double x;
+      if (two == 0) {
+        x = 0;
+      } else {
+        x = one / two;
+      }
+      return x;
+    }
+
     for (int i = 0; i < project.progressesTracked.length; i++) {
       ProgressType temp = new ProgressType(
         name: project.progressesTracked['pt${i + 1}']['name'] ?? 'error',
@@ -60,7 +70,7 @@ class _IDPState extends State<IDP> {
             ),
             DataCell(
               Text(
-                  '${(((project.progressesTracked['pt${i + 1}']['done'] / project.progressesTracked['pt${i + 1}']['total']) * 100)).toInt()}'),
+                  '${((errorAvoider(project.progressesTracked['pt${i + 1}']['done'], project.progressesTracked['pt${i + 1}']['total']) * 100)).toInt()}'),
               onTap: () async {
                 showDialog(
                   context: context,
@@ -313,14 +323,8 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
             child: ListView(
               children: <Widget>[
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    ButtonTheme(
-                      minWidth: 30,
-                      child: FlatButton(
-                        child: Icon(Icons.edit),
-                        onPressed: () {},
-                      ),
-                    ),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Text(
@@ -329,6 +333,13 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                           fontSize: 27,
                           fontWeight: FontWeight.bold,
                         ),
+                      ),
+                    ),
+                    ButtonTheme(
+                      minWidth: 30,
+                      child: FlatButton(
+                        child: Icon(Icons.refresh),
+                        onPressed: () {},
                       ),
                     ),
                   ],
@@ -620,56 +631,6 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-//                  Map listChanger() {
-//                    Map x = widget.project.budgetList;
-//                    for (int i = 0;
-//                    i < widget.project.budgetList.length;
-//                    i++) {
-//                      if ((i + 1) == widget.num) {
-//                        x['bt${i + 1}'] = {
-//                          'name': widget.bt.name,
-//                          'spent': (_newSpent ?? widget.bt.spent),
-//                          'estimate': (_newEstimate ?? widget.bt.estimate),
-//                        };
-//                      }
-//                    }
-//                    return x;
-//                  }
-
-//                  await Firestore.instance
-//                      .collection('projects')
-//                      .document(widget.project.projID)
-//                      .setData({
-//                    'blast pot': widget.project.blastPot,
-//                    'used abrasive weight': widget.project.abrasiveUsedWeight,
-//                    'total abrasive weight':
-//                    widget.project.abrasiveTotalWeight,
-//                    'used adhesive litres': widget.project.adhesiveUsedLitre,
-//                    'total adhesive litres':
-//                    widget.project.adhesiveTotalLitre,
-//                    'used paint litres': widget.project.paintUsedLitre,
-//                    'total paint litres': widget.project.paintTotalLitre,
-//                    'ID': widget.project.projID,
-//                    'name': widget.project.projname,
-//                    'location': widget.project.location,
-//                    'completion': widget.project.completion,
-//                    'budget': widget.project.budget + (_newEstimate ?? 0),
-//                    'spent budget':
-//                    widget.project.spentBudget + (_newSpent ?? 0),
-//                    'adhesive price': widget.project.adhesivePrice,
-//                    'abrasive price': widget.project.abrasivePrice,
-//                    'paint price': widget.project.paintPrice,
-//                    'total area needed blasting':
-//                    widget.project.totalSurfaceAreaB,
-//                    'blasted area': widget.project.blastedArea,
-//                    'total area needed painting':
-//                    widget.project.totalSurfaceAreaP,
-//                    'painted area': widget.project.paintedArea,
-//                    'users assigned': widget.project.userAssigned,
-//                    'blast pot list': widget.project.blastPotList,
-//                    'budget list': listChanger(),
-//                    'Date Created': widget.project.date,
-//                  });
                       Map listChanger() {
                         Map x = widget.project.progressesTracked;
                         if (widget.num == widget.num) {
