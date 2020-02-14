@@ -339,6 +339,7 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                               widget.proj.totalSurfaceAreaP,
                           'painted area': widget.proj.paintedArea,
                           'users assigned': widget.proj.userAssigned,
+                          'budget list': widget.proj.budgetList,
                           'blast pot list':
                               mapChanger(widget.proj.blastPotList),
                           'Date Created': widget.proj.date,
