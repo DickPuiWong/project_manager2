@@ -1,3 +1,7 @@
+// Name : project_details.dart
+// Purpose : to show the users all the details of the projects
+// Function : This page will display all the details of the project
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
