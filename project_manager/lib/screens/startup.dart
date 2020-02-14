@@ -3,6 +3,7 @@
 // Import : none
 // Export : none
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/user.dart';
 import 'package:provider/provider.dart';
@@ -48,65 +49,52 @@ class StartUp extends StatelessWidget {
 
           //This Row() contains 2 FlatButton()
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 70.0),
+              FlatButton(
+                onPressed: () async {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => StreamProvider<User>.value(
+                          value: AuthService().user,
+                          child: Wrapper(
+                            choice: false,
+                          ))));
+                },
 
-                //This FlatButton will navigate the user to Wrapper() when pressed and it also will carry the user data for AuthService() and variable choice = false
-                child: FlatButton(
-                  onPressed: () async {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => StreamProvider<User>.value(
-                            value: AuthService().user,
-                            child: Wrapper(
-                              choice: false,
-                            ))));
-                  },
-
-                  //The name of the FlatButton will be Register displayed in Card widget
-                  child: Card(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 12.0),
-                      child: Text(
-                        'Register',
-                        style: TextStyle(color: Colors.blue[900], fontSize: 20),
-                      ),
+                //The name of the FlatButton will be Register displayed in Card widget
+                child: Card(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 12.0),
+                    child: Text(
+                      'Register',
+                      style: TextStyle(color: Colors.blue[900], fontSize: 20),
                     ),
                   ),
                 ),
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 0.0),
+              FlatButton(
+                onPressed: () async {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => StreamProvider<User>.value(
+                          value: AuthService().user,
+                          child: Wrapper(
+                            choice: true,
+                          ))));
+                },
 
-                //This FlatButton will navigate the user to Wrapper() when pressed and it also will carry the user data for AuthService() and variable choice = true
-                child: FlatButton(
-                  onPressed: () async {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => StreamProvider<User>.value(
-                            value: AuthService().user,
-                            child: Wrapper(
-                              choice: true,
-                            ))));
-                  },
-
-                  //The name of the FlatButton will be Login displayed in Card widget
-                  child: Card(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 20.0),
-                        child: Text(
-                          'Login',
-                          style:
-                              TextStyle(color: Colors.blue[900], fontSize: 20),
-                        ),
-                      )),
-                ),
+                //The name of the FlatButton will be Login displayed in Card widget
+                child: Card(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 20.0),
+                      child: Text(
+                        'Login',
+                        style: TextStyle(color: Colors.blue[900], fontSize: 20),
+                      ),
+                    )),
               )
             ],
           )
