@@ -32,6 +32,7 @@ class _IDPState extends State<IDP> {
   Widget build(BuildContext context) {
     final project = Provider.of<Project>(context);
     List<DataRow> dataRowList = [];
+    List<bool> dataRowSelected = [];
 
     double errorAvoider(double one, double two) {
       double x;
@@ -52,6 +53,8 @@ class _IDPState extends State<IDP> {
       );
       dataRowList.add(
         DataRow(
+          selected: false,
+//          onSelectChanged: ,
           cells: [
             DataCell(
               Text(project.progressesTracked['pt${i + 1}']['name']),
@@ -141,7 +144,7 @@ class _IDPState extends State<IDP> {
         body: Column(
           children: <Widget>[
             Container(
-              color: Colors.indigo[50],
+              color: Colors.blue[50],
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,24 +155,24 @@ class _IDPState extends State<IDP> {
                       Navigator.pop(context);
                     },
                   ),
-                  IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              IDPSettings(proj: project),
-                        ),
-                      );
-                    },
-                  ),
+//                  IconButton(
+//                    icon: Icon(Icons.edit),
+//                    onPressed: () async {
+//                      await Navigator.push(
+//                        context,
+//                        MaterialPageRoute(
+//                          builder: (BuildContext context) =>
+//                              IDPSettings(proj: project),
+//                        ),
+//                      );
+//                    },
+//                  ),
                 ],
               ),
             ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 15),
-              color: Colors.indigo[50],
+              color: Colors.blue[50],
               child: Center(
                 child: Container(
                   height: 240,
@@ -225,7 +228,7 @@ class _IDPState extends State<IDP> {
           ],
         ),
         bottomNavigationBar: BottomAppBar(
-          color: Colors.indigo[100],
+          color: Colors.blue[100],
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -297,7 +300,7 @@ class IDPRowSetting extends StatefulWidget {
 
 class _IDPRowSettingState extends State<IDPRowSetting> {
   final _formKey = GlobalKey<FormState>();
-  String name;
+  String _newName;
   double _newDone;
   double _newTotal;
   double _addsub1 = 100;
@@ -325,13 +328,35 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Text(
-                        '${widget.pt.name}',
-                        style: TextStyle(
-                          fontSize: 27,
-                          fontWeight: FontWeight.bold,
+                    Flexible(
+                      flex: 2,
+                      child: Container(
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 14),
+                          initialValue:
+                              '${(_newName ?? widget.pt.name)}' /*(1).toStringAsFixed(2)*/,
+                          decoration: InputDecoration(
+                            labelText: 'Name',
+                            labelStyle: TextStyle(
+                                color: Colors.blue[600],
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                            hintText: 'name here',
+                            isDense: true,
+                            fillColor: Colors.white,
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blue[50], width: 2.0)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blue[900], width: 2.0)),
+                          ),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter fieldname' : null),
+                          onChanged: (val) {
+                            _newName = val;
+                          },
                         ),
                       ),
                     ),
@@ -365,7 +390,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                                 Container(
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Colors.indigo[50],
+                                      color: Colors.blue[50],
                                       width: 2,
                                     ),
                                     borderRadius: BorderRadius.circular(3.5),
@@ -386,7 +411,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                               child: Text(
                                 'Done(m²)',
                                 style: TextStyle(
-                                  color: Colors.grey[600],
+                                  color: Colors.blue[600],
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -412,10 +437,10 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                             filled: true,
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.indigo[50], width: 2.0)),
+                                    color: Colors.blue[50], width: 2.0)),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.indigo[900], width: 2.0)),
+                                    color: Colors.blue[900], width: 2.0)),
                           ),
                           validator: (val) =>
                               (val.isEmpty ? 'Enter amount' : null),
@@ -500,7 +525,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                                 Container(
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Colors.indigo[50],
+                                      color: Colors.blue[50],
                                       width: 2,
                                     ),
                                     borderRadius: BorderRadius.circular(3.5),
@@ -521,7 +546,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                               child: Text(
                                 'Total(m²)',
                                 style: TextStyle(
-                                  color: Colors.grey[600],
+                                  color: Colors.blue[600],
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -548,10 +573,10 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                             filled: true,
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.indigo[50], width: 2.0)),
+                                    color: Colors.blue[50], width: 2.0)),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.indigo[900], width: 2.0)),
+                                    color: Colors.blue[900], width: 2.0)),
                           ),
                           validator: (val) =>
                               (val.isEmpty ? 'Enter amount' : null),
@@ -621,7 +646,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                 SizedBox(height: 40),
                 Center(
                   child: RaisedButton.icon(
-                    color: Colors.indigo[900],
+                    color: Colors.blue[900],
                     icon: Icon(
                       Icons.update,
                       color: Colors.white,
@@ -635,7 +660,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                         Map x = widget.project.progressesTracked;
                         if (widget.num == widget.num) {
                           x['pt${widget.num}'] = {
-                            'name': widget.pt.name,
+                            'name': _newName ?? widget.pt.name,
                             'done': (_newDone ?? widget.pt.done),
                             'total': (_newTotal ?? widget.pt.total),
                           };
@@ -692,151 +717,151 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
   }
 }
 
-class IDPSettings extends StatefulWidget {
-  final Project proj;
-  IDPSettings({this.proj});
-  @override
-  _IDPSettingsState createState() => _IDPSettingsState();
-}
-
-class _IDPSettingsState extends State<IDPSettings> {
-  @override
-  Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-
-    double _currBlastedArea;
-    double _currBlastTotalArea;
-    double _currPaintedArea;
-    double _currPaintTotalArea;
-
-    return Form(
-      key: _formKey,
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: Colors.indigo[50],
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.file_upload),
-                      onPressed: () async {},
-                    ),
-                  ],
-                ),
-                Flexible(
-                  child: ListView(
-                    children: <Widget>[
-                      SizedBox(height: 34),
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Blast Applied, ',
-                              style: TextStyle(fontSize: 24),
-                            ),
-                            Text(
-                              'Blasted Areas(m²): ',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            TextFormField(
-                              initialValue: widget.proj.blastedArea.toString(),
-                              decoration: textInputDecoration.copyWith(
-                                  hintText: 'Total Area Blasted(m²)'),
-                              validator: (val) => (val.isEmpty
-                                  ? 'Enter area Blasted(m²)'
-                                  : null),
-                              onChanged: (val) {
-                                setState(() =>
-                                    (_currBlastedArea = double.tryParse(val)));
-                              },
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Total Area Needed to be Blasted(m²): ',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            TextFormField(
-                              initialValue:
-                                  widget.proj.totalSurfaceAreaB.toString(),
-                              decoration: textInputDecoration.copyWith(
-                                  hintText: 'Total Area Needed to Blast(m²)'),
-                              validator: (val) => (val.isEmpty
-                                  ? 'Enter area needed to be blast(m²)'
-                                  : null),
-                              onChanged: (val) {
-                                setState(() => (_currBlastTotalArea =
-                                    double.tryParse(val)));
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 34),
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Paints Applied, ',
-                              style: TextStyle(fontSize: 24),
-                            ),
-                            Text(
-                              'Total Area Painted(m²): ',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            TextFormField(
-                              initialValue: widget.proj.paintedArea.toString(),
-                              decoration: textInputDecoration.copyWith(
-                                  hintText: 'Total Area Painted(m²)'),
-                              validator: (val) => (val.isEmpty
-                                  ? 'Enter area Painted(m²)'
-                                  : null),
-                              onChanged: (val) {
-                                setState(() =>
-                                    (_currPaintedArea = double.tryParse(val)));
-                              },
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Total Area Needed to be Paint(m²): ',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            TextFormField(
-                              initialValue:
-                                  widget.proj.abrasivePrice.toString(),
-                              decoration: textInputDecoration.copyWith(
-                                  hintText: 'Total Area Needed to Paint(m²)'),
-                              validator: (val) => (val.isEmpty
-                                  ? 'Enter area needed to be paint(m²)'
-                                  : null),
-                              onChanged: (val) {
-                                setState(() => (_currPaintTotalArea =
-                                    double.tryParse(val)));
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+//class IDPSettings extends StatefulWidget {
+//  final Project proj;
+//  IDPSettings({this.proj});
+//  @override
+//  _IDPSettingsState createState() => _IDPSettingsState();
+//}
+//
+//class _IDPSettingsState extends State<IDPSettings> {
+//  @override
+//  Widget build(BuildContext context) {
+//    final _formKey = GlobalKey<FormState>();
+//
+//    double _currBlastedArea;
+//    double _currBlastTotalArea;
+//    double _currPaintedArea;
+//    double _currPaintTotalArea;
+//
+//    return Form(
+//      key: _formKey,
+//      child: SafeArea(
+//        child: Scaffold(
+//          backgroundColor: Colors.blue[50],
+//          body: Padding(
+//            padding: EdgeInsets.symmetric(horizontal: 5),
+//            child: Column(
+//              children: <Widget>[
+//                Row(
+//                  crossAxisAlignment: CrossAxisAlignment.start,
+//                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                  children: <Widget>[
+//                    IconButton(
+//                      icon: Icon(Icons.arrow_back),
+//                      onPressed: () {
+//                        Navigator.pop(context);
+//                      },
+//                    ),
+//                    IconButton(
+//                      icon: Icon(Icons.file_upload),
+//                      onPressed: () async {},
+//                    ),
+//                  ],
+//                ),
+//                Flexible(
+//                  child: ListView(
+//                    children: <Widget>[
+//                      SizedBox(height: 34),
+//                      Container(
+//                        child: Column(
+//                          crossAxisAlignment: CrossAxisAlignment.start,
+//                          children: <Widget>[
+//                            Text(
+//                              'Blast Applied, ',
+//                              style: TextStyle(fontSize: 24),
+//                            ),
+//                            Text(
+//                              'Blasted Areas(m²): ',
+//                              style: TextStyle(fontSize: 16),
+//                            ),
+//                            TextFormField(
+//                              initialValue: widget.proj.blastedArea.toString(),
+//                              decoration: textInputDecoration.copyWith(
+//                                  hintText: 'Total Area Blasted(m²)'),
+//                              validator: (val) => (val.isEmpty
+//                                  ? 'Enter area Blasted(m²)'
+//                                  : null),
+//                              onChanged: (val) {
+//                                setState(() =>
+//                                    (_currBlastedArea = double.tryParse(val)));
+//                              },
+//                            ),
+//                            SizedBox(height: 10),
+//                            Text(
+//                              'Total Area Needed to be Blasted(m²): ',
+//                              style: TextStyle(fontSize: 16),
+//                            ),
+//                            TextFormField(
+//                              initialValue:
+//                                  widget.proj.totalSurfaceAreaB.toString(),
+//                              decoration: textInputDecoration.copyWith(
+//                                  hintText: 'Total Area Needed to Blast(m²)'),
+//                              validator: (val) => (val.isEmpty
+//                                  ? 'Enter area needed to be blast(m²)'
+//                                  : null),
+//                              onChanged: (val) {
+//                                setState(() => (_currBlastTotalArea =
+//                                    double.tryParse(val)));
+//                              },
+//                            ),
+//                          ],
+//                        ),
+//                      ),
+//                      SizedBox(height: 34),
+//                      Container(
+//                        child: Column(
+//                          crossAxisAlignment: CrossAxisAlignment.start,
+//                          children: <Widget>[
+//                            Text(
+//                              'Paints Applied, ',
+//                              style: TextStyle(fontSize: 24),
+//                            ),
+//                            Text(
+//                              'Total Area Painted(m²): ',
+//                              style: TextStyle(fontSize: 16),
+//                            ),
+//                            TextFormField(
+//                              initialValue: widget.proj.paintedArea.toString(),
+//                              decoration: textInputDecoration.copyWith(
+//                                  hintText: 'Total Area Painted(m²)'),
+//                              validator: (val) => (val.isEmpty
+//                                  ? 'Enter area Painted(m²)'
+//                                  : null),
+//                              onChanged: (val) {
+//                                setState(() =>
+//                                    (_currPaintedArea = double.tryParse(val)));
+//                              },
+//                            ),
+//                            SizedBox(height: 10),
+//                            Text(
+//                              'Total Area Needed to be Paint(m²): ',
+//                              style: TextStyle(fontSize: 16),
+//                            ),
+//                            TextFormField(
+//                              initialValue:
+//                                  widget.proj.abrasivePrice.toString(),
+//                              decoration: textInputDecoration.copyWith(
+//                                  hintText: 'Total Area Needed to Paint(m²)'),
+//                              validator: (val) => (val.isEmpty
+//                                  ? 'Enter area needed to be paint(m²)'
+//                                  : null),
+//                              onChanged: (val) {
+//                                setState(() => (_currPaintTotalArea =
+//                                    double.tryParse(val)));
+//                              },
+//                            ),
+//                          ],
+//                        ),
+//                      ),
+//                    ],
+//                  ),
+//                ),
+//              ],
+//            ),
+//          ),
+//        ),
+//      ),
+//    );
+//  }
+//}
