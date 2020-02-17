@@ -36,6 +36,21 @@ class _IDBState extends State<IDB> {
   Widget build(BuildContext context) {
     final project = Provider.of<Project>(context);
     List<DataRow> dataRowList = [];
+
+    double findPercent2() {
+      double percent;
+      double _totalDone = 0, _totalOverall = 0;
+      for (int i = 0; i < project.budgetList.length; i++) {
+        _totalDone += project.budgetList['bt${i + 1}']['spent'];
+        _totalOverall += project.budgetList['bt${i + 1}']['estimate'];
+      }
+      percent = _totalDone / _totalOverall;
+      if (_totalDone == 0 && _totalOverall == 0) {
+        percent = 0;
+      }
+      return percent;
+    }
+
     for (int i = 0; i < project.budgetList.length; i++) {
       BudgetType ttt = new BudgetType(
         name: project.budgetList['bt${i + 1}']['name'],
@@ -176,6 +191,9 @@ class _IDBState extends State<IDB> {
                               (project.budget ?? 0.0) *
                               100) ??
                           0)
+                  size: 50,
+                  currentValue: ((findPercent2() *100)
+
                       .toInt()),
                   changeColorValue: 80,
                   maxValue: 100,
@@ -451,6 +469,7 @@ class _DataRowSettingState extends State<DataRowSetting> {
                       'blast pot list': widget.project.blastPotList,
                       'progresses tracked': widget.project.progressesTracked,
                       'budget list': listChanger(),
+                      'progresses tracked': widget.project.progressesTracked,
                       'Date Created': widget.project.date,
                     });
                     Navigator.pop(context);
@@ -592,6 +611,7 @@ class _IDBSettingsState extends State<IDBSettings> {
                               'users assigned': project.userAssigned,
                               'blast pot list': project.blastPotList,
                               'budget list': listChanger(),
+                              'progresses tracked': project.progressesTracked,
                               'Date Created': project.date,
                             });
                           },
@@ -832,6 +852,7 @@ class _AddTypeState extends State<AddType> {
                       'users assigned': widget.project.userAssigned,
                       'blast pot list': widget.project.blastPotList,
                       'budget list': listChanger(),
+                      'progresses tracked': widget.project.progressesTracked,
                       'Date Created': widget.project.date,
                     });
                     Navigator.pop(context);
