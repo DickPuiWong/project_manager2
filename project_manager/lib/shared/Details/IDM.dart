@@ -380,9 +380,9 @@ class BPTilesSettings extends StatefulWidget {
 class _BPTilesSettingsState extends State<BPTilesSettings> {
   final _formKey = GlobalKey<FormState>();
   double _currUsedAbrasive;
-  double _abraConst=25;
+  double _abraConst = 25;
   double _currUsedAdhesive;
-  double _adheConst=10;
+  double _adheConst = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -399,11 +399,10 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(3),
           child: Container(
-//            height: 280,
+            height: 450,
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
               children: <Widget>[
                 Center(
                   child: Container(
@@ -424,7 +423,15 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                   endIndent: 5,
                 ),
                 SizedBox(height: 20),
-                Text('Abrasive:',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                Center(
+                  child: Text(
+                    'Abrasive',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -448,9 +455,14 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                   ),
                                   padding: EdgeInsets.symmetric(
                                       vertical: 14, horizontal: 12),
-                                  child: Text((_currUsedAbrasive ?? widget.bp.usedAbrasive)
-                                      .toStringAsFixed(1)+'/'+((_currUsedAbrasive ?? widget.bp.usedAbrasive)/25)
-                                      .toStringAsFixed(0)),
+                                  child: Text((_currUsedAbrasive ??
+                                              widget.bp.usedAbrasive)
+                                          .toStringAsFixed(1) +
+                                      '/' +
+                                      ((_currUsedAbrasive ??
+                                                  widget.bp.usedAbrasive) /
+                                              25)
+                                          .toStringAsFixed(0)),
                                 ),
                               ],
                             ),
@@ -478,7 +490,8 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                         child: TextFormField(
                           style: TextStyle(fontSize: 14),
                           keyboardType: TextInputType.number,
-                          initialValue: '$_abraConst' /*(1).toStringAsFixed(2)*/,
+                          initialValue:
+                              '$_abraConst' /*(1).toStringAsFixed(2)*/,
                           decoration: InputDecoration(
                             labelText: '+/-',
                             labelStyle: TextStyle(
@@ -495,7 +508,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                     color: Colors.indigo[900], width: 2.0)),
                           ),
                           validator: (val) =>
-                          (val.isEmpty ? 'Enter amount' : null),
+                              (val.isEmpty ? 'Enter amount' : null),
                           onChanged: (val) {
                             _abraConst = double.tryParse(val);
                           },
@@ -530,8 +543,8 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                             child: FlatButton(
                               child: Icon(Icons.add),
                               onPressed: () {
-                                _currUsedAbrasive =
-                                    nullChecker(_currUsedAbrasive, widget.bp.usedAbrasive);
+                                _currUsedAbrasive = nullChecker(
+                                    _currUsedAbrasive, widget.bp.usedAbrasive);
                                 print('$_currUsedAbrasive += $_abraConst');
                                 setState(() {
                                   _currUsedAbrasive += _abraConst;
@@ -547,8 +560,8 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                             child: FlatButton(
                               child: Icon(Icons.remove),
                               onPressed: () {
-                                _currUsedAbrasive =
-                                    nullChecker(_currUsedAbrasive, widget.bp.usedAbrasive);
+                                _currUsedAbrasive = nullChecker(
+                                    _currUsedAbrasive, widget.bp.usedAbrasive);
                                 setState(() {
                                   _currUsedAbrasive -= _abraConst;
                                 });
@@ -561,6 +574,15 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                   ],
                 ),
                 SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    'Adhesive',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -584,7 +606,8 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                   ),
                                   padding: EdgeInsets.symmetric(
                                       vertical: 14, horizontal: 12),
-                                  child: Text((_currUsedAdhesive ?? widget.bp.usedAdhesive)
+                                  child: Text((_currUsedAdhesive ??
+                                          widget.bp.usedAdhesive)
                                       .toStringAsFixed(1)),
                                 ),
                               ],
@@ -613,7 +636,8 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                         child: TextFormField(
                           style: TextStyle(fontSize: 14),
                           keyboardType: TextInputType.number,
-                          initialValue: '$_adheConst' /*(1).toStringAsFixed(2)*/,
+                          initialValue:
+                              '$_adheConst' /*(1).toStringAsFixed(2)*/,
                           decoration: InputDecoration(
                             labelText: '+/-',
                             labelStyle: TextStyle(
@@ -630,7 +654,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                     color: Colors.indigo[900], width: 2.0)),
                           ),
                           validator: (val) =>
-                          (val.isEmpty ? 'Enter amount' : null),
+                              (val.isEmpty ? 'Enter amount' : null),
                           onChanged: (val) {
                             _adheConst = double.tryParse(val);
                           },
@@ -665,8 +689,8 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                             child: FlatButton(
                               child: Icon(Icons.add),
                               onPressed: () {
-                                _currUsedAdhesive =
-                                    nullChecker(_currUsedAdhesive, widget.bp.usedAdhesive);
+                                _currUsedAdhesive = nullChecker(
+                                    _currUsedAdhesive, widget.bp.usedAdhesive);
                                 print('$_currUsedAdhesive += $_adheConst');
                                 setState(() {
                                   _currUsedAdhesive += _adheConst;
@@ -682,8 +706,8 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                             child: FlatButton(
                               child: Icon(Icons.remove),
                               onPressed: () {
-                                _currUsedAdhesive =
-                                    nullChecker(_currUsedAdhesive, widget.bp.usedAdhesive);
+                                _currUsedAdhesive = nullChecker(
+                                    _currUsedAdhesive, widget.bp.usedAdhesive);
                                 setState(() {
                                   _currUsedAdhesive -= _adheConst;
                                 });
@@ -696,71 +720,64 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                   ],
                 ),
                 SizedBox(height: 20),
-                Center(
-                  child: FlatButton(
-                    color: Colors.indigo[600],
-                    child: Text(
-                      'Update',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: () async {
-                      Map bpListChanger(Map mapItem) {
-                        mapItem['Blast Pot ${widget.bp.num}'] = {
-                          'Assigned num': widget.bp.num,
-                          'used abrasive':
-                              _currUsedAbrasive ?? widget.bp.usedAbrasive,
-                          'used adhesive':
-                              _currUsedAdhesive ?? widget.bp.usedAdhesive,
-                        };
-                        return mapItem;
-                      }
-
-                      await Firestore.instance
-                          .collection('projects')
-                          .document(widget.proj.projID)
-                          .setData({
-                        'blast pot': widget.proj.blastPot,
-                        'used abrasive weight':
-                            (widget.proj.abrasiveUsedWeight +
-                                ((_currUsedAbrasive ??
-                                        widget.proj.abrasiveUsedWeight) -
-                                    widget.bp.usedAbrasive)),
-                        'total abrasive weight':
-                            widget.proj.abrasiveTotalWeight,
-                        'used adhesive litres':
-                            (widget.proj.adhesiveUsedLitre +
-                                ((_currUsedAdhesive ??
-                                        widget.proj.adhesiveUsedLitre) -
-                                    widget.bp.usedAdhesive)),
-                        'total adhesive litres':
-                            widget.proj.adhesiveTotalLitre,
-                        'used paint litres': widget.bp.usedPaint,
-                        'total paint litres': widget.proj.paintTotalLitre,
-                        'ID': widget.proj.projID,
-                        'name': widget.proj.projname,
-                        'location': widget.proj.location,
-                        'completion': widget.proj.completion,
-                        'budget': widget.proj.budget,
-                        'spent budget': widget.proj.spentBudget,
-                        'adhesive price': widget.proj.adhesivePrice,
-                        'abrasive price': widget.proj.abrasivePrice,
-                        'paint price': widget.proj.paintPrice,
-                        'total area needed blasting':
-                            widget.proj.totalSurfaceAreaB,
-                        'blasted area': widget.proj.blastedArea,
-                        'total area needed painting':
-                            widget.proj.totalSurfaceAreaP,
-                        'painted area': widget.proj.paintedArea,
-                        'users assigned': widget.proj.userAssigned,
-                        'blast pot list':
-                            bpListChanger(widget.proj.blastPotList),
-                        'budget list': widget.proj.budgetList,
-                        'progresses tracked': widget.proj.progressesTracked,
-                        'Date Created': widget.proj.date,
-                      });
-                      Navigator.pop(context);
-                    },
+                FlatButton(
+                  color: Colors.indigo[600],
+                  child: Text(
+                    'Update',
+                    style: TextStyle(color: Colors.white),
                   ),
+                  onPressed: () async {
+                    Map bpListChanger(Map mapItem) {
+                      mapItem['Blast Pot ${widget.bp.num}'] = {
+                        'Assigned num': widget.bp.num,
+                        'used abrasive':
+                            _currUsedAbrasive ?? widget.bp.usedAbrasive,
+                        'used adhesive':
+                            _currUsedAdhesive ?? widget.bp.usedAdhesive,
+                      };
+                      return mapItem;
+                    }
+
+                    await Firestore.instance
+                        .collection('projects')
+                        .document(widget.proj.projID)
+                        .setData({
+                      'blast pot': widget.proj.blastPot,
+                      'used abrasive weight': (widget.proj.abrasiveUsedWeight +
+                          ((_currUsedAbrasive ??
+                                  widget.proj.abrasiveUsedWeight) -
+                              widget.bp.usedAbrasive)),
+                      'total abrasive weight': widget.proj.abrasiveTotalWeight,
+                      'used adhesive litres': (widget.proj.adhesiveUsedLitre +
+                          ((_currUsedAdhesive ??
+                                  widget.proj.adhesiveUsedLitre) -
+                              widget.bp.usedAdhesive)),
+                      'total adhesive litres': widget.proj.adhesiveTotalLitre,
+                      'used paint litres': widget.bp.usedPaint,
+                      'total paint litres': widget.proj.paintTotalLitre,
+                      'ID': widget.proj.projID,
+                      'name': widget.proj.projname,
+                      'location': widget.proj.location,
+                      'completion': widget.proj.completion,
+                      'budget': widget.proj.budget,
+                      'spent budget': widget.proj.spentBudget,
+                      'adhesive price': widget.proj.adhesivePrice,
+                      'abrasive price': widget.proj.abrasivePrice,
+                      'paint price': widget.proj.paintPrice,
+                      'total area needed blasting':
+                          widget.proj.totalSurfaceAreaB,
+                      'blasted area': widget.proj.blastedArea,
+                      'total area needed painting':
+                          widget.proj.totalSurfaceAreaP,
+                      'painted area': widget.proj.paintedArea,
+                      'users assigned': widget.proj.userAssigned,
+                      'blast pot list': bpListChanger(widget.proj.blastPotList),
+                      'budget list': widget.proj.budgetList,
+                      'progresses tracked': widget.proj.progressesTracked,
+                      'Date Created': widget.proj.date,
+                    });
+                    Navigator.pop(context);
+                  },
                 ),
               ],
             ),
