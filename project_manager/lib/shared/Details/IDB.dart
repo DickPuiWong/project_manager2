@@ -449,6 +449,7 @@ class _DataRowSettingState extends State<DataRowSetting> {
                       'painted area': widget.project.paintedArea,
                       'users assigned': widget.project.userAssigned,
                       'blast pot list': widget.project.blastPotList,
+                      'progresses tracked': widget.project.progressesTracked,
                       'budget list': listChanger(),
                       'Date Created': widget.project.date,
                     });
