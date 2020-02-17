@@ -3,7 +3,6 @@
 // Import : none
 // Export : none
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/user.dart';
 import 'package:provider/provider.dart';
@@ -14,18 +13,18 @@ import 'package:project_manager/services/auth.dart';
 class StartUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // The is a Column inside the Scaffold
+// The is a Column inside the Scaffold
     return Scaffold(
       backgroundColor: Colors.blue[900],
 
-      // This Column() has 2 Containers and a Row.
+// This Column() has 2 Containers and a Row.
       body: Column(
         children: <Widget>[
           Padding(
             padding:
                 const EdgeInsets.symmetric(vertical: 0.0, horizontal: 80.0),
 
-            //This Container will display the company's logo in png form
+//This Container will display the company's logo in png form
             child: Container(
               child: Image(
                 image: AssetImage('assets/waterworthlogowhite.png'),
@@ -35,7 +34,7 @@ class StartUp extends StatelessWidget {
             ),
           ),
 
-          // This Container will display the greeting messages
+// This Container will display the greeting messages
           Container(
             child: Text(
               '             Hi There!\n'
@@ -47,67 +46,68 @@ class StartUp extends StatelessWidget {
             height: 50,
           ),
 
-          //This Row() contains 2 FlatButton()
+//This Row() contains 2 FlatButton()
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 70.0),
 
-              SizedBox(
-                width: 10,
-              ),
-              FlatButton(
-                onPressed: () async {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => StreamProvider<User>.value(
-                          value: AuthService().user,
-                          child: Wrapper(
-                            choice: false,
-                          ))));
-                },
+//This FlatButton will navigate the user to Wrapper() when pressed and it also will carry the user data for AuthService() and variable choice = false
+                child: FlatButton(
+                  onPressed: () async {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => StreamProvider<User>.value(
+                            value: AuthService().user,
+                            child: Wrapper(
+                              choice: false,
+                            ))));
+                  },
 
-                //The name of the FlatButton will be Register displayed in Card widget
-                child: Card(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 12.0),
-                    child: Text(
-                      'Register',
-                      style: TextStyle(color: Colors.blue[900], fontSize: 20),
+//The name of the FlatButton will be Register displayed in Card widget
+                  child: Card(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 12.0),
+                      child: Text(
+                        'Register',
+                        style: TextStyle(color: Colors.blue[900], fontSize: 20),
+                      ),
                     ),
                   ),
                 ),
               ),
-              FlatButton(
-                onPressed: () async {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => StreamProvider<User>.value(
-                          value: AuthService().user,
-                          child: Wrapper(
-                            choice: true,
-                          ))));
-                },
-
-                //The name of the FlatButton will be Login displayed in Card widget
-                child: Card(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 20.0),
-                      child: Text(
-                        'Login',
-                        style: TextStyle(color: Colors.blue[900], fontSize: 20),
-                      ),
-                    ),),
-              ));
-                        style:
-                            TextStyle(color: Colors.blue[900], fontSize: 20),
-                      ),
-                    ]));),
-              ),
               SizedBox(
                 width: 10,
               ),
+              Padding(
+                padding: const EdgeInsets.only(right: 0.0),
+
+//This FlatButton will navigate the user to Wrapper() when pressed and it also will carry the user data for AuthService() and variable choice = true
+                child: FlatButton(
+                  onPressed: () async {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => StreamProvider<User>.value(
+                            value: AuthService().user,
+                            child: Wrapper(
+                              choice: true,
+                            ))));
+                  },
+
+//The name of the FlatButton will be Login displayed in Card widget
+                  child: Card(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 20.0),
+                        child: Text(
+                          'Login',
+                          style:
+                              TextStyle(color: Colors.blue[900], fontSize: 20),
+                        ),
+                      )),
+                ),
+              )
             ],
           )
         ],
