@@ -219,22 +219,6 @@ class _PDExtendState extends State<PDExtend> {
                             ),
                           ),
                         ),
-//                        Container(
-//                          height: 150,
-//                          width: 150,
-//                          child: CircularProgressIndicator(
-//                            strokeWidth: 12,
-//                            value: ((findPercent())),
-//                            (((project.paintedArea /
-//                                        project.totalSurfaceAreaP) +
-//                                    (project.blastedArea /
-//                                        project.totalSurfaceAreaB)) /
-//                                2),
-//                            backgroundColor: Colors.redAccent,
-//                            valueColor: AlwaysStoppedAnimation<Color>(
-//                                Colors.lightGreenAccent),
-//                          ),
-//                        ),
                       ),
                       SizedBox(
                         height: 20,
@@ -303,18 +287,30 @@ class _PDExtendState extends State<PDExtend> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            height: 150,
-                            width: 150,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 12,
-                              value: (((project.paintedArea /
-                                          project.totalSurfaceAreaP) +
-                                      (project.blastedArea /
-                                          project.totalSurfaceAreaB)) /
-                                  2),
-                              backgroundColor: Colors.redAccent,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.lightGreenAccent),
+                            height: 240,
+                            width: 240,
+                            child: Stack(
+                              children: <Widget>[
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    '${((project.spentBudget / project.budget) * 100).toInt()}%',
+                                    style: TextStyle(fontSize: 50),
+                                  ),
+                                ),
+                                Container(
+                                  height: 240,
+                                  width: 240,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 12,
+                                    value:
+                                        (project.spentBudget / project.budget),
+                                    backgroundColor: Colors.redAccent,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.lightGreenAccent),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
