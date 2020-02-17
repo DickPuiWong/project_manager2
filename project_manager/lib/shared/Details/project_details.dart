@@ -58,7 +58,7 @@ class _PDExtendState extends State<PDExtend> {
     //declare and initialise the object project and assigned it to the provider of Project() class contexts
     final project = Provider.of<Project>(context);
 
-    double findPercent() {
+    double findPercent1() {
       double percent;
       double _totalDone = 0, _totalOverall = 0;
       for (int i = 0; i < project.progressesTracked.length; i++) {
@@ -67,6 +67,15 @@ class _PDExtendState extends State<PDExtend> {
       }
       percent = _totalDone / _totalOverall;
       if (_totalDone == 0 && _totalOverall == 0) {
+        percent = 0;
+      }
+      return percent;
+    }
+
+    double findPercent2() {
+      double percent;
+      percent = project.spentBudget / project.budget;
+      if (project.spentBudget == 0 && project.budget == 0) {
         percent = 0;
       }
       return percent;
@@ -188,12 +197,7 @@ class _PDExtendState extends State<PDExtend> {
                           width: 150,
                           child: CircularProgressIndicator(
                             strokeWidth: 12,
-                            value: ((findPercent())),
-//                            (((project.paintedArea /
-//                                        project.totalSurfaceAreaP) +
-//                                    (project.blastedArea /
-//                                        project.totalSurfaceAreaB)) /
-//                                2),
+                            value: findPercent1(),
                             backgroundColor: Colors.redAccent,
                             valueColor: AlwaysStoppedAnimation<Color>(
                                 Colors.lightGreenAccent),
@@ -221,7 +225,7 @@ class _PDExtendState extends State<PDExtend> {
                                 children: [
                                   TextSpan(
                                     text:
-                                    ' ${(findPercent() * 100).toInt()}%\n',
+                                    ' ${(findPercent1() * 100).toInt()}%\n',
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 35,
@@ -272,7 +276,7 @@ class _PDExtendState extends State<PDExtend> {
                             width: 150,
                             child: CircularProgressIndicator(
                               strokeWidth: 12,
-                              value: (project.spentBudget/project.budget),
+                              value: findPercent2(),
                               backgroundColor: Colors.redAccent,
                               valueColor: AlwaysStoppedAnimation<Color>(
                                   Colors.lightGreenAccent),
