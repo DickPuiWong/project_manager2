@@ -155,18 +155,6 @@ class _IDPState extends State<IDP> {
                       Navigator.pop(context);
                     },
                   ),
-//                  IconButton(
-//                    icon: Icon(Icons.edit),
-//                    onPressed: () async {
-//                      await Navigator.push(
-//                        context,
-//                        MaterialPageRoute(
-//                          builder: (BuildContext context) =>
-//                              IDPSettings(proj: project),
-//                        ),
-//                      );
-//                    },
-//                  ),
                 ],
               ),
             ),
