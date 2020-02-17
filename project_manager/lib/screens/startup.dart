@@ -51,6 +51,12 @@ class StartUp extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
+<<<<<<< HEAD
+=======
+              SizedBox(
+                width: 10,
+              ),
+>>>>>>> master
               FlatButton(
                 onPressed: () async {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -92,10 +98,21 @@ class StartUp extends StatelessWidget {
                           vertical: 8.0, horizontal: 20.0),
                       child: Text(
                         'Login',
+<<<<<<< HEAD
                         style: TextStyle(color: Colors.blue[900], fontSize: 20),
                       ),
                     )),
               )
+=======
+                        style:
+                            TextStyle(color: Colors.blue[900], fontSize: 20),
+                      ),
+                    )),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+>>>>>>> master
             ],
           )
         ],
