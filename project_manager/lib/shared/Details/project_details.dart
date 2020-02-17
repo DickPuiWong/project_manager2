@@ -305,11 +305,11 @@ class _PDExtendState extends State<PDExtend> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: ListTile(
-                      leading: Container(
-                        color: Colors.lightGreenAccent,
-                        height: 45,
-                        width: 45,
-                      ),
+//                      leading: Container(
+//                        color: Colors.lightGreenAccent,
+//                        height: 45,
+//                        width: 45,
+//                      ),
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
