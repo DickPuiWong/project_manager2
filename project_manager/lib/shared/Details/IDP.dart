@@ -28,9 +28,14 @@ class IDP extends StatefulWidget {
 }
 
 class _IDPState extends State<IDP> {
+  List<bool> selectedRowList = [];
+  bool wtd = false;
+  int selected = 0;
+
   @override
   Widget build(BuildContext context) {
     final project = Provider.of<Project>(context);
+<<<<<<< HEAD
     List<DataRow> dataRowList = [];
     List<bool> dataRowSelected = [];
 
@@ -122,6 +127,127 @@ class _IDPState extends State<IDP> {
           ],
         ),
       );
+=======
+
+    double errorAvoider(double one, double two) {
+      double x;
+      if (two == 0) {
+        x = 0;
+      } else {
+        x = one / two;
+      }
+      return x;
+    }
+
+    void setSelected(bool a, int index) async {
+      setState(() {
+        if (a == true) {
+          selectedRowList[index] = true;
+          selected++;
+        } else {
+          selectedRowList[index] = false;
+          selected--;
+        }
+      });
+    }
+
+    Function showCheckBox(int num) {
+      Function functionX;
+      if (wtd == true) {
+        functionX = ((x) {
+          setSelected(x, num);
+        });
+      }
+      return functionX;
+    }
+
+    List<DataRow> generatorX() {
+      List<DataRow> dataRowList = [];
+      for (int i = 0; i < project.progressesTracked.length; i++) {
+        ProgressType temp = new ProgressType(
+          name: project.progressesTracked['pt${i + 1}']['name'] ?? 'error',
+          done:
+              project.progressesTracked['pt${i + 1}']['done'].toDouble() ?? 0.0,
+          total: project.progressesTracked['pt${i + 1}']['total'].toDouble() ??
+              0.0,
+        );
+        if (selectedRowList.length < project.progressesTracked.length) {
+          selectedRowList.add(false);
+        }
+        dataRowList.add(
+          DataRow(
+            selected: selectedRowList[i],
+            onSelectChanged: showCheckBox(i),
+            cells: [
+              DataCell(
+                Text(project.progressesTracked['pt${i + 1}']['name']),
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return IDPRowSetting(
+                        num: (i + 1),
+                        project: project,
+                        pt: temp,
+                      );
+                    },
+                  );
+                },
+              ),
+              DataCell(
+                Text(
+                    '${((errorAvoider(project.progressesTracked['pt${i + 1}']['done'], project.progressesTracked['pt${i + 1}']['total']) * 100)).toInt()}'),
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return IDPRowSetting(
+                        num: (i + 1),
+                        project: project,
+                        pt: temp,
+                      );
+                    },
+                  );
+                },
+              ),
+              DataCell(
+                Text(
+                    '${project.progressesTracked['pt${i + 1}']['done'].toStringAsFixed(1)}'),
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return IDPRowSetting(
+                        num: (i + 1),
+                        project: project,
+                        pt: temp,
+                      );
+                    },
+                  );
+                },
+              ),
+              DataCell(
+                Text(
+                    '${project.progressesTracked['pt${i + 1}']['total'].toStringAsFixed(1)}'),
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return IDPRowSetting(
+                        num: (i + 1),
+                        project: project,
+                        pt: temp,
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      }
+      return dataRowList;
+>>>>>>> master
     }
 
     double findPercent() {
@@ -136,6 +262,142 @@ class _IDPState extends State<IDP> {
         percent = 0;
       }
       return percent;
+    }
+
+    Widget bottomButtonsSwitcher() {
+      Widget bottomButtons;
+      if (wtd == false) {
+        bottomButtons = Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            FlatButton(
+              child: Text('Add Field'),
+              onPressed: () async {
+                Map listChanger() {
+                  Map x = project.progressesTracked;
+                  x['pt${project.progressesTracked.length + 1}'] = {
+                    'name': 'filename',
+                    'done': 0.0,
+                    'total': 0.0,
+                  };
+                  return x;
+                }
+
+                await Firestore.instance
+                    .collection('projects')
+                    .document(project.projID)
+                    .setData({
+                  'blast pot': project.blastPot,
+                  'used abrasive weight': project.abrasiveUsedWeight,
+                  'total abrasive weight': project.abrasiveTotalWeight,
+                  'used adhesive litres': project.adhesiveUsedLitre,
+                  'total adhesive litres': project.adhesiveTotalLitre,
+                  'used paint litres': project.paintUsedLitre,
+                  'total paint litres': project.paintTotalLitre,
+                  'ID': project.projID,
+                  'name': project.projname,
+                  'location': project.location,
+                  'completion': project.completion,
+                  'budget': project.budget,
+                  'spent budget': project.spentBudget,
+                  'adhesive price': project.adhesivePrice,
+                  'abrasive price': project.abrasivePrice,
+                  'paint price': project.paintPrice,
+                  'total area needed blasting': project.totalSurfaceAreaB,
+                  'blasted area': project.blastedArea,
+                  'total area needed painting': project.totalSurfaceAreaP,
+                  'painted area': project.paintedArea,
+                  'users assigned': project.userAssigned,
+                  'blast pot list': project.blastPotList,
+                  'budget list': project.budgetList,
+                  'progresses tracked': listChanger(),
+                  'Date Created': project.date,
+                });
+              },
+            ),
+            FlatButton(
+              child: Text('Manage Delete'),
+              onPressed: () async {
+                setState(() {
+                  wtd = true;
+                });
+              },
+            ),
+          ],
+        );
+      } else {
+        bottomButtons = Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            FlatButton(
+              child: Text('Delete Fields ($selected)'),
+              onPressed: () async {
+                Map listChanger() {
+                  Map x = {};
+                  int a = 1;
+                  for (int i = 0; i < project.progressesTracked.length; i++) {
+                    if (selectedRowList[i] == false) {
+                      x['pt$a'] = {
+                        'name': project.progressesTracked['pt${i + 1}']['name'],
+                        'done': project.progressesTracked['pt${i + 1}']['done'],
+                        'total': project.progressesTracked['pt${i + 1}']
+                            ['total'],
+                      };
+                      a++;
+                    }
+                    selectedRowList[i] = false;
+                  }
+                  return x;
+                }
+                setState(() {
+                  selected = 0;
+                });
+
+                await Firestore.instance
+                    .collection('projects')
+                    .document(project.projID)
+                    .setData({
+                  'blast pot': project.blastPot,
+                  'used abrasive weight': project.abrasiveUsedWeight,
+                  'total abrasive weight': project.abrasiveTotalWeight,
+                  'used adhesive litres': project.adhesiveUsedLitre,
+                  'total adhesive litres': project.adhesiveTotalLitre,
+                  'used paint litres': project.paintUsedLitre,
+                  'total paint litres': project.paintTotalLitre,
+                  'ID': project.projID,
+                  'name': project.projname,
+                  'location': project.location,
+                  'completion': project.completion,
+                  'budget': project.budget,
+                  'spent budget': project.spentBudget,
+                  'adhesive price': project.adhesivePrice,
+                  'abrasive price': project.abrasivePrice,
+                  'paint price': project.paintPrice,
+                  'total area needed blasting': project.totalSurfaceAreaB,
+                  'blasted area': project.blastedArea,
+                  'total area needed painting': project.totalSurfaceAreaP,
+                  'painted area': project.paintedArea,
+                  'users assigned': project.userAssigned,
+                  'blast pot list': project.blastPotList,
+                  'budget list': project.budgetList,
+                  'progresses tracked': listChanger(),
+                  'Date Created': project.date,
+                });
+              },
+            ),
+            FlatButton(
+              child: Text('Cancel'),
+              onPressed: () async {
+                setState(() {
+                  wtd = false;
+                  selected = 0;
+                });
+              },
+            ),
+          ],
+        );
+      }
+      return bottomButtons;
     }
 
     return SafeArea(
@@ -155,6 +417,10 @@ class _IDPState extends State<IDP> {
                       Navigator.pop(context);
                     },
                   ),
+<<<<<<< HEAD
+=======
+                  SizedBox(width: 5),
+>>>>>>> master
                 ],
               ),
             ),
@@ -206,7 +472,7 @@ class _IDPState extends State<IDP> {
                           DataColumn(label: Text('Done(m²)'), numeric: true),
                           DataColumn(label: Text('Total(m²)'), numeric: true),
                         ],
-                        rows: dataRowList,
+                        rows: generatorX(),
                       ),
                     ),
                   ),
@@ -216,6 +482,7 @@ class _IDPState extends State<IDP> {
           ],
         ),
         bottomNavigationBar: BottomAppBar(
+<<<<<<< HEAD
           color: Colors.blue[100],
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -271,6 +538,120 @@ class _IDPState extends State<IDP> {
               ),
             ],
           ),
+=======
+          color: Colors.indigo[100],
+          child: bottomButtonsSwitcher(),
+//          Row(
+//            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//            children: <Widget>[
+//              FlatButton(
+//                child: Text('Add Field'),
+//                onPressed: () async {
+//                  Map listChanger() {
+//                    Map x = project.progressesTracked;
+//                    x['pt${project.progressesTracked.length + 1}'] = {
+//                      'name': 'filename',
+//                      'done': 0.0,
+//                      'total': 0.0,
+//                    };
+//                    return x;
+//                  }
+//
+//                  await Firestore.instance
+//                      .collection('projects')
+//                      .document(project.projID)
+//                      .setData({
+//                    'blast pot': project.blastPot,
+//                    'used abrasive weight': project.abrasiveUsedWeight,
+//                    'total abrasive weight': project.abrasiveTotalWeight,
+//                    'used adhesive litres': project.adhesiveUsedLitre,
+//                    'total adhesive litres': project.adhesiveTotalLitre,
+//                    'used paint litres': project.paintUsedLitre,
+//                    'total paint litres': project.paintTotalLitre,
+//                    'ID': project.projID,
+//                    'name': project.projname,
+//                    'location': project.location,
+//                    'completion': project.completion,
+//                    'budget': project.budget,
+//                    'spent budget': project.spentBudget,
+//                    'adhesive price': project.adhesivePrice,
+//                    'abrasive price': project.abrasivePrice,
+//                    'paint price': project.paintPrice,
+//                    'total area needed blasting': project.totalSurfaceAreaB,
+//                    'blasted area': project.blastedArea,
+//                    'total area needed painting': project.totalSurfaceAreaP,
+//                    'painted area': project.paintedArea,
+//                    'users assigned': project.userAssigned,
+//                    'blast pot list': project.blastPotList,
+//                    'budget list': project.budgetList,
+//                    'progresses tracked': listChanger(),
+//                    'Date Created': project.date,
+//                  });
+//                },
+//              ),
+//              FlatButton(
+//                child: Text('Delete Field'),
+//                onPressed: () async {
+//                  setState(() {
+//                    wtd = !wtd;
+//                  });
+////                  Map listChanger() {
+////                    Map x = {};
+////                    int a = 1;
+////                    print('after ${selectedRowList.length}');
+////                    for (int i = 0; i < project.progressesTracked.length; i++) {
+////                      if (selectedRowList[i] == false) {
+////                        x['pt$a'] = {
+////                          'name': project.progressesTracked['pt${i + 1}']
+////                              ['name'],
+////                          'done': project.progressesTracked['pt${i + 1}']
+////                              ['done'],
+////                          'total': project.progressesTracked['pt${i + 1}']
+////                              ['total'],
+////                        };
+////                        a++;
+////                      }
+////                      selectedRowList[i] = false;
+////                    }
+////                    print('after ${selectedRowList.length}');
+////                    return x;
+////                  }
+////
+////                  await Firestore.instance
+////                      .collection('projects')
+////                      .document(project.projID)
+////                      .setData({
+////                    'blast pot': project.blastPot,
+////                    'used abrasive weight': project.abrasiveUsedWeight,
+////                    'total abrasive weight': project.abrasiveTotalWeight,
+////                    'used adhesive litres': project.adhesiveUsedLitre,
+////                    'total adhesive litres': project.adhesiveTotalLitre,
+////                    'used paint litres': project.paintUsedLitre,
+////                    'total paint litres': project.paintTotalLitre,
+////                    'ID': project.projID,
+////                    'name': project.projname,
+////                    'location': project.location,
+////                    'completion': project.completion,
+////                    'budget': project.budget,
+////                    'spent budget': project.spentBudget,
+////                    'adhesive price': project.adhesivePrice,
+////                    'abrasive price': project.abrasivePrice,
+////                    'paint price': project.paintPrice,
+////                    'total area needed blasting': project.totalSurfaceAreaB,
+////                    'blasted area': project.blastedArea,
+////                    'total area needed painting': project.totalSurfaceAreaP,
+////                    'painted area': project.paintedArea,
+////                    'users assigned': project.userAssigned,
+////                    'blast pot list': project.blastPotList,
+////                    'budget list': project.budgetList,
+////                    'progresses tracked': listChanger(),
+////                    'Date Created': project.date,
+////                  });
+//                },
+//              ),
+//            ],
+//          ),
+>>>>>>> master
         ),
       ),
     );
@@ -326,19 +707,30 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                           decoration: InputDecoration(
                             labelText: 'Name',
                             labelStyle: TextStyle(
+<<<<<<< HEAD
                                 color: Colors.blue[600],
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold),
+=======
+                                fontSize: 20, fontWeight: FontWeight.bold),
+>>>>>>> master
                             hintText: 'name here',
                             isDense: true,
                             fillColor: Colors.white,
                             filled: true,
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
+<<<<<<< HEAD
                                     color: Colors.blue[50], width: 2.0)),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.blue[900], width: 2.0)),
+=======
+                                    color: Colors.indigo[50], width: 2.0)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[900], width: 2.0)),
+>>>>>>> master
                           ),
                           validator: (val) =>
                               (val.isEmpty ? 'Enter fieldname' : null),
@@ -704,6 +1096,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
     );
   }
 }
+<<<<<<< HEAD
 
 //class IDPSettings extends StatefulWidget {
 //  final Project proj;
@@ -853,3 +1246,5 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
 //    );
 //  }
 //}
+=======
+>>>>>>> master
