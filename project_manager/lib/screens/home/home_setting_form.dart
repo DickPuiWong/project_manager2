@@ -114,7 +114,7 @@ class _HSFState extends State<HSF> {
                       'name': 'Dummy Project',
                       'location': 'Harbor 1',
                       'completion': 0.0,
-                      'budget': 1000.0,
+                      'budget': 0.0,
                       'spent budget': 0.00,
                       'total adhesive litres': 1000,
                       'used adhesive litres': 0.0,
