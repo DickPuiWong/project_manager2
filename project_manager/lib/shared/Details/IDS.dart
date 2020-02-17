@@ -340,6 +340,10 @@ class _AssignSheetState extends State<AssignSheet> {
                         'blast pot': widget.project.blastPot,
                         'blast pot list': widget.project.blastPotList,
                         'budget list': widget.project.budgetList,
+<<<<<<< HEAD
+=======
+                        'progresses tracked': widget.project.progressesTracked,
+>>>>>>> master
                         'Date Created': widget.project.date,
                       });
                       await Firestore.instance
@@ -465,6 +469,8 @@ class _UnassignSheetState extends State<UnassignSheet> {
                             unassignToListP(widget.project.userAssigned),
                         'blast pot': widget.project.blastPot,
                         'blast pot list': widget.project.blastPotList,
+                        'budget list': widget.project.budgetList,
+                        'progresses tracked': widget.project.progressesTracked,
                         'Date Created': widget.project.date,
                       });
                       await Firestore.instance
