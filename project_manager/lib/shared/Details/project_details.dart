@@ -74,8 +74,13 @@ class _PDExtendState extends State<PDExtend> {
 
     double findPercent2() {
       double percent;
-      percent = project.spentBudget / project.budget;
-      if (project.spentBudget == 0 && project.budget == 0) {
+      double _totalDone = 0, _totalOverall = 0;
+      for (int i = 0; i < project.budgetList.length; i++) {
+        _totalDone += project.budgetList['bt${i + 1}']['spent'];
+        _totalOverall += project.budgetList['bt${i + 1}']['estimate'];
+      }
+      percent = _totalDone / _totalOverall;
+      if (_totalDone == 0 && _totalOverall == 0) {
         percent = 0;
       }
       return percent;
