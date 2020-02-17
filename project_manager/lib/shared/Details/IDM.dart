@@ -620,6 +620,8 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                             'users assigned': widget.proj.userAssigned,
                             'blast pot list':
                                 bpListChanger(widget.proj.blastPotList),
+                            'budget list': widget.proj.budgetList,
+                            'progresses tracked': widget.proj.progressesTracked,
                             'Date Created': widget.proj.date,
                           });
                           Navigator.pop(context);
@@ -749,6 +751,8 @@ class _IDMSettingsState extends State<IDMSettings> {
                               widget.proj.totalSurfaceAreaP,
                           'painted area': widget.proj.paintedArea,
                           'users assigned': widget.proj.userAssigned,
+                          'budget list': widget.proj.budgetList,
+                          'progresses tracked': widget.proj.progressesTracked,
                           'Date Created': widget.proj.date,
                         });
                         print(new DateTime.fromMillisecondsSinceEpoch(
