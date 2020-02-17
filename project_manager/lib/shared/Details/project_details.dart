@@ -1,3 +1,7 @@
+// Name : project_details.dart
+// Purpose : to show the users all the details of the projects
+// Function : This page will display all the details of the project
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
@@ -58,11 +62,7 @@ class _PDExtendState extends State<PDExtend> {
     //declare and initialise the object project and assigned it to the provider of Project() class contexts
     final project = Provider.of<Project>(context);
 
-<<<<<<< HEAD
     double findPercent() {
-=======
-    double findPercent1() {
->>>>>>> master
       double percent;
       double _totalDone = 0, _totalOverall = 0;
       for (int i = 0; i < project.progressesTracked.length; i++) {
@@ -76,23 +76,6 @@ class _PDExtendState extends State<PDExtend> {
       return percent;
     }
 
-<<<<<<< HEAD
-=======
-    double findPercent2() {
-      double percent;
-      double _totalDone = 0, _totalOverall = 0;
-      for (int i = 0; i < project.budgetList.length; i++) {
-        _totalDone += project.budgetList['bt${i + 1}']['spent'];
-        _totalOverall += project.budgetList['bt${i + 1}']['estimate'];
-      }
-      percent = _totalDone / _totalOverall;
-      if (_totalDone == 0 && _totalOverall == 0) {
-        percent = 0;
-      }
-      return percent;
-    }
-
->>>>>>> master
     //return the Column widget
     return Padding(
       padding: EdgeInsets.fromLTRB(5, 25, 5, 30),
@@ -205,7 +188,6 @@ class _PDExtendState extends State<PDExtend> {
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Container(
-<<<<<<< HEAD
                           padding: EdgeInsets.symmetric(vertical: 15),
                           color: Colors.white,
                           child: Center(
@@ -235,18 +217,24 @@ class _PDExtendState extends State<PDExtend> {
                                 ],
                               ),
                             ),
-=======
-                          height: 150,
-                          width: 150,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 12,
-                            value: findPercent1(),
-                            backgroundColor: Colors.redAccent,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.lightGreenAccent),
->>>>>>> master
                           ),
                         ),
+//                        Container(
+//                          height: 150,
+//                          width: 150,
+//                          child: CircularProgressIndicator(
+//                            strokeWidth: 12,
+//                            value: ((findPercent())),
+//                            (((project.paintedArea /
+//                                        project.totalSurfaceAreaP) +
+//                                    (project.blastedArea /
+//                                        project.totalSurfaceAreaB)) /
+//                                2),
+//                            backgroundColor: Colors.redAccent,
+//                            valueColor: AlwaysStoppedAnimation<Color>(
+//                                Colors.lightGreenAccent),
+//                          ),
+//                        ),
                       ),
                       SizedBox(
                         height: 20,
@@ -268,12 +256,7 @@ class _PDExtendState extends State<PDExtend> {
                                     fontSize: 20, color: Colors.black),
                                 children: [
                                   TextSpan(
-<<<<<<< HEAD
                                     text: ' ${(findPercent() * 100).toInt()}%',
-=======
-                                    text:
-                                    ' ${(findPercent1() * 100).toInt()}%\n',
->>>>>>> master
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 35,
@@ -320,41 +303,18 @@ class _PDExtendState extends State<PDExtend> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-<<<<<<< HEAD
-                            height: 240,
-                            width: 240,
-                            child: Stack(
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    '${((project.spentBudget / project.budget) * 100).toInt()}%',
-                                    style: TextStyle(fontSize: 50),
-                                  ),
-                                ),
-                                Container(
-                                  height: 240,
-                                  width: 240,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 12,
-                                    value:
-                                        (project.spentBudget / project.budget),
-                                    backgroundColor: Colors.redAccent,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Colors.lightGreenAccent),
-                                  ),
-                                ),
-                              ],
-=======
                             height: 150,
                             width: 150,
                             child: CircularProgressIndicator(
                               strokeWidth: 12,
-                              value: findPercent2(),
+                              value: (((project.paintedArea /
+                                          project.totalSurfaceAreaP) +
+                                      (project.blastedArea /
+                                          project.totalSurfaceAreaB)) /
+                                  2),
                               backgroundColor: Colors.redAccent,
                               valueColor: AlwaysStoppedAnimation<Color>(
                                   Colors.lightGreenAccent),
->>>>>>> master
                             ),
                           ),
                         ),
@@ -376,14 +336,11 @@ class _PDExtendState extends State<PDExtend> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: ListTile(
-<<<<<<< HEAD
 //                      leading: Container(
 //                        color: Colors.lightGreenAccent,
 //                        height: 45,
 //                        width: 45,
 //                      ),
-=======
->>>>>>> master
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -398,7 +355,7 @@ class _PDExtendState extends State<PDExtend> {
                                     TextSpan(text: 'Spent :RM '),
                                     TextSpan(
                                       text:
-                                      '${project.spentBudget.toStringAsFixed(2)}',
+                                          '${project.spentBudget.toStringAsFixed(2)}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -414,7 +371,7 @@ class _PDExtendState extends State<PDExtend> {
                                     TextSpan(text: 'Estimated :RM '),
                                     TextSpan(
                                       text:
-                                      '${project.budget.toStringAsFixed(2)}',
+                                          '${project.budget.toStringAsFixed(2)}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -434,8 +391,8 @@ class _PDExtendState extends State<PDExtend> {
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) => IDBWrapper(
-                                    project: project,
-                                  )));
+                                        project: project,
+                                      )));
                         },
                       ),
                     ),
@@ -524,8 +481,8 @@ class _PDExtendState extends State<PDExtend> {
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) => IDMWrapper(
-                                project: project,
-                              )));
+                                    project: project,
+                                  )));
                     },
                   ),
                 ],
