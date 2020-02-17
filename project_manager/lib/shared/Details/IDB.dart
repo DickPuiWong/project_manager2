@@ -171,7 +171,7 @@ class _IDBState extends State<IDB> {
               Container(
                 child: FAProgressBar(
                   borderRadius: 30,
-                  size: 50,
+                  size: 30,
                   currentValue: ((((project.spentBudget ?? 0) /
                               (project.budget ?? 0.0) *
                               100) ??
