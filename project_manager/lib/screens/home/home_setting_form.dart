@@ -1,7 +1,3 @@
-// Name : home_setting_form.dart
-// Purpose : to show the user(admin) the modal bottom sheet
-// Function : This page will display the settings which enable the admin to add/delete the project, edit the details and test
-
 import 'package:flutter/material.dart';
 import 'package:project_manager/screens/home/HSF_extends/add_project.dart';
 import 'package:project_manager/screens/home/HSF_extends/delete_project.dart';
@@ -118,7 +114,7 @@ class _HSFState extends State<HSF> {
                       'name': 'Dummy Project',
                       'location': 'Harbor 1',
                       'completion': 0.0,
-                      'budget': 1000.0,
+                      'budget': 0.0,
                       'spent budget': 0.00,
                       'total adhesive litres': 1000,
                       'used adhesive litres': 0.0,
