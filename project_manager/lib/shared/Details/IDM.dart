@@ -35,9 +35,9 @@ class _IDMState extends State<IDM> {
     BlastPot bpMaker(Map item, int i) {
       return BlastPot(
         num: item['Blast Pot ${i + 1}']['Assigned num'],
-        usedAbrasive: item['Blast Pot ${i + 1}']['used abrasive'],
-        usedAdhesive: item['Blast Pot ${i + 1}']['used adhesive'],
-        usedHours: item['Blast Pot ${i + 1}']['used paint'],
+        usedAbrasive: item['Blast Pot ${i + 1}']['used abrasive'].toDouble(),
+        usedAdhesive: item['Blast Pot ${i + 1}']['used adhesive'].toDouble(),
+        usedHours: item['Blast Pot ${i + 1}']['used hours'].toDouble(),
       );
     }
 
@@ -383,7 +383,8 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
   double _abraConst = 25;
   double _currUsedAdhesive;
   double _adheConst = 10;
-  double 
+  double _currHours;
+  double _hrsConst = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -721,6 +722,151 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                   ],
                 ),
                 SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    'Hours',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Flexible(
+                      flex: 3,
+                      child: Stack(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.indigo[50],
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(3.5),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 14, horizontal: 12),
+                                  child: Text(
+                                      (_currHours ?? widget.bp.usedHours)
+                                          .toStringAsFixed(1)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            left: 12,
+                            child: Container(
+                              padding: EdgeInsets.fromLTRB(2, 0, 4, 0),
+                              color: Colors.white,
+                              child: Text(
+                                'Used(L)',
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Flexible(
+                      flex: 2,
+                      child: Container(
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 14),
+                          keyboardType: TextInputType.number,
+                          initialValue: '$_hrsConst' /*(1).toStringAsFixed(2)*/,
+                          decoration: InputDecoration(
+                            labelText: '+/-',
+                            labelStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                            hintText: 'L',
+                            isDense: true,
+                            fillColor: Colors.white,
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[50], width: 2.0)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[900], width: 2.0)),
+                          ),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter amount' : null),
+                          onChanged: (val) {
+                            _hrsConst = double.tryParse(val);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    ButtonTheme(
+                      minWidth: 45,
+                      child: Tooltip(
+                        message: 'revert to initial value',
+                        child: FlatButton(
+                          child: Icon(Icons.refresh),
+                          onPressed: () {
+                            setState(() {
+                              _currHours = widget.bp.usedHours;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        ButtonTheme(
+                          minWidth: 45,
+                          child: Tooltip(
+                            message: 'add',
+                            child: FlatButton(
+                              child: Icon(Icons.add),
+                              onPressed: () {
+                                _currHours = nullChecker(
+                                    _currHours, widget.bp.usedHours);
+                                print('$_currHours += $_hrsConst');
+                                setState(() {
+                                  _currHours += _hrsConst;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        ButtonTheme(
+                          minWidth: 45,
+                          child: Tooltip(
+                            message: 'subtract',
+                            child: FlatButton(
+                              child: Icon(Icons.remove),
+                              onPressed: () {
+                                _currHours = nullChecker(
+                                    _currHours, widget.bp.usedHours);
+                                setState(() {
+                                  _currHours -= _hrsConst;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
                 FlatButton(
                   color: Colors.indigo[600],
                   child: Text(
@@ -735,6 +881,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                             _currUsedAbrasive ?? widget.bp.usedAbrasive,
                         'used adhesive':
                             _currUsedAdhesive ?? widget.bp.usedAdhesive,
+                        'used hours': _currHours ?? widget.bp.usedHours,
                       };
                       return mapItem;
                     }
