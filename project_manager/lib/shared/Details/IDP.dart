@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
 import 'package:project_manager/services/database.dart';
 import 'package:provider/provider.dart';
-import 'package:project_manager/shared/constants.dart';
 
 class IDPWrapper extends StatelessWidget {
   final Project project;
@@ -28,11 +27,13 @@ class IDP extends StatefulWidget {
 }
 
 class _IDPState extends State<IDP> {
+  List<bool> selectedRowList = [];
+  bool wtd = false;
+  int selected = 0;
+
   @override
   Widget build(BuildContext context) {
     final project = Provider.of<Project>(context);
-    List<DataRow> dataRowList = [];
-    List<bool> dataRowSelected = [];
 
     double errorAvoider(double one, double two) {
       double x;
@@ -44,84 +45,114 @@ class _IDPState extends State<IDP> {
       return x;
     }
 
-    for (int i = 0; i < project.progressesTracked.length; i++) {
-      ProgressType temp = new ProgressType(
-        name: project.progressesTracked['pt${i + 1}']['name'] ?? 'error',
-        done: project.progressesTracked['pt${i + 1}']['done'].toDouble() ?? 0.0,
-        total:
-            project.progressesTracked['pt${i + 1}']['total'].toDouble() ?? 0.0,
-      );
-      dataRowList.add(
-        DataRow(
-          selected: false,
-//          onSelectChanged: ,
-          cells: [
-            DataCell(
-              Text(project.progressesTracked['pt${i + 1}']['name']),
-              onTap: () async {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return IDPRowSetting(
-                      num: (i + 1),
-                      project: project,
-                      pt: temp,
-                    );
-                  },
-                );
-              },
-            ),
-            DataCell(
-              Text(
-                  '${((errorAvoider(project.progressesTracked['pt${i + 1}']['done'], project.progressesTracked['pt${i + 1}']['total']) * 100)).toInt()}'),
-              onTap: () async {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return IDPRowSetting(
-                      num: (i + 1),
-                      project: project,
-                      pt: temp,
-                    );
-                  },
-                );
-              },
-            ),
-            DataCell(
-              Text(
-                  '${project.progressesTracked['pt${i + 1}']['done'].toStringAsFixed(1)}'),
-              onTap: () async {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return IDPRowSetting(
-                      num: (i + 1),
-                      project: project,
-                      pt: temp,
-                    );
-                  },
-                );
-              },
-            ),
-            DataCell(
-              Text(
-                  '${project.progressesTracked['pt${i + 1}']['total'].toStringAsFixed(1)}'),
-              onTap: () async {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return IDPRowSetting(
-                      num: (i + 1),
-                      project: project,
-                      pt: temp,
-                    );
-                  },
-                );
-              },
-            ),
-          ],
-        ),
-      );
+    void setSelected(bool a, int index) async {
+      setState(() {
+        if (a == true) {
+          selectedRowList[index] = true;
+          selected++;
+        } else {
+          selectedRowList[index] = false;
+          selected--;
+        }
+      });
+    }
+
+    Function showCheckBox(int num) {
+      Function functionX;
+      if (wtd == true) {
+        functionX = ((x) {
+          setSelected(x, num);
+        });
+      }
+      return functionX;
+    }
+
+    List<DataRow> generatorX() {
+      List<DataRow> dataRowList = [];
+      for (int i = 0; i < project.progressesTracked.length; i++) {
+        ProgressType temp = new ProgressType(
+          name: project.progressesTracked['pt${i + 1}']['name'] ?? 'error',
+          done:
+              project.progressesTracked['pt${i + 1}']['done'].toDouble() ?? 0.0,
+          total: project.progressesTracked['pt${i + 1}']['total'].toDouble() ??
+              0.0,
+        );
+        if (selectedRowList.length < project.progressesTracked.length) {
+          selectedRowList.add(false);
+        }
+        dataRowList.add(
+          DataRow(
+            selected: selectedRowList[i],
+            onSelectChanged: showCheckBox(i),
+            cells: [
+              DataCell(
+                Text(project.progressesTracked['pt${i + 1}']['name']),
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return IDPRowSetting(
+                        num: (i + 1),
+                        project: project,
+                        pt: temp,
+                      );
+                    },
+                  );
+                },
+              ),
+              DataCell(
+                Text(
+                    '${((errorAvoider(project.progressesTracked['pt${i + 1}']['done'], project.progressesTracked['pt${i + 1}']['total']) * 100)).toInt()}'),
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return IDPRowSetting(
+                        num: (i + 1),
+                        project: project,
+                        pt: temp,
+                      );
+                    },
+                  );
+                },
+              ),
+              DataCell(
+                Text(
+                    '${project.progressesTracked['pt${i + 1}']['done'].toStringAsFixed(1)}'),
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return IDPRowSetting(
+                        num: (i + 1),
+                        project: project,
+                        pt: temp,
+                      );
+                    },
+                  );
+                },
+              ),
+              DataCell(
+                Text(
+                    '${project.progressesTracked['pt${i + 1}']['total'].toStringAsFixed(1)}'),
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return IDPRowSetting(
+                        num: (i + 1),
+                        project: project,
+                        pt: temp,
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      }
+      return dataRowList;
     }
 
     double findPercent() {
@@ -136,6 +167,143 @@ class _IDPState extends State<IDP> {
         percent = 0;
       }
       return percent;
+    }
+
+    Widget bottomButtonsSwitcher() {
+      Widget bottomButtons;
+      if (wtd == false) {
+        bottomButtons = Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            FlatButton(
+              child: Text('Add Field'),
+              onPressed: () async {
+                Map listChanger() {
+                  Map x = project.progressesTracked;
+                  x['pt${project.progressesTracked.length + 1}'] = {
+                    'name': 'filename',
+                    'done': 0.0,
+                    'total': 0.0,
+                  };
+                  return x;
+                }
+
+                await Firestore.instance
+                    .collection('projects')
+                    .document(project.projID)
+                    .setData({
+                  'blast pot': project.blastPot,
+                  'used abrasive weight': project.abrasiveUsedWeight,
+                  'total abrasive weight': project.abrasiveTotalWeight,
+                  'used adhesive litres': project.adhesiveUsedLitre,
+                  'total adhesive litres': project.adhesiveTotalLitre,
+                  'used paint litres': project.paintUsedLitre,
+                  'total paint litres': project.paintTotalLitre,
+                  'ID': project.projID,
+                  'name': project.projname,
+                  'location': project.location,
+                  'completion': project.completion,
+                  'budget': project.budget,
+                  'spent budget': project.spentBudget,
+                  'adhesive price': project.adhesivePrice,
+                  'abrasive price': project.abrasivePrice,
+                  'paint price': project.paintPrice,
+                  'total area needed blasting': project.totalSurfaceAreaB,
+                  'blasted area': project.blastedArea,
+                  'total area needed painting': project.totalSurfaceAreaP,
+                  'painted area': project.paintedArea,
+                  'users assigned': project.userAssigned,
+                  'blast pot list': project.blastPotList,
+                  'budget list': project.budgetList,
+                  'progresses tracked': listChanger(),
+                  'Date Created': project.date,
+                });
+              },
+            ),
+            FlatButton(
+              child: Text('Delete Field'),
+              onPressed: () async {
+                setState(() {
+                  wtd = true;
+                });
+              },
+            ),
+          ],
+        );
+      } else {
+        bottomButtons = Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            FlatButton(
+              child: Text('Delete Fields ($selected)'),
+              onPressed: () async {
+                Map listChanger() {
+                  Map x = {};
+                  int a = 1;
+                  for (int i = 0; i < project.progressesTracked.length; i++) {
+                    if (selectedRowList[i] == false) {
+                      x['pt$a'] = {
+                        'name': project.progressesTracked['pt${i + 1}']['name'],
+                        'done': project.progressesTracked['pt${i + 1}']['done'],
+                        'total': project.progressesTracked['pt${i + 1}']
+                            ['total'],
+                      };
+                      a++;
+                    }
+                    selectedRowList[i] = false;
+                  }
+                  return x;
+                }
+
+                setState(() {
+                  selected = 0;
+                });
+
+                await Firestore.instance
+                    .collection('projects')
+                    .document(project.projID)
+                    .setData({
+                  'blast pot': project.blastPot,
+                  'used abrasive weight': project.abrasiveUsedWeight,
+                  'total abrasive weight': project.abrasiveTotalWeight,
+                  'used adhesive litres': project.adhesiveUsedLitre,
+                  'total adhesive litres': project.adhesiveTotalLitre,
+                  'used paint litres': project.paintUsedLitre,
+                  'total paint litres': project.paintTotalLitre,
+                  'ID': project.projID,
+                  'name': project.projname,
+                  'location': project.location,
+                  'completion': project.completion,
+                  'budget': project.budget,
+                  'spent budget': project.spentBudget,
+                  'adhesive price': project.adhesivePrice,
+                  'abrasive price': project.abrasivePrice,
+                  'paint price': project.paintPrice,
+                  'total area needed blasting': project.totalSurfaceAreaB,
+                  'blasted area': project.blastedArea,
+                  'total area needed painting': project.totalSurfaceAreaP,
+                  'painted area': project.paintedArea,
+                  'users assigned': project.userAssigned,
+                  'blast pot list': project.blastPotList,
+                  'budget list': project.budgetList,
+                  'progresses tracked': listChanger(),
+                  'Date Created': project.date,
+                });
+              },
+            ),
+            FlatButton(
+              child: Text('Cancel'),
+              onPressed: () async {
+                setState(() {
+                  wtd = false;
+                  selected = 0;
+                });
+              },
+            ),
+          ],
+        );
+      }
+      return bottomButtons;
     }
 
     return SafeArea(
@@ -155,11 +323,12 @@ class _IDPState extends State<IDP> {
                       Navigator.pop(context);
                     },
                   ),
+                  SizedBox(width: 5),
                 ],
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 15),
+              padding: EdgeInsets.symmetric(vertical: 50),
               color: Colors.blue[50],
               child: Center(
                 child: Container(
@@ -170,8 +339,8 @@ class _IDPState extends State<IDP> {
                       Align(
                         alignment: Alignment.center,
                         child: Text(
-                          '${(findPercent() * 100).toInt()}%',
-                          style: TextStyle(fontSize: 50),
+                          '       ${(findPercent() * 100).toInt()}%\nCompleted',
+                          style: TextStyle(fontSize: 30),
                         ),
                       ),
                       Container(
@@ -206,7 +375,7 @@ class _IDPState extends State<IDP> {
                           DataColumn(label: Text('Done(m²)'), numeric: true),
                           DataColumn(label: Text('Total(m²)'), numeric: true),
                         ],
-                        rows: dataRowList,
+                        rows: generatorX(),
                       ),
                     ),
                   ),
@@ -217,60 +386,7 @@ class _IDPState extends State<IDP> {
         ),
         bottomNavigationBar: BottomAppBar(
           color: Colors.blue[100],
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              FlatButton(
-                child: Text('Add Field'),
-                onPressed: () async {
-                  Map listChanger() {
-                    Map x = project.progressesTracked;
-                    x['pt${project.progressesTracked.length + 1}'] = {
-                      'name': 'filename',
-                      'done': 0.0,
-                      'total': 0.0,
-                    };
-                    return x;
-                  }
-
-                  await Firestore.instance
-                      .collection('projects')
-                      .document(project.projID)
-                      .setData({
-                    'blast pot': project.blastPot,
-                    'used abrasive weight': project.abrasiveUsedWeight,
-                    'total abrasive weight': project.abrasiveTotalWeight,
-                    'used adhesive litres': project.adhesiveUsedLitre,
-                    'total adhesive litres': project.adhesiveTotalLitre,
-                    'used paint litres': project.paintUsedLitre,
-                    'total paint litres': project.paintTotalLitre,
-                    'ID': project.projID,
-                    'name': project.projname,
-                    'location': project.location,
-                    'completion': project.completion,
-                    'budget': project.budget,
-                    'spent budget': project.spentBudget,
-                    'adhesive price': project.adhesivePrice,
-                    'abrasive price': project.abrasivePrice,
-                    'paint price': project.paintPrice,
-                    'total area needed blasting': project.totalSurfaceAreaB,
-                    'blasted area': project.blastedArea,
-                    'total area needed painting': project.totalSurfaceAreaP,
-                    'painted area': project.paintedArea,
-                    'users assigned': project.userAssigned,
-                    'blast pot list': project.blastPotList,
-                    'budget list': project.budgetList,
-                    'progresses tracked': listChanger(),
-                    'Date Created': project.date,
-                  });
-                },
-              ),
-              FlatButton(
-                child: Text('Delete Field'),
-                onPressed: () {},
-              ),
-            ],
-          ),
+          child: bottomButtonsSwitcher(),
         ),
       ),
     );
@@ -326,19 +442,17 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                           decoration: InputDecoration(
                             labelText: 'Name',
                             labelStyle: TextStyle(
-                                color: Colors.blue[600],
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
+                                fontSize: 20, fontWeight: FontWeight.bold),
                             hintText: 'name here',
                             isDense: true,
                             fillColor: Colors.white,
                             filled: true,
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.blue[50], width: 2.0)),
+                                    color: Colors.indigo[50], width: 2.0)),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.blue[900], width: 2.0)),
+                                    color: Colors.indigo[900], width: 2.0)),
                           ),
                           validator: (val) =>
                               (val.isEmpty ? 'Enter fieldname' : null),
@@ -378,7 +492,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                                 Container(
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Colors.blue[50],
+                                      color: Colors.indigo[50],
                                       width: 2,
                                     ),
                                     borderRadius: BorderRadius.circular(3.5),
@@ -399,7 +513,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                               child: Text(
                                 'Done(m²)',
                                 style: TextStyle(
-                                  color: Colors.blue[600],
+                                  color: Colors.grey[600],
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -425,10 +539,10 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                             filled: true,
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.blue[50], width: 2.0)),
+                                    color: Colors.indigo[50], width: 2.0)),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.blue[900], width: 2.0)),
+                                    color: Colors.indigo[900], width: 2.0)),
                           ),
                           validator: (val) =>
                               (val.isEmpty ? 'Enter amount' : null),
@@ -513,7 +627,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                                 Container(
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Colors.blue[50],
+                                      color: Colors.indigo[50],
                                       width: 2,
                                     ),
                                     borderRadius: BorderRadius.circular(3.5),
@@ -534,7 +648,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                               child: Text(
                                 'Total(m²)',
                                 style: TextStyle(
-                                  color: Colors.blue[600],
+                                  color: Colors.grey[600],
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -561,10 +675,10 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                             filled: true,
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.blue[50], width: 2.0)),
+                                    color: Colors.indigo[50], width: 2.0)),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.blue[900], width: 2.0)),
+                                    color: Colors.indigo[900], width: 2.0)),
                           ),
                           validator: (val) =>
                               (val.isEmpty ? 'Enter amount' : null),
@@ -634,7 +748,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                 SizedBox(height: 40),
                 Center(
                   child: RaisedButton.icon(
-                    color: Colors.blue[900],
+                    color: Colors.indigo[900],
                     icon: Icon(
                       Icons.update,
                       color: Colors.white,
