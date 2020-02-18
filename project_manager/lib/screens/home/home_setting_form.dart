@@ -101,6 +101,7 @@ class _HSFState extends State<HSF> {
                       'done': 250.0,
                       'total': 1000.0,
                     };
+                    Map t6 = {'abrasive': 5.0, 'adhesive': 130.0};
 
                     String id = Firestore.instance
                         .collection('projects')
@@ -115,7 +116,7 @@ class _HSFState extends State<HSF> {
                       'location': 'Harbor 1',
                       'total adhesive litres': 1000,
                       'used adhesive litres': 0.0,
-                      'total abrasive weight': 10000.00,
+                      'total abrasive weight': 1000.00,
                       'used abrasive weight': 0,
                       'total paint litres': 5000,
                       'used paint litres': 0,
@@ -126,6 +127,7 @@ class _HSFState extends State<HSF> {
                       'users assigned': [],
                       'project supervisor': ['zac', 2],
                       'blast pot': 3,
+                      'per fill': t6,
                       'blast pot list': t2,
                       'budget list': t4,
                       'progresses tracked': t5,
