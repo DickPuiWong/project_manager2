@@ -25,9 +25,9 @@ class ProjectDetails extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.blue[900],
           title: Text('Project Details'),
-//          actions: <Widget>[
-//            AppbarButtons(),
-//          ],
+          actions: <Widget>[
+            AppbarButtons(),
+          ],
         ),
 
         //the body of this Scaffold will be showing the ListView of the extended details from PDExtend() class
@@ -38,6 +38,38 @@ class ProjectDetails extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class AppbarButtons extends StatefulWidget {
+  @override
+  _AppbarButtonsState createState() => _AppbarButtonsState();
+}
+
+class _AppbarButtonsState extends State<AppbarButtons> {
+  @override
+  Widget build(BuildContext context) {
+    final project = Provider.of<Project>(context);
+    return FlatButton.icon(
+      onPressed: () async {
+//        await Navigator.push(
+//          context,
+//          MaterialPageRoute(
+//            builder: (BuildContext context) => DSP(
+//              proj: project,
+//            ),
+//          ),
+//        );
+      },
+      icon: Icon(
+        Icons.edit,
+        color: Colors.white,
+      ),
+      label: Text(
+        'Edit',
+        style: TextStyle(color: Colors.white),
       ),
     );
   }
