@@ -936,7 +936,7 @@ class _IDMSettingsState extends State<IDMSettings> {
   double _currBlastPotNo;
   double _currTotalAbrasive;
   double _currTotalAdhesive;
-  double _currTotalPaint;
+  double _currTotalHours;
 
   @override
   Widget build(BuildContext context) {
@@ -984,6 +984,10 @@ class _IDMSettingsState extends State<IDMSettings> {
                                 'Assigned num': ii,
                                 'used abrasive': 0.0,
                                 'used adhesive': 0.0,
+<<<<<<< HEAD
+=======
+                                'used hours': 0.0,
+>>>>>>> master
                               };
                             } else {
                               i--;
@@ -1017,7 +1021,7 @@ class _IDMSettingsState extends State<IDMSettings> {
                                       widget.proj.adhesiveTotalLitre),
                           'used paint litres': widget.proj.paintUsedLitre,
                           'total paint litres': widget.proj.paintTotalLitre +
-                              ((_currTotalPaint ??
+                              ((_currTotalHours ??
                                       widget.proj.paintTotalLitre) -
                                   widget.proj.paintTotalLitre),
                           'ID': widget.proj.projID,
@@ -1184,7 +1188,7 @@ class _IDMSettingsState extends State<IDMSettings> {
                                             _currTotalAbrasive -= 250;
                                           });
                                         },
-                                        tooltip: 'Remove a bag(250kg)',
+                                        tooltip: 'Remove a bag(25kg)',
                                       ),
                                     ],
                                   ),
