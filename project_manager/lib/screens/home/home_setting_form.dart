@@ -67,7 +67,7 @@ class _HSFState extends State<HSF> {
                         'Assigned num': y.num,
                         'used abrasive': y.usedAbrasive,
                         'used adhesive': y.usedAdhesive,
-                        'used paint': y.usedPaint
+                        'used hours': y.usedHours
                       };
                     }
 
@@ -79,7 +79,7 @@ class _HSFState extends State<HSF> {
                             num: i + 1,
                             usedAbrasive: 0,
                             usedAdhesive: 0,
-                            usedPaint: 0,
+                            usedHours: 0,
                           ));
                     }
                     Map t4 = {};
@@ -113,18 +113,12 @@ class _HSFState extends State<HSF> {
                       'ID': id,
                       'name': 'Dummy Project',
                       'location': 'Harbor 1',
-                      'completion': 0.0,
-                      'budget': 0.0,
-                      'spent budget': 0.00,
                       'total adhesive litres': 1000,
                       'used adhesive litres': 0.0,
-                      'adhesive price': 42.99,
                       'total abrasive weight': 10000.00,
                       'used abrasive weight': 0,
-                      'abrasive price': 80,
                       'total paint litres': 5000,
                       'used paint litres': 0,
-                      'paint price': 25.00,
                       'total area needed blasting': 1000.0,
                       'blasted area': 500.0,
                       'total area needed painting': 1000.00,
