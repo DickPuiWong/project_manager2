@@ -375,116 +375,6 @@ class _IDPState extends State<IDP> {
         bottomNavigationBar: BottomAppBar(
           color: Colors.indigo[100],
           child: bottomButtonsSwitcher(),
-//          Row(
-//            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//            children: <Widget>[
-//              FlatButton(
-//                child: Text('Add Field'),
-//                onPressed: () async {
-//                  Map listChanger() {
-//                    Map x = project.progressesTracked;
-//                    x['pt${project.progressesTracked.length + 1}'] = {
-//                      'name': 'filename',
-//                      'done': 0.0,
-//                      'total': 0.0,
-//                    };
-//                    return x;
-//                  }
-//
-//                  await Firestore.instance
-//                      .collection('projects')
-//                      .document(project.projID)
-//                      .setData({
-//                    'blast pot': project.blastPot,
-//                    'used abrasive weight': project.abrasiveUsedWeight,
-//                    'total abrasive weight': project.abrasiveTotalWeight,
-//                    'used adhesive litres': project.adhesiveUsedLitre,
-//                    'total adhesive litres': project.adhesiveTotalLitre,
-//                    'used paint litres': project.paintUsedLitre,
-//                    'total paint litres': project.paintTotalLitre,
-//                    'ID': project.projID,
-//                    'name': project.projname,
-//                    'location': project.location,
-//                    'completion': project.completion,
-//                    'budget': project.budget,
-//                    'spent budget': project.spentBudget,
-//                    'adhesive price': project.adhesivePrice,
-//                    'abrasive price': project.abrasivePrice,
-//                    'paint price': project.paintPrice,
-//                    'total area needed blasting': project.totalSurfaceAreaB,
-//                    'blasted area': project.blastedArea,
-//                    'total area needed painting': project.totalSurfaceAreaP,
-//                    'painted area': project.paintedArea,
-//                    'users assigned': project.userAssigned,
-//                    'blast pot list': project.blastPotList,
-//                    'budget list': project.budgetList,
-//                    'progresses tracked': listChanger(),
-//                    'Date Created': project.date,
-//                  });
-//                },
-//              ),
-//              FlatButton(
-//                child: Text('Delete Field'),
-//                onPressed: () async {
-//                  setState(() {
-//                    wtd = !wtd;
-//                  });
-////                  Map listChanger() {
-////                    Map x = {};
-////                    int a = 1;
-////                    print('after ${selectedRowList.length}');
-////                    for (int i = 0; i < project.progressesTracked.length; i++) {
-////                      if (selectedRowList[i] == false) {
-////                        x['pt$a'] = {
-////                          'name': project.progressesTracked['pt${i + 1}']
-////                              ['name'],
-////                          'done': project.progressesTracked['pt${i + 1}']
-////                              ['done'],
-////                          'total': project.progressesTracked['pt${i + 1}']
-////                              ['total'],
-////                        };
-////                        a++;
-////                      }
-////                      selectedRowList[i] = false;
-////                    }
-////                    print('after ${selectedRowList.length}');
-////                    return x;
-////                  }
-////
-////                  await Firestore.instance
-////                      .collection('projects')
-////                      .document(project.projID)
-////                      .setData({
-////                    'blast pot': project.blastPot,
-////                    'used abrasive weight': project.abrasiveUsedWeight,
-////                    'total abrasive weight': project.abrasiveTotalWeight,
-////                    'used adhesive litres': project.adhesiveUsedLitre,
-////                    'total adhesive litres': project.adhesiveTotalLitre,
-////                    'used paint litres': project.paintUsedLitre,
-////                    'total paint litres': project.paintTotalLitre,
-////                    'ID': project.projID,
-////                    'name': project.projname,
-////                    'location': project.location,
-////                    'completion': project.completion,
-////                    'budget': project.budget,
-////                    'spent budget': project.spentBudget,
-////                    'adhesive price': project.adhesivePrice,
-////                    'abrasive price': project.abrasivePrice,
-////                    'paint price': project.paintPrice,
-////                    'total area needed blasting': project.totalSurfaceAreaB,
-////                    'blasted area': project.blastedArea,
-////                    'total area needed painting': project.totalSurfaceAreaP,
-////                    'painted area': project.paintedArea,
-////                    'users assigned': project.userAssigned,
-////                    'blast pot list': project.blastPotList,
-////                    'budget list': project.budgetList,
-////                    'progresses tracked': listChanger(),
-////                    'Date Created': project.date,
-////                  });
-//                },
-//              ),
-//            ],
-//          ),
         ),
       ),
     );
@@ -573,7 +463,7 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                   height: 20,
                   color: Colors.blueGrey[600],
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: 8),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
