@@ -14,6 +14,14 @@ class ProjTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double estimateBudget() {
+      double eb = 0;
+      for (int i = 0; i < proj.budgetList.length; i++) {
+        eb += proj.budgetList['bt${i + 1}']['estimate'];
+      }
+      return eb;
+    }
+
     //ProjTile class will return Card widget to the home page
     return Padding(
       padding: EdgeInsets.only(top: 10.0),
@@ -52,7 +60,7 @@ class ProjTile extends StatelessWidget {
             subtitle: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Text(
-                'Budget:RM ${proj.budget.toStringAsFixed(2)}\nID: ${proj.projID}\nLocation: ${proj.location}',
+                'Budget:RM ${estimateBudget().toStringAsFixed(2)}\nID: ${proj.projID}\nLocation: ${proj.location}',
                 style: TextStyle(color: Colors.black),
               ),
             ),
