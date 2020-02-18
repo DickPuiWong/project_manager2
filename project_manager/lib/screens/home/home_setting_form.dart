@@ -67,7 +67,7 @@ class _HSFState extends State<HSF> {
                         'Assigned num': y.num,
                         'used abrasive': y.usedAbrasive,
                         'used adhesive': y.usedAdhesive,
-                        'used paint': y.usedPaint
+                        'used paint': y.usedHours
                       };
                     }
 
@@ -79,7 +79,7 @@ class _HSFState extends State<HSF> {
                             num: i + 1,
                             usedAbrasive: 0,
                             usedAdhesive: 0,
-                            usedPaint: 0,
+                            usedHours: 0,
                           ));
                     }
                     Map t4 = {};
