@@ -286,24 +286,30 @@ class DataRowSetting extends StatefulWidget {
 class _DataRowSettingState extends State<DataRowSetting> {
   final _formKey = GlobalKey<FormState>();
   double _newSpent, _newEstimate;
+  double _sptConst=100,_estConst=100;
   @override
   Widget build(BuildContext context) {
+    double nullChecker(double one, double two) {
+      if (one == null) {
+        one = two;
+      }
+      return one;
+    }
+
     return Form(
       key: _formKey,
       child: Dialog(
         child: Container(
-          height: 260,
+          height: 350,
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 5),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Flexible(
                     child: Text(
-                      '${widget.bt.name} budget(RM)',
+                      '${widget.bt.name}',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
@@ -316,18 +322,60 @@ class _DataRowSettingState extends State<DataRowSetting> {
               ),
               SizedBox(height: 5),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Flexible(
+                    flex: 3,
+                    child: Stack(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.indigo[50],
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(3.5),
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 14, horizontal: 12),
+                                child: Text((_newSpent ?? widget.bt.spent)
+                                    .toStringAsFixed(2)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          left: 12,
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(2, 0, 4, 0),
+                            color: Colors.white,
+                            child: Text(
+                              'Spent(RM)',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    flex: 2,
                     child: Container(
-                      color: Colors.grey[50],
                       child: TextFormField(
                         style: TextStyle(fontSize: 14),
                         keyboardType: TextInputType.number,
-                        initialValue:
-                            (_newSpent ?? widget.bt.spent).toStringAsFixed(2),
+                        initialValue: '$_sptConst' /*(1).toStringAsFixed(2)*/,
                         decoration: InputDecoration(
-                          labelText: 'Spent(RM)',
+                          labelText: '+/-',
                           labelStyle: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                           hintText: 'RM',
@@ -342,13 +390,18 @@ class _DataRowSettingState extends State<DataRowSetting> {
                                   color: Colors.indigo[900], width: 2.0)),
                         ),
                         validator: (val) =>
-                            (val.isEmpty ? 'Enter amount' : null),
+                        (val.isEmpty ? 'Enter amount' : null),
                         onChanged: (val) {
-                          _newSpent = double.tryParse(val);
+                          _sptConst = double.tryParse(val);
                         },
                       ),
                     ),
                   ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
                   ButtonTheme(
                     minWidth: 45,
                     child: Tooltip(
@@ -363,22 +416,100 @@ class _DataRowSettingState extends State<DataRowSetting> {
                       ),
                     ),
                   ),
+                  Row(
+                    children: <Widget>[
+                      ButtonTheme(
+                        minWidth: 45,
+                        child: Tooltip(
+                          message: 'add',
+                          child: FlatButton(
+                            child: Icon(Icons.add),
+                            onPressed: () {
+                              _newSpent =
+                                  nullChecker(_newSpent, widget.bt.spent);
+                              setState(() {
+                                _newSpent += _sptConst;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      ButtonTheme(
+                        minWidth: 45,
+                        child: Tooltip(
+                          message: 'subtract',
+                          child: FlatButton(
+                            child: Icon(Icons.remove),
+                            onPressed: () {
+                              _newSpent =
+                                  nullChecker(_newSpent, widget.bt.spent);
+                              setState(() {
+                                _newSpent -= _sptConst;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
               SizedBox(height: 10),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Flexible(
+                    flex: 3,
+                    child: Stack(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.indigo[50],
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(3.5),
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 14, horizontal: 12),
+                                child: Text((_newEstimate ?? widget.bt.estimate)
+                                    .toStringAsFixed(2)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          left: 12,
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(2, 0, 4, 0),
+                            color: Colors.white,
+                            child: Text(
+                              'Estimate(RM)',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    flex: 2,
                     child: Container(
-                      color: Colors.grey[50],
                       child: TextFormField(
                         style: TextStyle(fontSize: 14),
                         keyboardType: TextInputType.number,
-                        initialValue: (_newEstimate ?? widget.bt.estimate)
-                            .toStringAsFixed(2),
+                        initialValue: '$_estConst' /*(1).toStringAsFixed(2)*/,
                         decoration: InputDecoration(
-                          labelText: 'Estimate(RM)',
+                          labelText: '+/-',
                           labelStyle: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                           hintText: 'RM',
@@ -393,13 +524,18 @@ class _DataRowSettingState extends State<DataRowSetting> {
                                   color: Colors.indigo[900], width: 2.0)),
                         ),
                         validator: (val) =>
-                            (val.isEmpty ? 'Enter amount' : null),
+                        (val.isEmpty ? 'Enter amount' : null),
                         onChanged: (val) {
-                          _newEstimate = double.tryParse(val);
+                          _estConst = double.tryParse(val);
                         },
                       ),
                     ),
                   ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
                   ButtonTheme(
                     minWidth: 45,
                     child: Tooltip(
@@ -414,37 +550,73 @@ class _DataRowSettingState extends State<DataRowSetting> {
                       ),
                     ),
                   ),
+                  Row(
+                    children: <Widget>[
+                      ButtonTheme(
+                        minWidth: 45,
+                        child: Tooltip(
+                          message: 'add',
+                          child: FlatButton(
+                            child: Icon(Icons.add),
+                            onPressed: () {
+                              _newEstimate =
+                                  nullChecker(_newEstimate, widget.bt.estimate);
+                              setState(() {
+                                _newEstimate += _estConst;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      ButtonTheme(
+                        minWidth: 45,
+                        child: Tooltip(
+                          message: 'subtract',
+                          child: FlatButton(
+                            child: Icon(Icons.remove),
+                            onPressed: () {
+                              _newEstimate =
+                                  nullChecker(_newEstimate, widget.bt.estimate);
+                              setState(() {
+                                _newEstimate -= _estConst;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
               SizedBox(height: 9),
-              Center(
-                child: RaisedButton.icon(
-                  color: Colors.indigo[900],
-                  icon: Icon(
-                    Icons.update,
-                    color: Colors.white,
-                  ),
-                  label: Text(
-                    'Update',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () async {
-                    Map listChanger() {
-                      Map x = widget.project.budgetList;
-                      for (int i = 0;
-                          i < widget.project.budgetList.length;
-                          i++) {
-                        if ((i + 1) == widget.num) {
-                          x['bt${i + 1}'] = {
-                            'name': widget.bt.name,
-                            'spent': (_newSpent ?? widget.bt.spent),
-                            'estimate': (_newEstimate ?? widget.bt.estimate),
-                          };
-                        }
+              RaisedButton.icon(
+                color: Colors.indigo[900],
+                icon: Icon(
+                  Icons.update,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  'Update',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () async {
+                  Map listChanger() {
+                    Map x = widget.project.budgetList;
+                    for (int i = 0;
+                        i < widget.project.budgetList.length;
+                        i++) {
+                      if ((i + 1) == widget.num) {
+                        x['bt${i + 1}'] = {
+                          'name': widget.bt.name,
+                          'spent': (_newSpent ?? widget.bt.spent),
+                          'estimate': (_newEstimate ?? widget.bt.estimate),
+                        };
                       }
-                      return x;
                     }
+                    return x;
+                  }
 
+<<<<<<< HEAD
                     await Firestore.instance
                         .collection('projects')
                         .document(widget.project.projID)
@@ -476,6 +648,38 @@ class _DataRowSettingState extends State<DataRowSetting> {
                     Navigator.pop(context);
                   },
                 ),
+=======
+                  await Firestore.instance
+                      .collection('projects')
+                      .document(widget.project.projID)
+                      .setData({
+                    'blast pot': widget.project.blastPot,
+                    'used abrasive weight': widget.project.abrasiveUsedWeight,
+                    'total abrasive weight':
+                        widget.project.abrasiveTotalWeight,
+                    'used adhesive litres': widget.project.adhesiveUsedLitre,
+                    'total adhesive litres':
+                        widget.project.adhesiveTotalLitre,
+                    'used paint litres': widget.project.paintUsedLitre,
+                    'total paint litres': widget.project.paintTotalLitre,
+                    'ID': widget.project.projID,
+                    'name': widget.project.projname,
+                    'location': widget.project.location,
+                    'total area needed blasting':
+                        widget.project.totalSurfaceAreaB,
+                    'blasted area': widget.project.blastedArea,
+                    'total area needed painting':
+                        widget.project.totalSurfaceAreaP,
+                    'painted area': widget.project.paintedArea,
+                    'users assigned': widget.project.userAssigned,
+                    'blast pot list': widget.project.blastPotList,
+                    'budget list': listChanger(),
+                    'progresses tracked': widget.project.progressesTracked,
+                    'Date Created': widget.project.date,
+                  });
+                  Navigator.pop(context);
+                },
+>>>>>>> master
               ),
             ],
           ),
