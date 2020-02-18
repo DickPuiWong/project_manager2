@@ -14,23 +14,17 @@ class DatabaseService {
     return snapshot.documents.map((doc) {
       return Project(
         projID: doc.data['ID'] ?? 0,
-        budget: (doc.data['budget']).toDouble() ?? 0.00,
-        spentBudget: (doc.data['spent budget']).toDouble() ?? 0.00,
         projname: doc.data['name'] ?? '',
         location: doc.data['location'] ?? '',
-        completion: (doc.data['completion']).toDouble() ?? 0,
         adhesiveTotalLitre:
             (doc.data['total adhesive litres']).toDouble() ?? 0.0,
         adhesiveUsedLitre: (doc.data['used adhesive litres']).toDouble() ?? 0.0,
-        adhesivePrice: (doc.data['adhesive price']).toDouble() ?? 0.0,
         abrasiveTotalWeight:
             (doc.data['total abrasive weight']).toDouble() ?? 0.0,
         abrasiveUsedWeight:
             (doc.data['used abrasive weight']).toDouble() ?? 0.0,
-        abrasivePrice: (doc.data['abrasive price']).toDouble() ?? 0.0,
         paintTotalLitre: (doc.data['total paint litres']).toDouble() ?? 0.0,
         paintUsedLitre: (doc.data['used paint litres']).toDouble() ?? 0.0,
-        paintPrice: (doc.data['paint price']).toDouble() ?? 0.0,
         totalSurfaceAreaB:
             (doc.data['total area needed blasting']).toDouble() ?? 0.0,
         blastedArea: (doc.data['blasted area']).toDouble() ?? 0.0,
@@ -63,20 +57,14 @@ class ProjectDatabaseService {
   Project _projectFromSnapshot(DocumentSnapshot snapshot) {
     return Project(
       projID: snapshot.data['ID'],
-      budget: (snapshot.data['budget']).toDouble(),
-      spentBudget: (snapshot.data['spent budget']).toDouble(),
       projname: snapshot.data['name'],
       location: snapshot.data['location'],
-      completion: (snapshot.data['completion']).toDouble(),
       adhesiveTotalLitre: (snapshot.data['total adhesive litres']).toDouble(),
       adhesiveUsedLitre: (snapshot.data['used adhesive litres']).toDouble(),
-      adhesivePrice: (snapshot.data['adhesive price']).toDouble(),
       abrasiveTotalWeight: (snapshot.data['total abrasive weight']).toDouble(),
       abrasiveUsedWeight: (snapshot.data['used abrasive weight']).toDouble(),
-      abrasivePrice: (snapshot.data['abrasive price']).toDouble(),
       paintTotalLitre: (snapshot.data['total paint litres']).toDouble(),
       paintUsedLitre: (snapshot.data['used paint litres']).toDouble(),
-      paintPrice: (snapshot.data['paint price']).toDouble(),
       totalSurfaceAreaB:
           (snapshot.data['total area needed blasting']).toDouble(),
       blastedArea: (snapshot.data['blasted area']).toDouble(),
