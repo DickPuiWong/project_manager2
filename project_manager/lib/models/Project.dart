@@ -66,13 +66,13 @@ class BlastPot {
   final int num;
   final double usedAbrasive;
   final double usedAdhesive;
-  final double usedPaint;
+  final double usedHours;
 
   BlastPot({
     this.num,
     this.usedAbrasive,
     this.usedAdhesive,
-    this.usedPaint,
+    this.usedHours,
   });
 }
 
