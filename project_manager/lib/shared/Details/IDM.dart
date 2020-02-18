@@ -110,6 +110,7 @@ class _IDMState extends State<IDM> {
                           Text(
                               '${project.abrasiveUsedWeight}(${project.abrasiveUsedWeight / 25})'),
                           Text('${project.adhesiveUsedLitre}'),
+
                         ],
                       ),
                       Column(
@@ -227,6 +228,7 @@ class _IDMListTilesState extends State<IDMListTiles> {
                 Text(
                     'Abrasive used : ${widget.bp.usedAbrasive} kg(${widget.bp.usedAbrasive / 25} bags)'),
                 Text('Adhesive used : ${widget.bp.usedAdhesive} L'),
+                Text('Hours used : ${widget.bp.usedHours} hrs')
               ],
             ),
             trailing: IconButton(
@@ -1304,13 +1306,62 @@ class _IDMSettingsState extends State<IDMSettings> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                'PAINT',
+                                'Hours',
                                 style: TextStyle(fontSize: 24),
                               ),
                               Divider(
                                 height: 10,
                                 indent: 5,
                                 endIndent: 5,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  RichText(
+                                    text: TextSpan(
+                                      style: TextStyle(color: Colors.black),
+                                      children: [
+                                        TextSpan(
+                                          text: 'Limit : ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        TextSpan(
+                                            text:
+                                            '${(_currTotalAdhesive ?? widget.proj.adhesiveTotalLitre)}hrs'),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      IconButton(
+                                        icon: Icon(Icons.add),
+                                        onPressed: () {
+                                          _currTotalAdhesive = nullChecker(
+                                              _currTotalAdhesive,
+                                              widget.proj.adhesiveTotalLitre);
+                                          setState(() {
+                                            _currTotalAdhesive++;
+                                          });
+                                        },
+                                        tooltip: 'Add a liter(1L)',
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.remove),
+                                        onPressed: () {
+                                          _currTotalAdhesive = nullChecker(
+                                              _currTotalAdhesive,
+                                              widget.proj.adhesiveTotalLitre);
+                                          setState(() {
+                                            _currTotalAdhesive--;
+                                          });
+                                        },
+                                        tooltip: 'Remove a liter(1L)',
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ],
                           ),
