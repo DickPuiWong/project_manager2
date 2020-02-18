@@ -1170,10 +1170,10 @@ class _IDMSettingsState extends State<IDMSettings> {
                                               _currTotalAbrasive,
                                               widget.proj.abrasiveTotalWeight);
                                           setState(() {
-                                            _currTotalAbrasive += 250;
+                                            _currTotalAbrasive += 25;
                                           });
                                         },
-                                        tooltip: 'Add a bag(250kg)',
+                                        tooltip: 'Add a bag(25kg)',
                                       ),
                                       IconButton(
                                         icon: Icon(Icons.remove),
