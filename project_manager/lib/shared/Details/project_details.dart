@@ -244,17 +244,46 @@ class _PDExtendState extends State<PDExtend> {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Container(
-                          height: 150,
-                          width: 150,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 12,
-                            value: findPercent1(),
-                            backgroundColor: Colors.redAccent,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.lightGreenAccent),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 40),
+                        color: Colors.white,
+                        child: Center(
+                          child: Container(
+                            height: 240,
+                            width: 240,
+                            child: Stack(
+                              children: <Widget>[
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    children: <Widget>[
+                                      SizedBox(
+                                        height: 65,
+                                      ),
+                                      Text(
+                                        '${(findPercent1() * 100).toInt()}%',
+                                        style: TextStyle(fontSize: 50),
+                                      ),
+                                      Text(
+                                        'Work Completed',
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  height: 240,
+                                  width: 240,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 12,
+                                    value: findPercent1(),
+                                    backgroundColor: Colors.redAccent,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.lightGreenAccent),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -322,18 +351,45 @@ class _PDExtendState extends State<PDExtend> {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 50),
+                        color: Colors.white,
+                        child: Center(
                           child: Container(
-                            height: 150,
-                            width: 150,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 12,
-                              value: findPercent2(),
-                              backgroundColor: Colors.redAccent,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.lightGreenAccent),
+                            height: 240,
+                            width: 240,
+                            child: Stack(
+                              children: <Widget>[
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    children: <Widget>[
+                                      SizedBox(
+                                        height: 65,
+                                      ),
+                                      Text(
+                                        '${(findPercent2() * 100).toInt()}%',
+                                        style: TextStyle(fontSize: 50),
+                                      ),
+                                      Text(
+                                        'Expenditure',
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  height: 240,
+                                  width: 240,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 12,
+                                    value: findPercent2(),
+                                    backgroundColor: Colors.redAccent,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.lightGreenAccent),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
