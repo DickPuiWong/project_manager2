@@ -37,12 +37,28 @@ class _IDBState extends State<IDB> {
     final project = Provider.of<Project>(context);
     List<DataRow> dataRowList = [];
 
+    double spentBudget() {
+      double sb = 0;
+      for (int i = 0; i < project.budgetList.length; i++) {
+        sb += project.budgetList['bt${i + 1}']['spent'];
+      }
+      return sb;
+    }
+
+    double esimateBudget() {
+      double eb = 0;
+      for (int i = 0; i < project.budgetList.length; i++) {
+        eb += project.budgetList['bt${i + 1}']['estimate'];
+      }
+      return eb;
+    }
+
     double findPercent2() {
       double percent;
       double _totalDone = 0, _totalOverall = 0;
       for (int i = 0; i < project.budgetList.length; i++) {
-        _totalDone += project.budgetList['bt${i + 1}']['spent'];
-        _totalOverall += project.budgetList['bt${i + 1}']['estimate'];
+        _totalDone += spentBudget();
+        _totalOverall += esimateBudget();
       }
       percent = _totalDone / _totalOverall;
       if (_totalDone == 0 && _totalOverall == 0) {
@@ -126,7 +142,7 @@ class _IDBState extends State<IDB> {
           ),
           DataCell(
             Text(((project.budgetList['bt${i + 1}']['spent']) /
-                    (project.budget) *
+                    (esimateBudget()) *
                     100)
                 .toStringAsFixed(1)),
             onTap: () {
@@ -187,8 +203,7 @@ class _IDBState extends State<IDB> {
                 child: FAProgressBar(
                   borderRadius: 30,
                   size: 50,
-                  currentValue: ((findPercent2() *100)
-                      .toInt()),
+                  currentValue: ((findPercent2() * 100).toInt()),
                   changeColorValue: 80,
                   maxValue: 100,
                   backgroundColor: Colors.grey[400],
@@ -202,11 +217,11 @@ class _IDBState extends State<IDB> {
               Column(
                 children: <Widget>[
                   Text(
-                    'Used : RM${project.spentBudget.toStringAsFixed(2)}',
+                    'Used : RM${spentBudget().toStringAsFixed(2)}',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    'Total : RM${project.budget.toStringAsFixed(2)}',
+                    'Total : RM${esimateBudget().toStringAsFixed(2)}',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -446,13 +461,6 @@ class _DataRowSettingState extends State<DataRowSetting> {
                       'ID': widget.project.projID,
                       'name': widget.project.projname,
                       'location': widget.project.location,
-                      'completion': widget.project.completion,
-                      'budget': widget.project.budget + (_newEstimate ?? 0),
-                      'spent budget':
-                          widget.project.spentBudget + (_newSpent ?? 0),
-                      'adhesive price': widget.project.adhesivePrice,
-                      'abrasive price': widget.project.abrasivePrice,
-                      'paint price': widget.project.paintPrice,
                       'total area needed blasting':
                           widget.project.totalSurfaceAreaB,
                       'blasted area': widget.project.blastedArea,
@@ -537,7 +545,6 @@ class _IDBSettingsState extends State<IDBSettings> {
                           icon: Icon(Icons.delete),
                           color: _colorState2,
                           onPressed: () async {
-                            double _newEstimate, _newSpent;
                             Map listChanger() {
                               Map temp = {};
                               int z = 1;
@@ -554,19 +561,8 @@ class _IDBSettingsState extends State<IDBSettings> {
                                         .budgetList['bt${ii + 1}']['estimate'],
                                   };
                                   z++;
-                                } else {
-                                  _newEstimate = project.budget -
-                                      project.budgetList['bt${ii + 1}']
-                                          ['estimate'];
-                                  _newSpent = project.spentBudget -
-                                      project.budgetList['bt${ii + 1}']
-                                          ['spent'];
                                 }
                               }
-//                              for (int x = 0; x < temp.length; x++) {
-//                                print(
-//                                    'x=${x + 1} --- ${temp['bt${x + 1}']['name']}');
-//                              }
                               return temp;
                             }
 
@@ -589,12 +585,6 @@ class _IDBSettingsState extends State<IDBSettings> {
                               'ID': project.projID,
                               'name': project.projname,
                               'location': project.location,
-                              'completion': project.completion,
-                              'budget': _newEstimate,
-                              'spent budget': _newSpent,
-                              'adhesive price': project.adhesivePrice,
-                              'abrasive price': project.abrasivePrice,
-                              'paint price': project.paintPrice,
                               'total area needed blasting':
                                   project.totalSurfaceAreaB,
                               'blasted area': project.blastedArea,
@@ -830,12 +820,6 @@ class _AddTypeState extends State<AddType> {
                       'ID': widget.project.projID,
                       'name': widget.project.projname,
                       'location': widget.project.location,
-                      'completion': widget.project.completion,
-                      'budget': widget.project.budget + _newEstimate,
-                      'spent budget': widget.project.spentBudget + _newSpent,
-                      'adhesive price': widget.project.adhesivePrice,
-                      'abrasive price': widget.project.abrasivePrice,
-                      'paint price': widget.project.paintPrice,
                       'total area needed blasting':
                           widget.project.totalSurfaceAreaB,
                       'blasted area': widget.project.blastedArea,
