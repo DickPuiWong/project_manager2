@@ -82,9 +82,22 @@ class ConfirmDelete extends StatefulWidget {
 }
 
 class _ConfirmDeleteState extends State<ConfirmDelete> {
-  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    double findPercent1() {
+      double percent;
+      double _totalDone = 0, _totalOverall = 0;
+      for (int i = 0; i < widget.proj.progressesTracked.length; i++) {
+        _totalDone += widget.proj.progressesTracked['pt${i + 1}']['done'];
+        _totalOverall += widget.proj.progressesTracked['pt${i + 1}']['total'];
+      }
+      percent = _totalDone / _totalOverall;
+      if (_totalDone == 0 && _totalOverall == 0) {
+        percent = 0;
+      }
+      return percent;
+    }
+
     return Container(
       padding: EdgeInsets.all(10),
       child: Column(
@@ -142,14 +155,14 @@ class _ConfirmDeleteState extends State<ConfirmDelete> {
                         children: <Widget>[
                           Center(
                             child: Text(
-                              '${(widget.proj.completion / 800 * 100).toInt()} %',
+                              '${findPercent1().toInt()} %',
                               style: TextStyle(fontSize: 22),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 5, 0, 15),
                             child: LinearProgressIndicator(
-                              value: widget.proj.completion.toDouble() / 800,
+                              value: findPercent1(),
                               backgroundColor: Colors.redAccent,
                               valueColor: AlwaysStoppedAnimation<Color>(
                                   Colors.lightGreenAccent),
