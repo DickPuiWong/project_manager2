@@ -249,6 +249,7 @@ class _IDPState extends State<IDP> {
                   }
                   return x;
                 }
+
                 setState(() {
                   selected = 0;
                 });
@@ -316,7 +317,7 @@ class _IDPState extends State<IDP> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 15),
+              padding: EdgeInsets.symmetric(vertical: 60),
               color: Colors.indigo[50],
               child: Center(
                 child: Container(
@@ -326,9 +327,20 @@ class _IDPState extends State<IDP> {
                     children: <Widget>[
                       Align(
                         alignment: Alignment.center,
-                        child: Text(
-                          '${(findPercent() * 100).toInt()}%',
-                          style: TextStyle(fontSize: 50),
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 65,
+                            ),
+                            Text(
+                              '${(findPercent() * 100).toInt()}%',
+                              style: TextStyle(fontSize: 50),
+                            ),
+                            Text(
+                              'Work Completed',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
                         ),
                       ),
                       Container(
