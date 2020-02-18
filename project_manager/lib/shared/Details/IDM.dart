@@ -110,7 +110,6 @@ class _IDMState extends State<IDM> {
                           Text(
                               '${project.abrasiveUsedWeight}(${project.abrasiveUsedWeight / 25})'),
                           Text('${project.adhesiveUsedLitre}'),
-
                         ],
                       ),
                       Column(
@@ -937,7 +936,7 @@ class _IDMSettingsState extends State<IDMSettings> {
   double _currBlastPotNo;
   double _currTotalAbrasive;
   double _currTotalAdhesive;
-  double _currTotalPaint;
+  double _currTotalHours;
 
   @override
   Widget build(BuildContext context) {
@@ -985,6 +984,7 @@ class _IDMSettingsState extends State<IDMSettings> {
                                 'Assigned num': ii,
                                 'used abrasive': 0.0,
                                 'used adhesive': 0.0,
+                                'used hours': 0.0,
                               };
                             } else {
                               i--;
@@ -1018,7 +1018,7 @@ class _IDMSettingsState extends State<IDMSettings> {
                                       widget.proj.adhesiveTotalLitre),
                           'used paint litres': widget.proj.paintUsedLitre,
                           'total paint litres': widget.proj.paintTotalLitre +
-                              ((_currTotalPaint ??
+                              ((_currTotalHours ??
                                       widget.proj.paintTotalLitre) -
                                   widget.proj.paintTotalLitre),
                           'ID': widget.proj.projID,
@@ -1298,7 +1298,7 @@ class _IDMSettingsState extends State<IDMSettings> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   RichText(
                                     text: TextSpan(
@@ -1311,7 +1311,7 @@ class _IDMSettingsState extends State<IDMSettings> {
                                         ),
                                         TextSpan(
                                             text:
-                                            '${(_currTotalAdhesive ?? widget.proj.adhesiveTotalLitre)}hrs'),
+                                                '${(_currTotalAdhesive ?? widget.proj.adhesiveTotalLitre)}hrs'),
                                       ],
                                     ),
                                   ),
