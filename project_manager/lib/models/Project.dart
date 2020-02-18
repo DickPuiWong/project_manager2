@@ -19,6 +19,7 @@ class Project {
   final List projectSupervisor;
   final List userAssigned;
   final double blastPot;
+  final Map perFill;
   final Map blastPotList;
   final Map budgetList;
   final Map progressesTracked;
@@ -41,6 +42,7 @@ class Project {
     this.userAssigned,
     this.projectSupervisor,
     this.blastPot,
+    this.perFill,
     this.blastPotList,
     this.budgetList,
     this.progressesTracked,
