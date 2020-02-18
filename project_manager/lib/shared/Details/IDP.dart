@@ -235,7 +235,7 @@ class _IDPState extends State<IDP> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             FlatButton(
-              child: Text('Delete Fields ($selected)'),
+              child: Text('Confirm Delete($selected)'),
               onPressed: () async {
                 Map listChanger() {
                   Map x = {};
