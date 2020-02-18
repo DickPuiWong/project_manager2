@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
 import 'package:project_manager/services/database.dart';
 import 'package:provider/provider.dart';
+import 'package:project_manager/shared/constants.dart';
 
 class IDPWrapper extends StatelessWidget {
   final Project project;
@@ -202,12 +203,6 @@ class _IDPState extends State<IDP> {
                   'ID': project.projID,
                   'name': project.projname,
                   'location': project.location,
-                  'completion': project.completion,
-                  'budget': project.budget,
-                  'spent budget': project.spentBudget,
-                  'adhesive price': project.adhesivePrice,
-                  'abrasive price': project.abrasivePrice,
-                  'paint price': project.paintPrice,
                   'total area needed blasting': project.totalSurfaceAreaB,
                   'blasted area': project.blastedArea,
                   'total area needed painting': project.totalSurfaceAreaP,
@@ -221,7 +216,7 @@ class _IDPState extends State<IDP> {
               },
             ),
             FlatButton(
-              child: Text('Delete Field'),
+              child: Text('Manage Delete'),
               onPressed: () async {
                 setState(() {
                   wtd = true;
@@ -235,7 +230,7 @@ class _IDPState extends State<IDP> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             FlatButton(
-              child: Text('Confirm Delete($selected)'),
+              child: Text('Delete Fields ($selected)'),
               onPressed: () async {
                 Map listChanger() {
                   Map x = {};
@@ -273,12 +268,6 @@ class _IDPState extends State<IDP> {
                   'ID': project.projID,
                   'name': project.projname,
                   'location': project.location,
-                  'completion': project.completion,
-                  'budget': project.budget,
-                  'spent budget': project.spentBudget,
-                  'adhesive price': project.adhesivePrice,
-                  'abrasive price': project.abrasivePrice,
-                  'paint price': project.paintPrice,
                   'total area needed blasting': project.totalSurfaceAreaB,
                   'blasted area': project.blastedArea,
                   'total area needed painting': project.totalSurfaceAreaP,
@@ -312,7 +301,7 @@ class _IDPState extends State<IDP> {
         body: Column(
           children: <Widget>[
             Container(
-              color: Colors.blue[50],
+              color: Colors.indigo[50],
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -328,8 +317,8 @@ class _IDPState extends State<IDP> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 50),
-              color: Colors.blue[50],
+              padding: EdgeInsets.symmetric(vertical: 15),
+              color: Colors.indigo[50],
               child: Center(
                 child: Container(
                   height: 240,
@@ -338,20 +327,9 @@ class _IDPState extends State<IDP> {
                     children: <Widget>[
                       Align(
                         alignment: Alignment.center,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 80),
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                '${(findPercent() * 100).toInt()}%',
-                                style: TextStyle(fontSize: 30),
-                              ),
-                              Text(
-                                'Completed',
-                                style: TextStyle(fontSize: 30),
-                              )
-                            ],
-                          ),
+                        child: Text(
+                          '${(findPercent() * 100).toInt()}%',
+                          style: TextStyle(fontSize: 50),
                         ),
                       ),
                       Container(
@@ -396,8 +374,118 @@ class _IDPState extends State<IDP> {
           ],
         ),
         bottomNavigationBar: BottomAppBar(
-          color: Colors.blue[100],
+          color: Colors.indigo[100],
           child: bottomButtonsSwitcher(),
+//          Row(
+//            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//            children: <Widget>[
+//              FlatButton(
+//                child: Text('Add Field'),
+//                onPressed: () async {
+//                  Map listChanger() {
+//                    Map x = project.progressesTracked;
+//                    x['pt${project.progressesTracked.length + 1}'] = {
+//                      'name': 'filename',
+//                      'done': 0.0,
+//                      'total': 0.0,
+//                    };
+//                    return x;
+//                  }
+//
+//                  await Firestore.instance
+//                      .collection('projects')
+//                      .document(project.projID)
+//                      .setData({
+//                    'blast pot': project.blastPot,
+//                    'used abrasive weight': project.abrasiveUsedWeight,
+//                    'total abrasive weight': project.abrasiveTotalWeight,
+//                    'used adhesive litres': project.adhesiveUsedLitre,
+//                    'total adhesive litres': project.adhesiveTotalLitre,
+//                    'used paint litres': project.paintUsedLitre,
+//                    'total paint litres': project.paintTotalLitre,
+//                    'ID': project.projID,
+//                    'name': project.projname,
+//                    'location': project.location,
+//                    'completion': project.completion,
+//                    'budget': project.budget,
+//                    'spent budget': project.spentBudget,
+//                    'adhesive price': project.adhesivePrice,
+//                    'abrasive price': project.abrasivePrice,
+//                    'paint price': project.paintPrice,
+//                    'total area needed blasting': project.totalSurfaceAreaB,
+//                    'blasted area': project.blastedArea,
+//                    'total area needed painting': project.totalSurfaceAreaP,
+//                    'painted area': project.paintedArea,
+//                    'users assigned': project.userAssigned,
+//                    'blast pot list': project.blastPotList,
+//                    'budget list': project.budgetList,
+//                    'progresses tracked': listChanger(),
+//                    'Date Created': project.date,
+//                  });
+//                },
+//              ),
+//              FlatButton(
+//                child: Text('Delete Field'),
+//                onPressed: () async {
+//                  setState(() {
+//                    wtd = !wtd;
+//                  });
+////                  Map listChanger() {
+////                    Map x = {};
+////                    int a = 1;
+////                    print('after ${selectedRowList.length}');
+////                    for (int i = 0; i < project.progressesTracked.length; i++) {
+////                      if (selectedRowList[i] == false) {
+////                        x['pt$a'] = {
+////                          'name': project.progressesTracked['pt${i + 1}']
+////                              ['name'],
+////                          'done': project.progressesTracked['pt${i + 1}']
+////                              ['done'],
+////                          'total': project.progressesTracked['pt${i + 1}']
+////                              ['total'],
+////                        };
+////                        a++;
+////                      }
+////                      selectedRowList[i] = false;
+////                    }
+////                    print('after ${selectedRowList.length}');
+////                    return x;
+////                  }
+////
+////                  await Firestore.instance
+////                      .collection('projects')
+////                      .document(project.projID)
+////                      .setData({
+////                    'blast pot': project.blastPot,
+////                    'used abrasive weight': project.abrasiveUsedWeight,
+////                    'total abrasive weight': project.abrasiveTotalWeight,
+////                    'used adhesive litres': project.adhesiveUsedLitre,
+////                    'total adhesive litres': project.adhesiveTotalLitre,
+////                    'used paint litres': project.paintUsedLitre,
+////                    'total paint litres': project.paintTotalLitre,
+////                    'ID': project.projID,
+////                    'name': project.projname,
+////                    'location': project.location,
+////                    'completion': project.completion,
+////                    'budget': project.budget,
+////                    'spent budget': project.spentBudget,
+////                    'adhesive price': project.adhesivePrice,
+////                    'abrasive price': project.abrasivePrice,
+////                    'paint price': project.paintPrice,
+////                    'total area needed blasting': project.totalSurfaceAreaB,
+////                    'blasted area': project.blastedArea,
+////                    'total area needed painting': project.totalSurfaceAreaP,
+////                    'painted area': project.paintedArea,
+////                    'users assigned': project.userAssigned,
+////                    'blast pot list': project.blastPotList,
+////                    'budget list': project.budgetList,
+////                    'progresses tracked': listChanger(),
+////                    'Date Created': project.date,
+////                  });
+//                },
+//              ),
+//            ],
+//          ),
         ),
       ),
     );
@@ -799,12 +887,6 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                         'ID': widget.project.projID,
                         'name': widget.project.projname,
                         'location': widget.project.location,
-                        'completion': widget.project.completion,
-                        'budget': widget.project.budget,
-                        'spent budget': widget.project.spentBudget,
-                        'adhesive price': widget.project.adhesivePrice,
-                        'abrasive price': widget.project.abrasivePrice,
-                        'paint price': widget.project.paintPrice,
                         'total area needed blasting':
                             widget.project.totalSurfaceAreaB,
                         'blasted area': widget.project.blastedArea,
