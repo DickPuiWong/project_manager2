@@ -35,6 +35,7 @@ class _ProjList2State extends State<ProjList2> {
         return ProjTile(
           proj: userProjList[index],
           num: index,
+          permissionType: userData.permissionType,
         );
       },
     );
