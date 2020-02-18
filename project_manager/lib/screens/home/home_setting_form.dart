@@ -67,7 +67,7 @@ class _HSFState extends State<HSF> {
                         'Assigned num': y.num,
                         'used abrasive': y.usedAbrasive,
                         'used adhesive': y.usedAdhesive,
-                        'used paint': y.usedHours
+                        'used hours': y.usedHours
                       };
                     }
 
