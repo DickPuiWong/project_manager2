@@ -20,9 +20,7 @@ class _DSPState extends State<DSP> {
   String _currName;
   String _currLocation;
   double _currAbrasiveWeight;
-  double _currAbrasivePrice;
   double _currAdhesiveWeight;
-  double _currAdhesivePrice;
   double _currBlastedArea;
   double _currBlastTotalArea;
   double _currPaintedArea;
@@ -55,12 +53,8 @@ class _DSPState extends State<DSP> {
                           2),
                       'total adhesive weight':
                           _currAdhesiveWeight ?? widget.proj.adhesiveTotalLitre,
-                      'adhesive price':
-                          _currAdhesivePrice ?? widget.proj.adhesivePrice,
                       'total abrasive weight': _currAbrasiveWeight ??
                           widget.proj.abrasiveTotalWeight,
-                      'abrasive price':
-                          _currAbrasivePrice ?? widget.proj.abrasivePrice,
                       'total area needed blasting':
                           _currBlastTotalArea ?? widget.proj.totalSurfaceAreaB,
                       'blasted area':
@@ -136,181 +130,6 @@ class _DSPState extends State<DSP> {
                     ),
                   ),
                   SizedBox(height: 34),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'ADHESIVE, ',
-                          style: TextStyle(fontSize: 24),
-                        ),
-                        Text(
-                          'Total Weight(kg): ',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        TextFormField(
-                          initialValue:
-                              widget.proj.adhesiveTotalLitre.toString(),
-                          decoration: textInputDecoration.copyWith(
-                              hintText: 'Total Adhesive Weight'),
-                          validator: (val) =>
-                              (val.isEmpty ? 'Enter a value' : null),
-                          onChanged: (val) {
-                            setState(() =>
-                                (_currAdhesiveWeight = double.tryParse(val)));
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Total Price(RM): ',
-                          style: TextStyle(fontSize: 19),
-                        ),
-                        TextFormField(
-                          initialValue: widget.proj.adhesivePrice.toString(),
-                          decoration: textInputDecoration.copyWith(
-                              hintText: 'Total Adhesive Price'),
-                          validator: (val) =>
-                              (val.isEmpty ? 'Enter a value' : null),
-                          onChanged: (val) {
-                            setState(() =>
-                                (_currAdhesiveWeight = double.tryParse(val)));
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 34),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'ABRASIVE, ',
-                          style: TextStyle(fontSize: 24),
-                        ),
-                        Text(
-                          'Total Weight(kg): ',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        TextFormField(
-                          initialValue:
-                              widget.proj.abrasiveTotalWeight.toString(),
-                          decoration: textInputDecoration.copyWith(
-                              hintText: 'Total Abrasive Weight'),
-                          validator: (val) =>
-                              (val.isEmpty ? 'Enter a value' : null),
-                          onChanged: (val) {
-                            setState(() =>
-                                (_currAbrasiveWeight = double.tryParse(val)));
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Total Price(RM): ',
-                          style: TextStyle(fontSize: 19),
-                        ),
-                        TextFormField(
-                          initialValue: widget.proj.abrasivePrice.toString(),
-                          decoration: textInputDecoration.copyWith(
-                              hintText: 'Total Abrasive Price'),
-                          validator: (val) =>
-                              (val.isEmpty ? 'Enter a value' : null),
-                          onChanged: (val) {
-                            setState(() =>
-                                (_currAbrasivePrice = double.tryParse(val)));
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 34),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Blast Applied, ',
-                          style: TextStyle(fontSize: 24),
-                        ),
-                        Text(
-                          'Blasted Areas(m^2): ',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        TextFormField(
-                          initialValue: widget.proj.blastedArea.toString(),
-                          decoration: textInputDecoration.copyWith(
-                              hintText: 'Total Abrasive Weight'),
-                          validator: (val) =>
-                              (val.isEmpty ? 'Enter a value' : null),
-                          onChanged: (val) {
-                            setState(() =>
-                                (_currBlastedArea = double.tryParse(val)));
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Total Area Needed to be Blasted(m^2): ',
-                          style: TextStyle(fontSize: 19),
-                        ),
-                        TextFormField(
-                          initialValue:
-                              widget.proj.totalSurfaceAreaB.toString(),
-                          decoration: textInputDecoration.copyWith(
-                              hintText: 'Total Abrasive Price'),
-                          validator: (val) =>
-                              (val.isEmpty ? 'Enter a value' : null),
-                          onChanged: (val) {
-                            setState(() =>
-                                (_currBlastTotalArea = double.tryParse(val)));
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 34),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Paints Applied, ',
-                          style: TextStyle(fontSize: 24),
-                        ),
-                        Text(
-                          'Total Area Painted(m^2): ',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        TextFormField(
-                          initialValue: widget.proj.paintedArea.toString(),
-                          decoration: textInputDecoration.copyWith(
-                              hintText: 'Total Area Painted'),
-                          validator: (val) =>
-                              (val.isEmpty ? 'Enter area Painted' : null),
-                          onChanged: (val) {
-                            setState(() =>
-                                (_currPaintedArea = double.tryParse(val)));
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Total Area Needed to be Paint(m^2): ',
-                          style: TextStyle(fontSize: 19),
-                        ),
-                        TextFormField(
-                          initialValue: widget.proj.abrasivePrice.toString(),
-                          decoration: textInputDecoration.copyWith(
-                              hintText: 'Total Area Needed to Paint(m^2)'),
-                          validator: (val) => (val.isEmpty
-                              ? 'Enter area needed to be paint'
-                              : null),
-                          onChanged: (val) {
-                            setState(() =>
-                                (_currPaintTotalArea = double.tryParse(val)));
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ],
