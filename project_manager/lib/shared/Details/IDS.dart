@@ -313,22 +313,16 @@ class _AssignSheetState extends State<AssignSheet> {
                         'ID': widget.project.projID,
                         'name': widget.project.projname,
                         'location': widget.project.location,
-                        'completion': widget.project.completion,
-                        'budget': widget.project.budget,
-                        'spent budget': widget.project.spentBudget,
                         'total adhesive litres':
                             widget.project.adhesiveTotalLitre,
                         'used adhesive litres':
                             widget.project.adhesiveUsedLitre,
-                        'adhesive price': widget.project.adhesivePrice,
                         'total abrasive weight':
                             widget.project.abrasiveTotalWeight,
                         'used abrasive weight':
                             widget.project.abrasiveUsedWeight,
-                        'abrasive price': widget.project.abrasivePrice,
                         'total paint litres': widget.project.paintTotalLitre,
                         'used paint litres': widget.project.paintUsedLitre,
-                        'paint price': widget.project.paintPrice,
                         'total area needed blasting':
                             widget.project.totalSurfaceAreaB,
                         'blasted area': widget.project.blastedArea,
@@ -340,6 +334,7 @@ class _AssignSheetState extends State<AssignSheet> {
                         'blast pot': widget.project.blastPot,
                         'blast pot list': widget.project.blastPotList,
                         'budget list': widget.project.budgetList,
+                        'progresses tracked': widget.project.progressesTracked,
                         'Date Created': widget.project.date,
                       });
                       await Firestore.instance
@@ -439,22 +434,16 @@ class _UnassignSheetState extends State<UnassignSheet> {
                         'ID': widget.project.projID,
                         'name': widget.project.projname,
                         'location': widget.project.location,
-                        'completion': widget.project.completion,
-                        'budget': widget.project.budget,
-                        'spent budget': widget.project.spentBudget,
                         'total adhesive litres':
                             widget.project.adhesiveTotalLitre,
                         'used adhesive litres':
                             widget.project.adhesiveUsedLitre,
-                        'adhesive price': widget.project.adhesivePrice,
                         'total abrasive weight':
                             widget.project.abrasiveTotalWeight,
                         'used abrasive weight':
                             widget.project.abrasiveUsedWeight,
-                        'abrasive price': widget.project.abrasivePrice,
                         'total paint litres': widget.project.paintTotalLitre,
                         'used paint litres': widget.project.paintUsedLitre,
-                        'paint price': widget.project.paintPrice,
                         'total area needed blasting':
                             widget.project.totalSurfaceAreaB,
                         'blasted area': widget.project.blastedArea,
@@ -465,6 +454,8 @@ class _UnassignSheetState extends State<UnassignSheet> {
                             unassignToListP(widget.project.userAssigned),
                         'blast pot': widget.project.blastPot,
                         'blast pot list': widget.project.blastPotList,
+                        'budget list': widget.project.budgetList,
+                        'progresses tracked': widget.project.progressesTracked,
                         'Date Created': widget.project.date,
                       });
                       await Firestore.instance
