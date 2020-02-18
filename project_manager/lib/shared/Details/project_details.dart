@@ -7,6 +7,7 @@ import 'package:project_manager/shared/Details/IDP.dart';
 import 'package:project_manager/shared/Details/IDS.dart';
 import 'package:project_manager/services/database.dart';
 import 'package:provider/provider.dart';
+import 'package:project_manager/shared/Details/detail_settings.dart';
 
 //This ProjectDetails class contains all the main aspect that has the information of the project
 class ProjectDetails extends StatelessWidget {
@@ -54,14 +55,14 @@ class _AppbarButtonsState extends State<AppbarButtons> {
     final project = Provider.of<Project>(context);
     return FlatButton.icon(
       onPressed: () async {
-//        await Navigator.push(
-//          context,
-//          MaterialPageRoute(
-//            builder: (BuildContext context) => DSP(
-//              proj: project,
-//            ),
-//          ),
-//        );
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => DSP(
+              proj: project,
+            ),
+          ),
+        );
       },
       icon: Icon(
         Icons.edit,
