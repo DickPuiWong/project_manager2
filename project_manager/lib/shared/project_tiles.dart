@@ -24,6 +24,7 @@ class ProjTile extends StatelessWidget {
       return eb;
     }
 
+<<<<<<< HEAD
     Widget DetailType() {
       if (permissionType == null) {
         return ProjectDetails(
@@ -38,6 +39,8 @@ class ProjTile extends StatelessWidget {
       }
     }
 
+=======
+>>>>>>> master
     //ProjTile class will return Card widget to the home page
     return Padding(
       padding: EdgeInsets.only(top: 10.0),
