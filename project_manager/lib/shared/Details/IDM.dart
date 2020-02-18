@@ -37,7 +37,7 @@ class _IDMState extends State<IDM> {
         num: item['Blast Pot ${i + 1}']['Assigned num'],
         usedAbrasive: item['Blast Pot ${i + 1}']['used abrasive'],
         usedAdhesive: item['Blast Pot ${i + 1}']['used adhesive'],
-        usedPaint: item['Blast Pot ${i + 1}']['used paint'],
+        usedHours: item['Blast Pot ${i + 1}']['used paint'],
       );
     }
 
@@ -383,6 +383,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
   double _abraConst = 25;
   double _currUsedAdhesive;
   double _adheConst = 10;
+  double 
 
   @override
   Widget build(BuildContext context) {
@@ -753,7 +754,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                   widget.proj.adhesiveUsedLitre) -
                               widget.bp.usedAdhesive)),
                       'total adhesive litres': widget.proj.adhesiveTotalLitre,
-                      'used paint litres': widget.bp.usedPaint,
+                      'used paint litres': widget.bp.usedHours,
                       'total paint litres': widget.proj.paintTotalLitre,
                       'ID': widget.proj.projID,
                       'name': widget.proj.projname,
