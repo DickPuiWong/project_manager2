@@ -1185,7 +1185,7 @@ class _IDMSettingsState extends State<IDMSettings> {
                                             _currTotalAbrasive -= 250;
                                           });
                                         },
-                                        tooltip: 'Remove a bag(250kg)',
+                                        tooltip: 'Remove a bag(25kg)',
                                       ),
                                     ],
                                   ),
