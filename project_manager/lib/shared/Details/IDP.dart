@@ -338,9 +338,20 @@ class _IDPState extends State<IDP> {
                     children: <Widget>[
                       Align(
                         alignment: Alignment.center,
-                        child: Text(
-                          '       ${(findPercent() * 100).toInt()}%\nCompleted',
-                          style: TextStyle(fontSize: 30),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 80),
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                '${(findPercent() * 100).toInt()}%',
+                                style: TextStyle(fontSize: 30),
+                              ),
+                              Text(
+                                'Completed',
+                                style: TextStyle(fontSize: 30),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       Container(
