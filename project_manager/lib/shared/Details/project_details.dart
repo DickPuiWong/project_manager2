@@ -25,7 +25,7 @@ class ProjectDetails extends StatelessWidget {
     return StreamProvider<Project>.value(
       value: ProjectDatabaseService(projID: proj.projID).project,
       child: Scaffold(
-        backgroundColor: Colors.blue[100],
+        backgroundColor: Colors.blue[50],
         appBar: AppBar(
           backgroundColor: Colors.blue[900],
           title: Text('Project Details'),
@@ -62,12 +62,42 @@ class _PDExtendState extends State<PDExtend> {
     //declare and initialise the object project and assigned it to the provider of Project() class contexts
     final project = Provider.of<Project>(context);
 
-    double findPercent() {
+    double findPercent1() {
       double percent;
       double _totalDone = 0, _totalOverall = 0;
       for (int i = 0; i < project.progressesTracked.length; i++) {
         _totalDone += project.progressesTracked['pt${i + 1}']['done'];
         _totalOverall += project.progressesTracked['pt${i + 1}']['total'];
+      }
+      percent = _totalDone / _totalOverall;
+      if (_totalDone == 0 && _totalOverall == 0) {
+        percent = 0;
+      }
+      return percent;
+    }
+
+    double spentBudget() {
+      double sb = 0;
+      for (int i = 0; i < project.budgetList.length; i++) {
+        sb += project.budgetList['bt${i + 1}']['spent'];
+      }
+      return sb;
+    }
+
+    double esimateBudget() {
+      double eb = 0;
+      for (int i = 0; i < project.budgetList.length; i++) {
+        eb += project.budgetList['bt${i + 1}']['estimate'];
+      }
+      return eb;
+    }
+
+    double findPercent2() {
+      double percent;
+      double _totalDone = 0, _totalOverall = 0;
+      for (int i = 0; i < project.budgetList.length; i++) {
+        _totalDone += spentBudget();
+        _totalOverall += esimateBudget();
       }
       percent = _totalDone / _totalOverall;
       if (_totalDone == 0 && _totalOverall == 0) {
@@ -188,53 +218,16 @@ class _PDExtendState extends State<PDExtend> {
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          color: Colors.white,
-                          child: Center(
-                            child: Container(
-                              height: 240,
-                              width: 240,
-                              child: Stack(
-                                children: <Widget>[
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '${(findPercent() * 100).toInt()}%',
-                                      style: TextStyle(fontSize: 50),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 240,
-                                    width: 240,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 12,
-                                      value: findPercent(),
-                                      backgroundColor: Colors.redAccent,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          Colors.lightGreenAccent),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                          height: 150,
+                          width: 150,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 12,
+                            value: findPercent1(),
+                            backgroundColor: Colors.redAccent,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.lightGreenAccent),
                           ),
                         ),
-//                        Container(
-//                          height: 150,
-//                          width: 150,
-//                          child: CircularProgressIndicator(
-//                            strokeWidth: 12,
-//                            value: ((findPercent())),
-//                            (((project.paintedArea /
-//                                        project.totalSurfaceAreaP) +
-//                                    (project.blastedArea /
-//                                        project.totalSurfaceAreaB)) /
-//                                2),
-//                            backgroundColor: Colors.redAccent,
-//                            valueColor: AlwaysStoppedAnimation<Color>(
-//                                Colors.lightGreenAccent),
-//                          ),
-//                        ),
                       ),
                       SizedBox(
                         height: 20,
@@ -256,13 +249,14 @@ class _PDExtendState extends State<PDExtend> {
                                     fontSize: 20, color: Colors.black),
                                 children: [
                                   TextSpan(
-                                    text: ' ${(findPercent() * 100).toInt()}%',
+                                    text:
+                                        ' ${(findPercent1() * 100).toInt()}%\n',
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 35,
                                     ),
                                   ),
-                                  TextSpan(text: '  Project Completion'),
+                                  TextSpan(text: '  Completion'),
                                 ],
                               ),
                             ),
@@ -307,11 +301,7 @@ class _PDExtendState extends State<PDExtend> {
                             width: 150,
                             child: CircularProgressIndicator(
                               strokeWidth: 12,
-                              value: (((project.paintedArea /
-                                          project.totalSurfaceAreaP) +
-                                      (project.blastedArea /
-                                          project.totalSurfaceAreaB)) /
-                                  2),
+                              value: findPercent2(),
                               backgroundColor: Colors.redAccent,
                               valueColor: AlwaysStoppedAnimation<Color>(
                                   Colors.lightGreenAccent),
@@ -336,11 +326,6 @@ class _PDExtendState extends State<PDExtend> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: ListTile(
-//                      leading: Container(
-//                        color: Colors.lightGreenAccent,
-//                        height: 45,
-//                        width: 45,
-//                      ),
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -355,7 +340,7 @@ class _PDExtendState extends State<PDExtend> {
                                     TextSpan(text: 'Spent :RM '),
                                     TextSpan(
                                       text:
-                                          '${project.spentBudget.toStringAsFixed(2)}',
+                                          '${spentBudget().toStringAsFixed(2)}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -371,7 +356,7 @@ class _PDExtendState extends State<PDExtend> {
                                     TextSpan(text: 'Estimated :RM '),
                                     TextSpan(
                                       text:
-                                          '${project.budget.toStringAsFixed(2)}',
+                                          '${esimateBudget().toStringAsFixed(2)}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
