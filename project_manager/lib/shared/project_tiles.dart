@@ -5,15 +5,31 @@
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
 import 'package:project_manager/shared/Details/project_details.dart';
+import 'package:project_manager/shared/Details/project_details2.dart';
 
 class ProjTile extends StatelessWidget {
   //object creation and assigned in ProjTile() class
   final Project proj;
   final int num;
-  ProjTile({this.proj, this.num});
+  final int permissionType;
+  ProjTile({this.proj, this.num, this.permissionType});
 
   @override
   Widget build(BuildContext context) {
+    Widget DetailType() {
+      if (permissionType == null) {
+        return ProjectDetails(
+          proj: proj,
+          num: num,
+        );
+      } else {
+        return ProjectDetails2(
+          proj: proj,
+          num: num,
+        );
+      }
+    }
+
     //ProjTile class will return Card widget to the home page
     return Padding(
       padding: EdgeInsets.only(top: 10.0),
@@ -66,11 +82,7 @@ class ProjTile extends StatelessWidget {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => ProjectDetails(
-                    proj: proj,
-                    num: num,
-                  ),
-                ),
+                    builder: (BuildContext context) => DetailType()),
               );
             },
           ),
