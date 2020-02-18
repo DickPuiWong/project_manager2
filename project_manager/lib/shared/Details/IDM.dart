@@ -416,6 +416,8 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                 Divider(
                   color: Colors.grey,
                   height: 10,
+                  indent: 5,
+                  endIndent: 5,
                 ),
                 SizedBox(height: 20),
                 ExpansionTile(
