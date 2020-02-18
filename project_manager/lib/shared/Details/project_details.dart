@@ -72,12 +72,28 @@ class _PDExtendState extends State<PDExtend> {
       return percent;
     }
 
+    double spentBudget() {
+      double sb = 0;
+      for (int i = 0; i < project.budgetList.length; i++) {
+        sb += project.budgetList['bt${i + 1}']['spent'];
+      }
+      return sb;
+    }
+
+    double esimateBudget() {
+      double eb = 0;
+      for (int i = 0; i < project.budgetList.length; i++) {
+        eb += project.budgetList['bt${i + 1}']['estimate'];
+      }
+      return eb;
+    }
+
     double findPercent2() {
       double percent;
       double _totalDone = 0, _totalOverall = 0;
       for (int i = 0; i < project.budgetList.length; i++) {
-        _totalDone += project.budgetList['bt${i + 1}']['spent'];
-        _totalOverall += project.budgetList['bt${i + 1}']['estimate'];
+        _totalDone += spentBudget();
+        _totalOverall += esimateBudget();
       }
       percent = _totalDone / _totalOverall;
       if (_totalDone == 0 && _totalOverall == 0) {
@@ -230,7 +246,7 @@ class _PDExtendState extends State<PDExtend> {
                                 children: [
                                   TextSpan(
                                     text:
-                                    ' ${(findPercent1() * 100).toInt()}%\n',
+                                        ' ${(findPercent1() * 100).toInt()}%\n',
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 35,
@@ -320,7 +336,7 @@ class _PDExtendState extends State<PDExtend> {
                                     TextSpan(text: 'Spent :RM '),
                                     TextSpan(
                                       text:
-                                      '${project.spentBudget.toStringAsFixed(2)}',
+                                          '${spentBudget().toStringAsFixed(2)}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -336,7 +352,7 @@ class _PDExtendState extends State<PDExtend> {
                                     TextSpan(text: 'Estimated :RM '),
                                     TextSpan(
                                       text:
-                                      '${project.budget.toStringAsFixed(2)}',
+                                          '${esimateBudget().toStringAsFixed(2)}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -356,8 +372,8 @@ class _PDExtendState extends State<PDExtend> {
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) => IDBWrapper(
-                                    project: project,
-                                  )));
+                                        project: project,
+                                      )));
                         },
                       ),
                     ),
@@ -446,8 +462,8 @@ class _PDExtendState extends State<PDExtend> {
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) => IDMWrapper(
-                                project: project,
-                              )));
+                                    project: project,
+                                  )));
                     },
                   ),
                 ],
