@@ -28,6 +28,7 @@ class _AddProjectState extends State<AddProject> {
   double _newPaintPrice;
   double _newBlastTotalArea;
   double _newPaintTotalArea;
+  String _newSupervisor;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,7 @@ class _AddProjectState extends State<AddProject> {
                     'blasted area': 0.0,
                     'total area needed painting': _newPaintTotalArea,
                     'painted area': 0.0,
-                    'users assigned': [],
+                    'users assigned': _newSupervisor,
                   });
                   Navigator.pop(context);
                 }
@@ -135,7 +136,7 @@ class _AddProjectState extends State<AddProject> {
                           SizedBox(height: 34),
                           TextFormField(
                             decoration: textInputDecoration.copyWith(
-                                hintText: 'Location of project(address)'),
+                                hintText: 'Location of project'),
                             validator: (val) => (val.isEmpty
                                 ? 'Enter a location(address)'
                                 : null),
@@ -146,13 +147,11 @@ class _AddProjectState extends State<AddProject> {
                           SizedBox(height: 34),
                           TextFormField(
                             decoration: textInputDecoration.copyWith(
-                                hintText: 'Total Budget to Invest(RM)'),
-                            keyboardType: TextInputType.number,
+                                hintText: 'Supervisor name'),
                             validator: (val) =>
-                                (val.isEmpty ? 'Enter an amount' : null),
+                                (val.isEmpty ? 'Enter a name' : null),
                             onChanged: (val) {
-                              setState(
-                                  () => (_newBudget = double.tryParse(val)));
+                              setState(() => (_newSupervisor = val));
                             },
                           ),
                         ],
@@ -181,30 +180,7 @@ class _AddProjectState extends State<AddProject> {
                           SizedBox(height: 34),
                           TextFormField(
                             decoration: textInputDecoration.copyWith(
-                                hintText: 'Total Abrasive Price(RM)'),
-                            keyboardType: TextInputType.number,
-                            validator: (val) =>
-                                (val.isEmpty ? 'Enter an amount' : null),
-                            onChanged: (val) {
-                              setState(() =>
-                                  (_newAbrasivePrice = double.tryParse(val)));
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 34),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      color: Colors.blue[700],
-                      child: Column(
-                        children: <Widget>[
-                          TextFormField(
-                            decoration: textInputDecoration.copyWith(
-                                hintText: 'Total Adhesive Litres(L)'),
+                                hintText: 'Total HoldTight(litres)'),
                             keyboardType: TextInputType.number,
                             validator: (val) =>
                                 (val.isEmpty ? 'Enter an amount' : null),
@@ -213,60 +189,83 @@ class _AddProjectState extends State<AddProject> {
                                   (_newAdhesiveWeight = double.tryParse(val)));
                             },
                           ),
-                          SizedBox(height: 34),
-                          TextFormField(
-                            decoration: textInputDecoration.copyWith(
-                                hintText: 'Total Adhesive Price(RM)'),
-                            keyboardType: TextInputType.number,
-                            validator: (val) =>
-                                (val.isEmpty ? 'Enter an amount' : null),
-                            onChanged: (val) {
-                              setState(() =>
-                                  (_newAdhesivePrice = double.tryParse(val)));
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                      height:
-                          34), ////////////////////////////////////////////////////////
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      color: Colors.blue[700],
-                      child: Column(
-                        children: <Widget>[
-                          TextFormField(
-                            decoration: textInputDecoration.copyWith(
-                                hintText: 'Total Paint Litres(L)'),
-                            keyboardType: TextInputType.number,
-                            validator: (val) =>
-                                (val.isEmpty ? 'Enter an amount' : null),
-                            onChanged: (val) {
-                              setState(() =>
-                                  (_newPaintLitre = double.tryParse(val)));
-                            },
-                          ),
-                          SizedBox(height: 34),
-                          TextFormField(
-                            decoration: textInputDecoration.copyWith(
-                                hintText: 'Total Paint Price(RM)'),
-                            keyboardType: TextInputType.number,
-                            validator: (val) =>
-                                (val.isEmpty ? 'Enter an amount' : null),
-                            onChanged: (val) {
-                              setState(() =>
-                                  (_newPaintPrice = double.tryParse(val)));
-                            },
-                          ),
                         ],
                       ),
                     ),
                   ),
                   SizedBox(height: 34),
+//                  ClipRRect(
+//                    borderRadius: BorderRadius.circular(5),
+//                    child: Container(
+//                      padding: EdgeInsets.all(5),
+//                      color: Colors.blue[700],
+//                      child: Column(
+//                        children: <Widget>[
+//                          TextFormField(
+//                            decoration: textInputDecoration.copyWith(
+//                                hintText: 'Total Adhesive Litres(L)'),
+//                            keyboardType: TextInputType.number,
+//                            validator: (val) =>
+//                                (val.isEmpty ? 'Enter an amount' : null),
+//                            onChanged: (val) {
+//                              setState(() =>
+//                                  (_newAdhesiveWeight = double.tryParse(val)));
+//                            },
+//                          ),
+//                          SizedBox(height: 34),
+//                          TextFormField(
+//                            decoration: textInputDecoration.copyWith(
+//                                hintText: 'Total Adhesive Price(RM)'),
+//                            keyboardType: TextInputType.number,
+//                            validator: (val) =>
+//                                (val.isEmpty ? 'Enter an amount' : null),
+//                            onChanged: (val) {
+//                              setState(() =>
+//                                  (_newAdhesivePrice = double.tryParse(val)));
+//                            },
+//                          ),
+//                        ],
+//                      ),
+//                    ),
+//                  ),
+//                  SizedBox(
+//                      height:
+//                          34), ////////////////////////////////////////////////////////
+//                  ClipRRect(
+//                    borderRadius: BorderRadius.circular(5),
+//                    child: Container(
+//                      padding: EdgeInsets.all(5),
+//                      color: Colors.blue[700],
+//                      child: Column(
+//                        children: <Widget>[
+//                          TextFormField(
+//                            decoration: textInputDecoration.copyWith(
+//                                hintText: 'Total Paint Litres(L)'),
+//                            keyboardType: TextInputType.number,
+//                            validator: (val) =>
+//                                (val.isEmpty ? 'Enter an amount' : null),
+//                            onChanged: (val) {
+//                              setState(() =>
+//                                  (_newPaintLitre = double.tryParse(val)));
+//                            },
+//                          ),
+//                          SizedBox(height: 34),
+//                          TextFormField(
+//                            decoration: textInputDecoration.copyWith(
+//                                hintText: 'Total Paint Price(RM)'),
+//                            keyboardType: TextInputType.number,
+//                            validator: (val) =>
+//                                (val.isEmpty ? 'Enter an amount' : null),
+//                            onChanged: (val) {
+//                              setState(() =>
+//                                  (_newPaintPrice = double.tryParse(val)));
+//                            },
+//                          ),
+//                        ],
+//                      ),
+//                    ),
+//                  ),
+//                  SizedBox(height: 34),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(5),
                     child: Container(
