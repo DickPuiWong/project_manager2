@@ -54,14 +54,16 @@ class Project {
 
 class BlastPot {
   final int num;
+  final double refillsDone;
   final double usedAbrasive;
-  final double usedAdhesive;
+  final double usedHoldTight;
   final double usedHours;
 
   BlastPot({
     this.num,
+    this.refillsDone,
     this.usedAbrasive,
-    this.usedAdhesive,
+    this.usedHoldTight,
     this.usedHours,
   });
 }
