@@ -3,6 +3,7 @@
 // Function : This page will provide users with text field to edit the details of the project
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
 import 'package:project_manager/shared/constants.dart';
@@ -31,10 +32,10 @@ class _DSPState extends State<DSP> {
     return Form(
       key: _formKey,
       child: Scaffold(
-        backgroundColor: Colors.indigo[50],
+        backgroundColor: Colors.blue[50],
         appBar: AppBar(
-          backgroundColor: Colors.indigo[900],
-          title: Text('Edit Project'),
+          backgroundColor: Colors.blue[900],
+          title: Text('               Edit Project'),
           actions: <Widget>[
             FlatButton.icon(
               onPressed: () async {
@@ -87,46 +88,59 @@ class _DSPState extends State<DSP> {
               Column(
                 children: <Widget>[
                   Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'PROJECT NAME: ',
-                          style: TextStyle(fontSize: 24),
-                        ),
-                        TextFormField(
-                          initialValue: widget.proj.projname,
-                          decoration: textInputDecoration.copyWith(
-                              hintText: 'Project Name'),
-                          validator: (val) =>
-                              (val.isEmpty ? 'Enter a name' : null),
-                          onChanged: (val) {
-                            setState(() => (_currName = val));
-                          },
-                        ),
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              'Project Name',
+                              style: TextStyle(fontSize: 24),
+                            ),
+                          ),
+                          TextFormField(
+                            initialValue: widget.proj.projname,
+                            textAlign: TextAlign.center,
+                            decoration: textInputDecoration.copyWith(
+                              hintText: 'Project Name',
+                            ),
+                            validator: (val) =>
+                                (val.isEmpty ? 'Enter a name' : null),
+                            onChanged: (val) {
+                              setState(() => (_currName = val));
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: 34),
                   Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'LOCATION(address): ',
-                          style: TextStyle(fontSize: 24),
-                        ),
-                        TextFormField(
-                          initialValue: widget.proj.location,
-                          decoration: textInputDecoration.copyWith(
-                              hintText: 'Project Location(address)'),
-                          validator: (val) =>
-                              (val.isEmpty ? 'Enter an address' : null),
-                          onChanged: (val) {
-                            setState(() => (_currLocation = val));
-                          },
-                        ),
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              'Project Location',
+                              style: TextStyle(fontSize: 24),
+                            ),
+                          ),
+                          TextFormField(
+                            initialValue: widget.proj.location,
+                            textAlign: TextAlign.center,
+                            decoration: textInputDecoration.copyWith(
+                                hintText: 'Project Location(address)'),
+                            validator: (val) =>
+                                (val.isEmpty ? 'Enter an address' : null),
+                            onChanged: (val) {
+                              setState(() => (_currLocation = val));
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: 34),
