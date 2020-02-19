@@ -78,7 +78,7 @@ class _AddProjectState extends State<AddProject> {
                   Navigator.pop(context);
                 }
               },
-              color: Colors.blue[700],
+              color: Colors.blue[900],
               icon: Icon(
                 Icons.add,
                 color: Colors.white,
@@ -106,9 +106,9 @@ class _AddProjectState extends State<AddProject> {
                     child: Text(
                       'Create New Project',
                       style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                      ),
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[900]),
                     ),
                   ),
                   Divider(
