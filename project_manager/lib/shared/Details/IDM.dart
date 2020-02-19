@@ -35,8 +35,9 @@ class _IDMState extends State<IDM> {
     BlastPot bpMaker(Map item, int i) {
       return BlastPot(
         num: item['Blast Pot ${i + 1}']['Assigned num'],
+        refillsDone: item['Blast Pot ${i + 1}']['refills done'].toDouble(),
         usedAbrasive: item['Blast Pot ${i + 1}']['used abrasive'].toDouble(),
-        usedAdhesive: item['Blast Pot ${i + 1}']['used adhesive'].toDouble(),
+        usedHoldTight: item['Blast Pot ${i + 1}']['used HoldTight'].toDouble(),
         usedHours: item['Blast Pot ${i + 1}']['used hours'].toDouble(),
       );
     }
@@ -108,7 +109,7 @@ class _IDMState extends State<IDM> {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                              '${project.abrasiveUsedWeight}(${project.abrasiveUsedWeight / 25})'),
+                              '${project.abrasiveUsedWeight}(${project.abrasiveUsedWeight * 25})'),
                           Text('${project.adhesiveUsedLitre}'),
                         ],
                       ),
@@ -120,11 +121,11 @@ class _IDMState extends State<IDM> {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            'abrasive(kg,bags)',
+                            'abrasive(bags,kg)',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            'adhesive(L)',
+                            'HoldTight(L)',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -137,7 +138,7 @@ class _IDMState extends State<IDM> {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                              '${project.abrasiveTotalWeight}(${project.abrasiveTotalWeight / 25})'),
+                              '${project.abrasiveTotalWeight}(${project.abrasiveTotalWeight * 25})'),
                           Text('${project.adhesiveTotalLitre}'),
                         ],
                       ),
@@ -225,8 +226,8 @@ class _IDMListTilesState extends State<IDMListTiles> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                    'Abrasive used : ${widget.bp.usedAbrasive} kg(${widget.bp.usedAbrasive / 25} bags)'),
-                Text('Adhesive used : ${widget.bp.usedAdhesive} L'),
+                    'Abrasive used : ${widget.bp.usedAbrasive} bags(${widget.bp.usedAbrasive * 25} kg)'),
+                Text('Adhesive used : ${widget.bp.usedHoldTight} L'),
                 Text('Hours used : ${widget.bp.usedHours} hrs')
               ],
             ),
@@ -374,10 +375,10 @@ class BPTilesSettings extends StatefulWidget {
 
 class _BPTilesSettingsState extends State<BPTilesSettings> {
   final _formKey = GlobalKey<FormState>();
+  double _currRefills;
+  double _refConst = 1;
   double _currUsedAbrasive;
-  double _abraConst = 1;
   double _currUsedAdhesive;
-  double _adheConst = 10;
   double _currHours;
   double _hrsConst = 1;
 
@@ -420,302 +421,252 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                   endIndent: 5,
                 ),
                 SizedBox(height: 20),
-                ExpansionTile(
-                  title: Text('advance setting'),
+//                Row(
+//                  crossAxisAlignment: CrossAxisAlignment.end,
+//                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                  children: <Widget>[
+//                    Flexible(
+//                      flex: 1,
+//                      child: Stack(
+//                        children: <Widget>[
+//                          Padding(
+//                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+//                            child: Column(
+//                              crossAxisAlignment: CrossAxisAlignment.stretch,
+//                              children: <Widget>[
+//                                Container(
+//                                  decoration: BoxDecoration(
+//                                    border: Border.all(
+//                                      color: Colors.indigo[50],
+//                                      width: 2,
+//                                    ),
+//                                    borderRadius: BorderRadius.circular(3.5),
+//                                  ),
+//                                  padding: EdgeInsets.symmetric(
+//                                      vertical: 14, horizontal: 12),
+//                                  child: Text((_currUsedAbrasive ??
+//                                              widget.bp.usedAbrasive)
+//                                          .toStringAsFixed(1) +
+//                                      '/' +
+//                                      ((_currUsedAbrasive ??
+//                                                  widget.bp.usedAbrasive) *
+//                                              25)
+//                                          .toStringAsFixed(0)),
+//                                ),
+//                              ],
+//                            ),
+//                          ),
+//                          Positioned(
+//                            left: 1,
+//                            child: Container(
+//                              padding: EdgeInsets.fromLTRB(2, 0, 4, 0),
+//                              color: Colors.white,
+//                              child: Text(
+//                                'Abrasive(bags/kg)',
+//                                style: TextStyle(
+//                                  color: Colors.grey[600],
+//                                  fontWeight: FontWeight.bold,
+//                                ),
+//                              ),
+//                            ),
+//                          ),
+//                        ],
+//                      ),
+//                    ),
+//                    Flexible(
+//                      flex: 1,
+//                      child: Stack(
+//                        children: <Widget>[
+//                          Padding(
+//                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+//                            child: Column(
+//                              crossAxisAlignment: CrossAxisAlignment.stretch,
+//                              children: <Widget>[
+//                                Container(
+//                                  decoration: BoxDecoration(
+//                                    border: Border.all(
+//                                      color: Colors.indigo[50],
+//                                      width: 2,
+//                                    ),
+//                                    borderRadius: BorderRadius.circular(3.5),
+//                                  ),
+//                                  padding: EdgeInsets.symmetric(
+//                                      vertical: 14, horizontal: 12),
+//                                  child: Text((_currUsedAdhesive ??
+//                                          widget.bp.usedAdhesive)
+//                                      .toStringAsFixed(1)),
+//                                ),
+//                              ],
+//                            ),
+//                          ),
+//                          Positioned(
+//                            left: 12,
+//                            child: Container(
+//                              padding: EdgeInsets.fromLTRB(2, 0, 4, 0),
+//                              color: Colors.white,
+//                              child: Text(
+//                                'Adhesive(L)',
+//                                style: TextStyle(
+//                                  color: Colors.grey[600],
+//                                  fontWeight: FontWeight.bold,
+//                                ),
+//                              ),
+//                            ),
+//                          ),
+//                        ],
+//                      ),
+//                    ),
+//                  ],
+//                ),
+//                SizedBox(height: 5),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Center(
-                      child: Text(
-                        'Abrasive',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                    Flexible(
+                      flex: 9,
+                      child: Stack(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.indigo[50],
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(3.5),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 14, horizontal: 12),
+                                  child: Text(
+                                      (_currRefills ?? widget.bp.refillsDone)
+                                          .toString()),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            left: 12,
+                            child: Container(
+                              padding: EdgeInsets.fromLTRB(2, 0, 4, 0),
+                              color: Colors.white,
+                              child: Text(
+                                'Refills',
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Flexible(
+                      flex: 7,
+                      child: Container(
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 14),
+                          keyboardType: TextInputType.number,
+                          initialValue: '$_refConst' /*(1).toStringAsFixed(2)*/,
+                          decoration: InputDecoration(
+                            labelText: '+/-(refills)',
+                            labelStyle: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            hintText: 'refills',
+                            isDense: true,
+                            fillColor: Colors.white,
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[50], width: 2.0)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[900], width: 2.0)),
+                          ),
+                          validator: (val) =>
+                              (val.isEmpty ? 'Enter amount' : null),
+                          onChanged: (val) {
+                            _refConst = double.tryParse(val);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    ButtonTheme(
+                      minWidth: 45,
+                      child: Tooltip(
+                        message: 'revert to initial value',
+                        child: FlatButton(
+                          child: Icon(Icons.refresh),
+                          onPressed: () {
+                            setState(() {
+                              _currRefills = widget.bp.refillsDone;
+                              _currUsedAbrasive = widget.bp.usedAbrasive;
+                              _currUsedAdhesive = widget.bp.usedHoldTight;
+                            });
+                          },
                         ),
                       ),
                     ),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Flexible(
-                          flex: 3,
-                          child: Stack(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  children: <Widget>[
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.indigo[50],
-                                          width: 2,
-                                        ),
-                                        borderRadius: BorderRadius.circular(3.5),
-                                      ),
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 14, horizontal: 12),
-                                      child: Text((_currUsedAbrasive ??
-                                          widget.bp.usedAbrasive)
-                                          .toStringAsFixed(1) +
-                                          '/' +
-                                          ((_currUsedAbrasive ??
-                                              widget.bp.usedAbrasive) *
-                                              25)
-                                              .toStringAsFixed(0)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                left: 12,
-                                child: Container(
-                                  padding: EdgeInsets.fromLTRB(2, 0, 4, 0),
-                                  color: Colors.white,
-                                  child: Text(
-                                    'Used(bags/kg)',
-                                    style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Flexible(
-                          flex: 2,
-                          child: Container(
-                            child: TextFormField(
-                              style: TextStyle(fontSize: 14),
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                              '$_abraConst' /*(1).toStringAsFixed(2)*/,
-                              decoration: InputDecoration(
-                                labelText: '+/-',
-                                labelStyle: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                                hintText: 'bags',
-                                isDense: true,
-                                fillColor: Colors.white,
-                                filled: true,
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.indigo[50], width: 2.0)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.indigo[900], width: 2.0)),
-                              ),
-                              validator: (val) =>
-                              (val.isEmpty ? 'Enter amount' : null),
-                              onChanged: (val) {
-                                _abraConst = double.tryParse(val);
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         ButtonTheme(
                           minWidth: 45,
                           child: Tooltip(
-                            message: 'revert to initial value',
+                            message: 'add',
                             child: FlatButton(
-                              child: Icon(Icons.refresh),
+                              child: Icon(Icons.add),
                               onPressed: () {
+                                _currRefills = nullChecker(
+                                    _currRefills, widget.bp.refillsDone);
+                                _currUsedAbrasive = nullChecker(
+                                    _currUsedAbrasive, widget.bp.usedAbrasive);
+                                _currUsedAdhesive = nullChecker(
+                                    _currUsedAdhesive, widget.bp.usedHoldTight);
                                 setState(() {
-                                  _currUsedAbrasive = widget.bp.usedAbrasive;
+                                  _currUsedAbrasive +=
+                                      widget.proj.perFill['abrasive'];
+                                  _currUsedAdhesive +=
+                                      widget.proj.perFill['HoldTight'];
                                 });
                               },
                             ),
                           ),
                         ),
-                        Row(
-                          children: <Widget>[
-                            ButtonTheme(
-                              minWidth: 45,
-                              child: Tooltip(
-                                message: 'add',
-                                child: FlatButton(
-                                  child: Icon(Icons.add),
-                                  onPressed: () {
-                                    _currUsedAbrasive = nullChecker(
-                                        _currUsedAbrasive, widget.bp.usedAbrasive);
-                                    print('$_currUsedAbrasive += $_abraConst');
-                                    setState(() {
-                                      _currUsedAbrasive += _abraConst;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                            ButtonTheme(
-                              minWidth: 45,
-                              child: Tooltip(
-                                message: 'subtract',
-                                child: FlatButton(
-                                  child: Icon(Icons.remove),
-                                  onPressed: () {
-                                    _currUsedAbrasive = nullChecker(
-                                        _currUsedAbrasive, widget.bp.usedAbrasive);
-                                    setState(() {
-                                      _currUsedAbrasive -= _abraConst;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    Center(
-                      child: Text(
-                        'Adhesive',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Flexible(
-                          flex: 3,
-                          child: Stack(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  children: <Widget>[
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.indigo[50],
-                                          width: 2,
-                                        ),
-                                        borderRadius: BorderRadius.circular(3.5),
-                                      ),
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 14, horizontal: 12),
-                                      child: Text((_currUsedAdhesive ??
-                                          widget.bp.usedAdhesive)
-                                          .toStringAsFixed(1)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                left: 12,
-                                child: Container(
-                                  padding: EdgeInsets.fromLTRB(2, 0, 4, 0),
-                                  color: Colors.white,
-                                  child: Text(
-                                    'Used(L)',
-                                    style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Flexible(
-                          flex: 2,
-                          child: Container(
-                            child: TextFormField(
-                              style: TextStyle(fontSize: 14),
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                              '$_adheConst' /*(1).toStringAsFixed(2)*/,
-                              decoration: InputDecoration(
-                                labelText: '+/-',
-                                labelStyle: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                                hintText: 'L',
-                                isDense: true,
-                                fillColor: Colors.white,
-                                filled: true,
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.indigo[50], width: 2.0)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.indigo[900], width: 2.0)),
-                              ),
-                              validator: (val) =>
-                              (val.isEmpty ? 'Enter amount' : null),
-                              onChanged: (val) {
-                                _adheConst = double.tryParse(val);
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
                         ButtonTheme(
                           minWidth: 45,
                           child: Tooltip(
-                            message: 'revert to initial value',
+                            message: 'subtract',
                             child: FlatButton(
-                              child: Icon(Icons.refresh),
+                              child: Icon(Icons.remove),
                               onPressed: () {
+                                _currUsedAbrasive = nullChecker(
+                                    _currUsedAbrasive, widget.bp.usedAbrasive);
                                 setState(() {
-                                  _currUsedAdhesive = widget.bp.usedAdhesive;
+                                  _currUsedAbrasive -=
+                                      widget.proj.perFill['abrasive'];
+                                  _currUsedAdhesive = nullChecker(
+                                      _currUsedAdhesive,
+                                      widget.bp.usedHoldTight);
+                                  setState(() {
+                                    _currUsedAdhesive -=
+                                        widget.proj.perFill['HoldTight'];
+                                  });
                                 });
                               },
                             ),
                           ),
-                        ),
-                        Row(
-                          children: <Widget>[
-                            ButtonTheme(
-                              minWidth: 45,
-                              child: Tooltip(
-                                message: 'add',
-                                child: FlatButton(
-                                  child: Icon(Icons.add),
-                                  onPressed: () {
-                                    _currUsedAdhesive = nullChecker(
-                                        _currUsedAdhesive, widget.bp.usedAdhesive);
-                                    print('$_currUsedAdhesive += $_adheConst');
-                                    setState(() {
-                                      _currUsedAdhesive += _adheConst;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                            ButtonTheme(
-                              minWidth: 45,
-                              child: Tooltip(
-                                message: 'subtract',
-                                child: FlatButton(
-                                  child: Icon(Icons.remove),
-                                  onPressed: () {
-                                    _currUsedAdhesive = nullChecker(
-                                        _currUsedAdhesive, widget.bp.usedAdhesive);
-                                    setState(() {
-                                      _currUsedAdhesive -= _adheConst;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
                         ),
                       ],
                     ),
@@ -880,7 +831,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                         'used abrasive':
                             _currUsedAbrasive ?? widget.bp.usedAbrasive,
                         'used adhesive':
-                            _currUsedAdhesive ?? widget.bp.usedAdhesive,
+                            _currUsedAdhesive ?? widget.bp.usedHoldTight,
                         'used hours': _currHours ?? widget.bp.usedHours,
                       };
                       return mapItem;
@@ -899,7 +850,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                       'used adhesive litres': (widget.proj.adhesiveUsedLitre +
                           ((_currUsedAdhesive ??
                                   widget.proj.adhesiveUsedLitre) -
-                              widget.bp.usedAdhesive)),
+                              widget.bp.usedHoldTight)),
                       'total adhesive litres': widget.proj.adhesiveTotalLitre,
                       'used paint litres': widget.bp.usedHours,
                       'total paint litres': widget.proj.paintTotalLitre,
