@@ -375,6 +375,7 @@ class BPTilesSettings extends StatefulWidget {
 
 class _BPTilesSettingsState extends State<BPTilesSettings> {
   final _formKey = GlobalKey<FormState>();
+  int _bpNum;
   double _currRefills;
   double _refConst = 1;
   double _currUsedAbrasive;
@@ -402,17 +403,49 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
             color: Colors.white,
             child: ListView(
               children: <Widget>[
-                Center(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    child: Text(
-                      'Blast Pot ${widget.bp.num}',
-                      style: TextStyle(
-                        fontSize: 24.8,
-                        fontWeight: FontWeight.bold,
+                Row(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Text(
+                        'Blast Pot',
+                        style: TextStyle(
+                          fontSize: 24.8,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
+                    Flexible(
+                      child: Container(
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 15),
+                          initialValue:
+                          '${(_bpNum ?? widget.bp.num)}' /*(1).toStringAsFixed(2)*/,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            labelText: 'No.',
+                            labelStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                            hintText: 'assigned no.',
+                            isDense: true,
+                            fillColor: Colors.white,
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[50], width: 2.0)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.indigo[900], width: 2.0)),
+                          ),
+                          validator: (val) =>
+                          (val.isEmpty ? 'Enter Num' : null),
+                          onChanged: (val) {
+                            _bpNum = int.tryParse(val);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Divider(
                   color: Colors.grey,
@@ -830,7 +863,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                   onPressed: () async {
                     Map bpListChanger(Map mapItem) {
                       mapItem['bp${widget.bp.num}'] = {
-                        'Assigned num': widget.bp.num,
+                        'Assigned num': _bpNum ?? widget.bp.num,
                         'refills done': _currRefills ?? widget.bp.refillsDone,
                         'used abrasive':
                             _currUsedAbrasive ?? widget.bp.usedAbrasive,
