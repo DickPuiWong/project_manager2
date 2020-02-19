@@ -25,7 +25,7 @@ class ProjectDetails extends StatelessWidget {
         backgroundColor: Colors.blue[50],
         appBar: AppBar(
           backgroundColor: Colors.blue[900],
-          title: Text('Project Details'),
+          title: Text('               Project Details'),
           actions: <Widget>[
             AppbarButtons(),
           ],
@@ -67,10 +67,11 @@ class _AppbarButtonsState extends State<AppbarButtons> {
       icon: Icon(
         Icons.edit,
         color: Colors.white,
+        size: 18,
       ),
       label: Text(
         'Edit',
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.white, fontSize: 14),
       ),
     );
   }
@@ -169,7 +170,7 @@ class _PDExtendState extends State<PDExtend> {
                     child: Text(
                       '${widget.num + 1}. ${project.projname}',
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 20,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
@@ -198,7 +199,7 @@ class _PDExtendState extends State<PDExtend> {
                           Center(
                             child: Text(
                               project.location,
-                              style: TextStyle(fontSize: 22),
+                              style: TextStyle(fontSize: 20),
                             ),
                           ),
                           Divider(
@@ -217,7 +218,7 @@ class _PDExtendState extends State<PDExtend> {
                           Center(
                             child: Text(
                               'Zack',
-                              style: TextStyle(fontSize: 22),
+                              style: TextStyle(fontSize: 20),
                             ),
                           ),
                         ],
