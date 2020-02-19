@@ -429,47 +429,32 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
             height: 400,
             child: ListView(
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Flexible(
-                      flex: 2,
-                      child: Container(
-                        child: TextFormField(
-                          style: TextStyle(fontSize: 14),
-                          initialValue:
-                              '${(_newName ?? widget.pt.name)}' /*(1).toStringAsFixed(2)*/,
-                          decoration: InputDecoration(
-                            labelText: 'Name',
-                            labelStyle: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                            hintText: 'name here',
-                            isDense: true,
-                            fillColor: Colors.white,
-                            filled: true,
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.indigo[50], width: 2.0)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.indigo[900], width: 2.0)),
-                          ),
-                          validator: (val) =>
-                              (val.isEmpty ? 'Enter fieldname' : null),
-                          onChanged: (val) {
-                            _newName = val;
-                          },
-                        ),
-                      ),
+                Container(
+                  child: TextFormField(
+                    style: TextStyle(fontSize: 14),
+                    initialValue:
+                        '${(_newName ?? widget.pt.name)}' /*(1).toStringAsFixed(2)*/,
+                    decoration: InputDecoration(
+                      labelText: 'Name',
+                      labelStyle: TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                      hintText: 'name here(was ${widget.pt.name})',
+                      isDense: true,
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.indigo[50], width: 2.0)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.indigo[900], width: 2.0)),
                     ),
-                    ButtonTheme(
-                      minWidth: 30,
-                      child: FlatButton(
-                        child: Icon(Icons.refresh),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ],
+                    validator: (val) =>
+                        (val.isEmpty ? 'Enter fieldname' : null),
+                    onChanged: (val) {
+                      _newName = val;
+                    },
+                  ),
                 ),
                 Divider(
                   height: 20,
