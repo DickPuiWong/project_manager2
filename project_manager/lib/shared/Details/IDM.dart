@@ -227,7 +227,7 @@ class _IDMListTilesState extends State<IDMListTiles> {
               children: <Widget>[
                 Text(
                     'Abrasive used : ${widget.bp.usedAbrasive} bags(${widget.bp.usedAbrasive * 25} kg)'),
-                Text('Adhesive used : ${widget.bp.usedHoldTight} L'),
+                Text('HoldTight used : ${widget.bp.usedHoldTight} L'),
                 Text('Hours used : ${widget.bp.usedHours} hrs')
               ],
             ),
@@ -298,13 +298,9 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                           for (int i = 0;
                               i < (widget.proj.blastPotList.length + x);
                               i++) {
-                            if (inMap['Blast Pot ${i + 1}'] != null) {
-                              if (i + 1 != widget.bp.num) {
+                            if (inMap['Blast Pot ${i + 1}'] != widget.bp.num) {
                                 newMap['Blast Pot ${i + 1}'] =
                                     (inMap['Blast Pot ${i + 1}']);
-                              }
-                            } else {
-                              x++;
                             }
                           }
                           return newMap;
@@ -351,7 +347,9 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                         'No',
                         style: TextStyle(color: Colors.black),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
                   ],
                 ),
@@ -417,8 +415,6 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                 Divider(
                   color: Colors.grey,
                   height: 10,
-                  indent: 5,
-                  endIndent: 5,
                 ),
                 SizedBox(height: 20),
 //                Row(
@@ -493,7 +489,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
 //                                  padding: EdgeInsets.symmetric(
 //                                      vertical: 14, horizontal: 12),
 //                                  child: Text((_currUsedAdhesive ??
-//                                          widget.bp.usedAdhesive)
+//                                          widget.bp.usedHoldTight)
 //                                      .toStringAsFixed(1)),
 //                                ),
 //                              ],
@@ -505,7 +501,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
 //                              padding: EdgeInsets.fromLTRB(2, 0, 4, 0),
 //                              color: Colors.white,
 //                              child: Text(
-//                                'Adhesive(L)',
+//                                'HoldTight(L)',
 //                                style: TextStyle(
 //                                  color: Colors.grey[600],
 //                                  fontWeight: FontWeight.bold,
@@ -544,7 +540,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                       vertical: 14, horizontal: 12),
                                   child: Text(
                                       (_currRefills ?? widget.bp.refillsDone)
-                                          .toString()),
+                                          .toStringAsFixed(0)),
                                 ),
                               ],
                             ),
@@ -572,7 +568,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                         child: TextFormField(
                           style: TextStyle(fontSize: 14),
                           keyboardType: TextInputType.number,
-                          initialValue: '$_refConst' /*(1).toStringAsFixed(2)*/,
+                          initialValue: _refConst.toStringAsFixed(0),
                           decoration: InputDecoration(
                             labelText: '+/-(refills)',
                             labelStyle: TextStyle(
@@ -635,10 +631,13 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                 _currUsedAdhesive = nullChecker(
                                     _currUsedAdhesive, widget.bp.usedHoldTight);
                                 setState(() {
-                                  _currUsedAbrasive +=
-                                      widget.proj.perFill['abrasive'];
-                                  _currUsedAdhesive +=
-                                      widget.proj.perFill['HoldTight'];
+                                  _currRefills += _refConst;
+                                  _currUsedAbrasive += widget
+                                      .proj.perFill['abrasive']
+                                      .toDouble();
+                                  _currUsedAdhesive += widget
+                                      .proj.perFill['HoldTight']
+                                      .toDouble();
                                 });
                               },
                             ),
@@ -651,18 +650,20 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                             child: FlatButton(
                               child: Icon(Icons.remove),
                               onPressed: () {
+                                _currRefills = nullChecker(
+                                    _currRefills, widget.bp.refillsDone);
                                 _currUsedAbrasive = nullChecker(
                                     _currUsedAbrasive, widget.bp.usedAbrasive);
+                                _currUsedAdhesive = nullChecker(
+                                    _currUsedAdhesive, widget.bp.usedHoldTight);
                                 setState(() {
-                                  _currUsedAbrasive -=
-                                      widget.proj.perFill['abrasive'];
-                                  _currUsedAdhesive = nullChecker(
-                                      _currUsedAdhesive,
-                                      widget.bp.usedHoldTight);
-                                  setState(() {
-                                    _currUsedAdhesive -=
-                                        widget.proj.perFill['HoldTight'];
-                                  });
+                                  _currRefills -= _refConst;
+                                  _currUsedAbrasive -= widget
+                                      .proj.perFill['abrasive']
+                                      .toDouble();
+                                  _currUsedAdhesive -= widget
+                                      .proj.perFill['HoldTight']
+                                      .toDouble();
                                 });
                               },
                             ),
@@ -830,7 +831,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                         'Assigned num': widget.bp.num,
                         'used abrasive':
                             _currUsedAbrasive ?? widget.bp.usedAbrasive,
-                        'used adhesive':
+                        'used HoldTight':
                             _currUsedAdhesive ?? widget.bp.usedHoldTight,
                         'used hours': _currHours ?? widget.bp.usedHours,
                       };
