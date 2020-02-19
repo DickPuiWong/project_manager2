@@ -170,6 +170,7 @@ class _IDMState extends State<IDM> {
                   itemCount: bpList.length,
                   itemBuilder: (context, index) {
                     return IDMListTiles(
+                      index: index,
                       bp: bpList[index],
                       project: project,
                     );
@@ -185,9 +186,10 @@ class _IDMState extends State<IDM> {
 }
 
 class IDMListTiles extends StatefulWidget {
+  final int index;
   final BlastPot bp;
   final Project project;
-  IDMListTiles({this.bp, this.project});
+  IDMListTiles({this.index,this.bp, this.project});
   @override
   _IDMListTilesState createState() => _IDMListTilesState();
 }
@@ -208,6 +210,7 @@ class _IDMListTilesState extends State<IDMListTiles> {
                   context: context,
                   builder: (context) {
                     return BPTileDelete(
+                      index: widget.index,
                       bp: widget.bp,
                       proj: widget.project,
                     );
@@ -247,9 +250,10 @@ class _IDMListTilesState extends State<IDMListTiles> {
 }
 
 class BPTileDelete extends StatefulWidget {
+  final int index;
   final BlastPot bp;
   final Project proj;
-  BPTileDelete({this.bp, this.proj});
+  BPTileDelete({this.index,this.bp, this.proj});
   @override
   _BPTileDeleteState createState() => _BPTileDeleteState();
 }
@@ -288,53 +292,52 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                       ),
                       onPressed: () async {
                         Map mapChanger(Map inMap) {
-                          int x = 0;
+                          int x = 1;
                           Map newMap = {};
                           for (int i = 0;
-                              i < (widget.proj.blastPotList.length + x);
+                              i < (widget.proj.blastPotList.length);
                               i++) {
-                            if (inMap['Blast Pot ${i + 1}'] != widget.bp.num) {
-                                newMap['Blast Pot ${i + 1}'] =
-                                    (inMap['Blast Pot ${i + 1}']);
+                            if(i!=widget.index){
+                              newMap['bp$x']=inMap['bp${i+1}'];
+                              x++;
                             }
                           }
                           return newMap;
                         }
-                        print();
 
-//                        await Firestore.instance
-//                            .collection('projects')
-//                            .document(widget.proj.projID)
-//                            .setData({
-//                          'blast pot': (widget.proj.blastPot - 1),
-//                          'used abrasive weight':
-//                              (widget.proj.abrasiveUsedWeight),
-//                          'total abrasive weight':
-//                              widget.proj.abrasiveTotalWeight,
-//                          'used adhesive litres':
-//                              (widget.proj.adhesiveUsedLitre),
-//                          'total adhesive litres':
-//                              widget.proj.adhesiveTotalLitre,
-//                          'used paint litres': (widget.proj.paintUsedLitre),
-//                          'total paint litres': widget.proj.paintTotalLitre,
-//                          'ID': widget.proj.projID,
-//                          'name': widget.proj.projname,
-//                          'location': widget.proj.location,
-//                          'total area needed blasting':
-//                              widget.proj.totalSurfaceAreaB,
-//                          'blasted area': widget.proj.blastedArea,
-//                          'total area needed painting':
-//                              widget.proj.totalSurfaceAreaP,
-//                          'painted area': widget.proj.paintedArea,
-//                        'per fill': widget.proj.perFill,
-//                        'budget list': widget.proj.budgetList,
-//                        'progresses tracked': widget.proj.progressesTracked,
-//                          'users assigned': widget.proj.userAssigned,
-//                          'blast pot list':
-//                              mapChanger(widget.proj.blastPotList),
-//                          'Date Created': widget.proj.date,
-//                        });
-//                        Navigator.pop(context);
+                        await Firestore.instance
+                            .collection('projects')
+                            .document(widget.proj.projID)
+                            .setData({
+                          'blast pot': (widget.proj.blastPot - 1),
+                          'used abrasive weight':
+                              (widget.proj.abrasiveUsedWeight),
+                          'total abrasive weight':
+                              widget.proj.abrasiveTotalWeight,
+                          'used adhesive litres':
+                              (widget.proj.adhesiveUsedLitre),
+                          'total adhesive litres':
+                              widget.proj.adhesiveTotalLitre,
+                          'used paint litres': (widget.proj.paintUsedLitre),
+                          'total paint litres': widget.proj.paintTotalLitre,
+                          'ID': widget.proj.projID,
+                          'name': widget.proj.projname,
+                          'location': widget.proj.location,
+                          'total area needed blasting':
+                              widget.proj.totalSurfaceAreaB,
+                          'blasted area': widget.proj.blastedArea,
+                          'total area needed painting':
+                              widget.proj.totalSurfaceAreaP,
+                          'painted area': widget.proj.paintedArea,
+                        'per fill': widget.proj.perFill,
+                        'budget list': widget.proj.budgetList,
+                        'progresses tracked': widget.proj.progressesTracked,
+                          'users assigned': widget.proj.userAssigned,
+                          'blast pot list':
+                              mapChanger(widget.proj.blastPotList),
+                          'Date Created': widget.proj.date,
+                        });
+                        Navigator.pop(context);
                       },
                     ),
                     FlatButton.icon(
