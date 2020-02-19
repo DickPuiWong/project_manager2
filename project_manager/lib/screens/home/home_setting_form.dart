@@ -63,7 +63,7 @@ class _HSFState extends State<HSF> {
                     ];
                     Map t2 = {};
                     void t3(Map x, int i, BlastPot y) {
-                      t2['Blast Pot $i'] = {
+                      t2['bp$i'] = {
                         'Assigned num': y.num,
                         'refills done': y.refillsDone,
                         'used abrasive': y.usedAbrasive,
@@ -103,7 +103,7 @@ class _HSFState extends State<HSF> {
                       'done': 250.0,
                       'total': 1000.0,
                     };
-                    Map t6 = {'abrasive': 5.0, 'HoldThight': 1.0};
+                    Map t6 = {'abrasive': 5.0, 'HoldTight': 1.0};
 
                     String id = Firestore.instance
                         .collection('projects')
