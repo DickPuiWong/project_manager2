@@ -294,13 +294,13 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                               i < (widget.proj.blastPotList.length + x);
                               i++) {
                             if (inMap['Blast Pot ${i + 1}'] != widget.bp.num) {
-                                newMap['Blast Pot ${i + 1}'] =
-                                    (inMap['Blast Pot ${i + 1}']);
+                              newMap['Blast Pot ${i + 1}'] =
+                                  (inMap['Blast Pot ${i + 1}']);
                             }
                           }
                           return newMap;
                         }
-                        print();
+//                        print();
 
 //                        await Firestore.instance
 //                            .collection('projects')
