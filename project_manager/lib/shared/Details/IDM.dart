@@ -189,7 +189,7 @@ class IDMListTiles extends StatefulWidget {
   final int index;
   final BlastPot bp;
   final Project project;
-  IDMListTiles({this.index,this.bp, this.project});
+  IDMListTiles({this.index, this.bp, this.project});
   @override
   _IDMListTilesState createState() => _IDMListTilesState();
 }
@@ -253,7 +253,7 @@ class BPTileDelete extends StatefulWidget {
   final int index;
   final BlastPot bp;
   final Project proj;
-  BPTileDelete({this.index,this.bp, this.proj});
+  BPTileDelete({this.index, this.bp, this.proj});
   @override
   _BPTileDeleteState createState() => _BPTileDeleteState();
 }
@@ -297,8 +297,8 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                           for (int i = 0;
                               i < (widget.proj.blastPotList.length);
                               i++) {
-                            if(i!=widget.index){
-                              newMap['bp$x']=inMap['bp${i+1}'];
+                            if (i != widget.index) {
+                              newMap['bp$x'] = inMap['bp${i + 1}'];
                               x++;
                             }
                           }
@@ -329,9 +329,9 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                           'total area needed painting':
                               widget.proj.totalSurfaceAreaP,
                           'painted area': widget.proj.paintedArea,
-                        'per fill': widget.proj.perFill,
-                        'budget list': widget.proj.budgetList,
-                        'progresses tracked': widget.proj.progressesTracked,
+                          'per fill': widget.proj.perFill,
+                          'budget list': widget.proj.budgetList,
+                          'progresses tracked': widget.proj.progressesTracked,
                           'users assigned': widget.proj.userAssigned,
                           'blast pot list':
                               mapChanger(widget.proj.blastPotList),
@@ -420,7 +420,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                         child: TextFormField(
                           style: TextStyle(fontSize: 15),
                           initialValue:
-                          '${(_bpNum ?? widget.bp.num)}' /*(1).toStringAsFixed(2)*/,
+                              '${(_bpNum ?? widget.bp.num)}' /*(1).toStringAsFixed(2)*/,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             labelText: 'No.',
@@ -438,7 +438,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                     color: Colors.indigo[900], width: 2.0)),
                           ),
                           validator: (val) =>
-                          (val.isEmpty ? 'Enter Num' : null),
+                              (val.isEmpty ? 'Enter Num' : null),
                           onChanged: (val) {
                             _bpNum = int.tryParse(val);
                           },
@@ -929,8 +929,13 @@ class IDMSettings extends StatefulWidget {
 class _IDMSettingsState extends State<IDMSettings> {
   double _currBlastPotNo;
   double _currTotalAbrasive;
+  double _abrConst = 10;
   double _currTotalAdhesive;
-  double _currTotalHours;
+  double _adhConst = 20;
+  double _currRefillA;
+  double _refAConst = 5;
+  double _currRefillH;
+  double _refHConst = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -950,7 +955,7 @@ class _IDMSettingsState extends State<IDMSettings> {
           backgroundColor: Colors.indigo[50],
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
-            child: Column(
+            child: ListView(
               children: <Widget>[
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1008,10 +1013,7 @@ class _IDMSettingsState extends State<IDMSettings> {
                                           widget.proj.adhesiveTotalLitre) -
                                       widget.proj.adhesiveTotalLitre),
                           'used paint litres': widget.proj.paintUsedLitre,
-                          'total paint litres': widget.proj.paintTotalLitre +
-                              ((_currTotalHours ??
-                                      widget.proj.paintTotalLitre) -
-                                  widget.proj.paintTotalLitre),
+                          'total paint litres': widget.proj.paintTotalLitre,
                           'ID': widget.proj.projID,
                           'name': widget.proj.projname,
                           'location': widget.proj.location,
@@ -1122,7 +1124,7 @@ class _IDMSettingsState extends State<IDMSettings> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                'ABRASIVE',
+                                'Limits',
                                 style: TextStyle(fontSize: 24),
                               ),
                               Divider(
@@ -1131,54 +1133,307 @@ class _IDMSettingsState extends State<IDMSettings> {
                                 endIndent: 5,
                               ),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  RichText(
-                                    text: TextSpan(
-                                      style: TextStyle(color: Colors.black),
-                                      children: [
-                                        TextSpan(
-                                          text: 'Limit : ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                  Flexible(
+                                    flex: 3,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 5, 0, 0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: <Widget>[
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.indigo[50],
+                                                    width: 2,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          3.5),
+                                                ),
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 14,
+                                                    horizontal: 12),
+                                                child: Text(
+                                                    '${(_currTotalAbrasive ?? widget.proj.abrasiveTotalWeight).toStringAsFixed(1)} bags/ ${((_currTotalAbrasive ?? widget.proj.abrasiveTotalWeight) * 25).toStringAsFixed(1)} kg'),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        TextSpan(
-                                            text:
-                                                '${(_currTotalAbrasive ?? widget.proj.abrasiveTotalWeight).toStringAsFixed(2)}bags (${((_currTotalAbrasive ?? widget.proj.abrasiveTotalWeight) * 25).toStringAsFixed(1)}kg)'),
+                                        Positioned(
+                                          left: 12,
+                                          child: Container(
+                                            padding:
+                                                EdgeInsets.fromLTRB(2, 0, 4, 0),
+                                            color: Colors.white,
+                                            child: Text(
+                                              'Abrasive(bags/kg)',
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ],
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 2,
+                                    child: Container(
+                                      child: TextFormField(
+                                        style: TextStyle(fontSize: 14),
+                                        keyboardType: TextInputType.number,
+                                        initialValue:
+                                            '$_abrConst' /*(1).toStringAsFixed(2)*/,
+                                        decoration: InputDecoration(
+                                          labelText: '+/-',
+                                          labelStyle: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                          hintText: 'bags',
+                                          isDense: true,
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.indigo[50],
+                                                  width: 2.0)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.indigo[900],
+                                                  width: 2.0)),
+                                        ),
+                                        validator: (val) => (val.isEmpty
+                                            ? 'Enter amount'
+                                            : null),
+                                        onChanged: (val) {
+                                          _abrConst = double.tryParse(val);
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  ButtonTheme(
+                                    minWidth: 45,
+                                    child: Tooltip(
+                                      message: 'revert to initial value',
+                                      child: FlatButton(
+                                        child: Icon(Icons.refresh),
+                                        onPressed: () {
+                                          setState(() {
+                                            _currTotalAbrasive = widget
+                                                .proj.abrasiveTotalWeight;
+                                          });
+                                        },
+                                      ),
                                     ),
                                   ),
                                   Row(
                                     children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(Icons.add),
-                                        onPressed: () {
-                                          _currTotalAbrasive = nullChecker(
-                                              _currTotalAbrasive,
-                                              widget.proj.abrasiveTotalWeight);
-                                          setState(() {
-                                            _currTotalAbrasive += 25;
-                                          });
-                                        },
-                                        tooltip: 'Add a bag(25kg)',
+                                      ButtonTheme(
+                                        minWidth: 45,
+                                        child: Tooltip(
+                                          message: 'add',
+                                          child: FlatButton(
+                                            child: Icon(Icons.add),
+                                            onPressed: () {
+                                              _currTotalAbrasive = nullChecker(
+                                                  _currTotalAbrasive,
+                                                  widget.proj.abrasiveTotalWeight);
+                                              setState(() {
+                                                _currTotalAbrasive += _abrConst;
+                                              });
+                                            },
+                                          ),
+                                        ),
                                       ),
-                                      IconButton(
-                                        icon: Icon(Icons.remove),
-                                        onPressed: () {
-                                          _currTotalAbrasive = nullChecker(
-                                              _currTotalAbrasive,
-                                              widget.proj.abrasiveTotalWeight);
-                                          setState(() {
-                                            _currTotalAbrasive -= 250;
-                                          });
-                                        },
-                                        tooltip: 'Remove a bag(25kg)',
+                                      ButtonTheme(
+                                        minWidth: 45,
+                                        child: Tooltip(
+                                          message: 'subtract',
+                                          child: FlatButton(
+                                            child: Icon(Icons.remove),
+                                            onPressed: () {
+                                              _currTotalAbrasive = nullChecker(
+                                                  _currTotalAbrasive,
+                                                  widget
+                                                      .proj.abrasiveTotalWeight);
+                                              setState(() {
+                                                _currTotalAbrasive -= _abrConst;
+                                              });
+                                            },
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
+                              SizedBox(height: 14),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Flexible(
+                                    flex: 3,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 5, 0, 0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: <Widget>[
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.indigo[50],
+                                                    width: 2,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          3.5),
+                                                ),
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 14,
+                                                    horizontal: 12),
+                                                child: Text(
+                                                    '${(_currTotalAdhesive ?? widget.proj.adhesiveTotalLitre).toStringAsFixed(1)} L'),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                          left: 12,
+                                          child: Container(
+                                            padding:
+                                                EdgeInsets.fromLTRB(2, 0, 4, 0),
+                                            color: Colors.white,
+                                            child: Text(
+                                              'Adhesive(L)',
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 2,
+                                    child: Container(
+                                      child: TextFormField(
+                                        style: TextStyle(fontSize: 14),
+                                        keyboardType: TextInputType.number,
+                                        initialValue:
+                                            '$_adhConst' /*(1).toStringAsFixed(2)*/,
+                                        decoration: InputDecoration(
+                                          labelText: '+/-',
+                                          labelStyle: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                          hintText: 'Litres',
+                                          isDense: true,
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.indigo[50],
+                                                  width: 2.0)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.indigo[900],
+                                                  width: 2.0)),
+                                        ),
+                                        validator: (val) => (val.isEmpty
+                                            ? 'Enter amount'
+                                            : null),
+                                        onChanged: (val) {
+                                          _adhConst = double.tryParse(val);
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  ButtonTheme(
+                                    minWidth: 45,
+                                    child: Tooltip(
+                                      message: 'revert to initial value',
+                                      child: FlatButton(
+                                        child: Icon(Icons.refresh),
+                                        onPressed: () {
+                                          setState(() {
+                                            _currTotalAdhesive = widget
+                                                .proj.adhesiveTotalLitre;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      ButtonTheme(
+                                        minWidth: 45,
+                                        child: Tooltip(
+                                          message: 'add',
+                                          child: FlatButton(
+                                            child: Icon(Icons.add),
+                                            onPressed: () {
+                                              _currTotalAdhesive = nullChecker(
+                                                  _currTotalAdhesive,
+                                                  widget.proj.adhesiveTotalLitre);
+                                              setState(() {
+                                                _currTotalAdhesive += _adhConst;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      ButtonTheme(
+                                        minWidth: 45,
+                                        child: Tooltip(
+                                          message: 'subtract',
+                                          child: FlatButton(
+                                            child: Icon(Icons.remove),
+                                            onPressed: () {
+                                              _currTotalAdhesive = nullChecker(
+                                                  _currTotalAdhesive,
+                                                  widget
+                                                      .proj.adhesiveTotalLitre);
+                                              setState(() {
+                                                _currTotalAdhesive -= _adhConst;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 14),
                             ],
                           ),
                         ),
@@ -1276,7 +1531,7 @@ class _IDMSettingsState extends State<IDMSettings> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                'Hours',
+                                'ReFill constant',
                                 style: TextStyle(fontSize: 24),
                               ),
                               Divider(
@@ -1285,54 +1540,315 @@ class _IDMSettingsState extends State<IDMSettings> {
                                 endIndent: 5,
                               ),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  RichText(
-                                    text: TextSpan(
-                                      style: TextStyle(color: Colors.black),
-                                      children: [
-                                        TextSpan(
-                                          text: 'Limit : ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                  Flexible(
+                                    flex: 3,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 5, 0, 0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: <Widget>[
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.indigo[50],
+                                                    width: 2,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          3.5),
+                                                ),
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 14,
+                                                    horizontal: 12),
+                                                child: Text(
+                                                    '${(_currRefillA ?? widget.proj.perFill['abrasive']).toStringAsFixed(1)} bags/ ${((_currRefillA ?? widget.proj.perFill['abrasive']) * 25).toStringAsFixed(1)} kg'),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        TextSpan(
-                                            text:
-                                                '${(_currTotalAdhesive ?? widget.proj.adhesiveTotalLitre)}hrs'),
+                                        Positioned(
+                                          left: 12,
+                                          child: Container(
+                                            padding:
+                                                EdgeInsets.fromLTRB(2, 0, 4, 0),
+                                            color: Colors.white,
+                                            child: Text(
+                                              'Abrasive(bags/kg)',
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ],
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 2,
+                                    child: Container(
+                                      child: TextFormField(
+                                        style: TextStyle(fontSize: 14),
+                                        keyboardType: TextInputType.number,
+                                        initialValue:
+                                            '$_refAConst' /*(1).toStringAsFixed(2)*/,
+                                        decoration: InputDecoration(
+                                          labelText: '+/-',
+                                          labelStyle: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                          hintText: 'bags',
+                                          isDense: true,
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.indigo[50],
+                                                  width: 2.0)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.indigo[900],
+                                                  width: 2.0)),
+                                        ),
+                                        validator: (val) => (val.isEmpty
+                                            ? 'Enter amount'
+                                            : null),
+                                        onChanged: (val) {
+                                          _refAConst = double.tryParse(val);
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  ButtonTheme(
+                                    minWidth: 45,
+                                    child: Tooltip(
+                                      message: 'revert to initial value',
+                                      child: FlatButton(
+                                        child: Icon(Icons.refresh),
+                                        onPressed: () {
+                                          setState(() {
+                                            _currRefillA = widget
+                                                .proj.perFill['abrasive']
+                                                .toDouble();
+                                          });
+                                        },
+                                      ),
                                     ),
                                   ),
                                   Row(
                                     children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(Icons.add),
-                                        onPressed: () {
-                                          _currTotalAdhesive = nullChecker(
-                                              _currTotalAdhesive,
-                                              widget.proj.adhesiveTotalLitre);
-                                          setState(() {
-                                            _currTotalAdhesive++;
-                                          });
-                                        },
-                                        tooltip: 'Add a liter(1L)',
+                                      ButtonTheme(
+                                        minWidth: 45,
+                                        child: Tooltip(
+                                          message: 'add',
+                                          child: FlatButton(
+                                            child: Icon(Icons.add),
+                                            onPressed: () {
+                                              _currRefillA = nullChecker(
+                                                  _currRefillA,
+                                                  widget
+                                                      .proj.perFill['abrasive']
+                                                      .toDouble());
+                                              setState(() {
+                                                _currRefillA += _refAConst;
+                                              });
+                                            },
+                                          ),
+                                        ),
                                       ),
-                                      IconButton(
-                                        icon: Icon(Icons.remove),
-                                        onPressed: () {
-                                          _currTotalAdhesive = nullChecker(
-                                              _currTotalAdhesive,
-                                              widget.proj.adhesiveTotalLitre);
-                                          setState(() {
-                                            _currTotalAdhesive--;
-                                          });
-                                        },
-                                        tooltip: 'Remove a liter(1L)',
+                                      ButtonTheme(
+                                        minWidth: 45,
+                                        child: Tooltip(
+                                          message: 'subtract',
+                                          child: FlatButton(
+                                            child: Icon(Icons.remove),
+                                            onPressed: () {
+                                              _currRefillA = nullChecker(
+                                                  _currRefillA,
+                                                  widget
+                                                      .proj.perFill['abrasive']
+                                                      .toDouble());
+                                              setState(() {
+                                                _currRefillA -= _refAConst;
+                                              });
+                                            },
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
+                              SizedBox(height: 14),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Flexible(
+                                    flex: 3,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 5, 0, 0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: <Widget>[
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.indigo[50],
+                                                    width: 2,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          3.5),
+                                                ),
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 14,
+                                                    horizontal: 12),
+                                                child: Text(
+                                                    '${(_currRefillH ?? widget.proj.perFill['HoldTight']).toStringAsFixed(1)} L'),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                          left: 12,
+                                          child: Container(
+                                            padding:
+                                                EdgeInsets.fromLTRB(2, 0, 4, 0),
+                                            color: Colors.white,
+                                            child: Text(
+                                              'HoldTight(L)',
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 2,
+                                    child: Container(
+                                      child: TextFormField(
+                                        style: TextStyle(fontSize: 14),
+                                        keyboardType: TextInputType.number,
+                                        initialValue:
+                                            '$_refAConst' /*(1).toStringAsFixed(2)*/,
+                                        decoration: InputDecoration(
+                                          labelText: '+/-',
+                                          labelStyle: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                          hintText: 'litres',
+                                          isDense: true,
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.indigo[50],
+                                                  width: 2.0)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.indigo[900],
+                                                  width: 2.0)),
+                                        ),
+                                        validator: (val) => (val.isEmpty
+                                            ? 'Enter amount'
+                                            : null),
+                                        onChanged: (val) {
+                                          _refHConst = double.tryParse(val);
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  ButtonTheme(
+                                    minWidth: 45,
+                                    child: Tooltip(
+                                      message: 'revert to initial value',
+                                      child: FlatButton(
+                                        child: Icon(Icons.refresh),
+                                        onPressed: () {
+                                          setState(() {
+                                            _currRefillH = widget
+                                                .proj.perFill['HoldTight']
+                                                .toDouble();
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      ButtonTheme(
+                                        minWidth: 45,
+                                        child: Tooltip(
+                                          message: 'add',
+                                          child: FlatButton(
+                                            child: Icon(Icons.add),
+                                            onPressed: () {
+                                              _currRefillH = nullChecker(
+                                                  _currRefillH,
+                                                  widget
+                                                      .proj.perFill['HoldTight']
+                                                      .toDouble());
+                                              setState(() {
+                                                _currRefillH += _refHConst;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      ButtonTheme(
+                                        minWidth: 45,
+                                        child: Tooltip(
+                                          message: 'subtract',
+                                          child: FlatButton(
+                                            child: Icon(Icons.remove),
+                                            onPressed: () {
+                                              _currRefillH = nullChecker(
+                                                  _currRefillH,
+                                                  widget
+                                                      .proj.perFill['HoldTight']
+                                                      .toDouble());
+                                              setState(() {
+                                                _currRefillH -= _refHConst;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 14),
                             ],
                           ),
                         ),
