@@ -34,22 +34,17 @@ class _IDMState extends State<IDM> {
 
     BlastPot bpMaker(Map item, int i) {
       return BlastPot(
-        num: item['Blast Pot ${i + 1}']['Assigned num'],
-        refillsDone: item['Blast Pot ${i + 1}']['refills done'].toDouble(),
-        usedAbrasive: item['Blast Pot ${i + 1}']['used abrasive'].toDouble(),
-        usedHoldTight: item['Blast Pot ${i + 1}']['used HoldTight'].toDouble(),
-        usedHours: item['Blast Pot ${i + 1}']['used hours'].toDouble(),
+        num: item['bp${i + 1}']['Assigned num'],
+        refillsDone: item['bp${i + 1}']['refills done'].toDouble(),
+        usedAbrasive: item['bp${i + 1}']['used abrasive'].toDouble(),
+        usedHoldTight: item['bp${i + 1}']['used HoldTight'].toDouble(),
+        usedHours: item['bp${i + 1}']['used hours'].toDouble(),
       );
     }
 
     void listMaker(Map list) {
-      int x = 0;
-      for (int i = 0; i < list.length + x; i++) {
-        if (project.blastPotList['Blast Pot ${i + 1}'] != null) {
-          bpList.add(bpMaker(project.blastPotList, i));
-        } else {
-          x++;
-        }
+      for (int i = 0; i < list.length; i++) {
+        bpList.add(bpMaker(project.blastPotList, i));
       }
     }
 
@@ -305,37 +300,41 @@ class _BPTileDeleteState extends State<BPTileDelete> {
                           }
                           return newMap;
                         }
+                        print();
 
-                        await Firestore.instance
-                            .collection('projects')
-                            .document(widget.proj.projID)
-                            .setData({
-                          'blast pot': (widget.proj.blastPot - 1),
-                          'used abrasive weight':
-                              (widget.proj.abrasiveUsedWeight),
-                          'total abrasive weight':
-                              widget.proj.abrasiveTotalWeight,
-                          'used adhesive litres':
-                              (widget.proj.adhesiveUsedLitre),
-                          'total adhesive litres':
-                              widget.proj.adhesiveTotalLitre,
-                          'used paint litres': (widget.proj.paintUsedLitre),
-                          'total paint litres': widget.proj.paintTotalLitre,
-                          'ID': widget.proj.projID,
-                          'name': widget.proj.projname,
-                          'location': widget.proj.location,
-                          'total area needed blasting':
-                              widget.proj.totalSurfaceAreaB,
-                          'blasted area': widget.proj.blastedArea,
-                          'total area needed painting':
-                              widget.proj.totalSurfaceAreaP,
-                          'painted area': widget.proj.paintedArea,
-                          'users assigned': widget.proj.userAssigned,
-                          'blast pot list':
-                              mapChanger(widget.proj.blastPotList),
-                          'Date Created': widget.proj.date,
-                        });
-                        Navigator.pop(context);
+//                        await Firestore.instance
+//                            .collection('projects')
+//                            .document(widget.proj.projID)
+//                            .setData({
+//                          'blast pot': (widget.proj.blastPot - 1),
+//                          'used abrasive weight':
+//                              (widget.proj.abrasiveUsedWeight),
+//                          'total abrasive weight':
+//                              widget.proj.abrasiveTotalWeight,
+//                          'used adhesive litres':
+//                              (widget.proj.adhesiveUsedLitre),
+//                          'total adhesive litres':
+//                              widget.proj.adhesiveTotalLitre,
+//                          'used paint litres': (widget.proj.paintUsedLitre),
+//                          'total paint litres': widget.proj.paintTotalLitre,
+//                          'ID': widget.proj.projID,
+//                          'name': widget.proj.projname,
+//                          'location': widget.proj.location,
+//                          'total area needed blasting':
+//                              widget.proj.totalSurfaceAreaB,
+//                          'blasted area': widget.proj.blastedArea,
+//                          'total area needed painting':
+//                              widget.proj.totalSurfaceAreaP,
+//                          'painted area': widget.proj.paintedArea,
+//                        'per fill': widget.proj.perFill,
+//                        'budget list': widget.proj.budgetList,
+//                        'progresses tracked': widget.proj.progressesTracked,
+//                          'users assigned': widget.proj.userAssigned,
+//                          'blast pot list':
+//                              mapChanger(widget.proj.blastPotList),
+//                          'Date Created': widget.proj.date,
+//                        });
+//                        Navigator.pop(context);
                       },
                     ),
                     FlatButton.icon(
@@ -827,8 +826,9 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                   ),
                   onPressed: () async {
                     Map bpListChanger(Map mapItem) {
-                      mapItem['Blast Pot ${widget.bp.num}'] = {
+                      mapItem['bp${widget.bp.num}'] = {
                         'Assigned num': widget.bp.num,
+                        'refills done': _currRefills ?? widget.bp.refillsDone,
                         'used abrasive':
                             _currUsedAbrasive ?? widget.bp.usedAbrasive,
                         'used HoldTight':
@@ -864,6 +864,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                       'total area needed painting':
                           widget.proj.totalSurfaceAreaP,
                       'painted area': widget.proj.paintedArea,
+                      'per fill': widget.proj.perFill,
                       'users assigned': widget.proj.userAssigned,
                       'blast pot list': bpListChanger(widget.proj.blastPotList),
                       'budget list': widget.proj.budgetList,
@@ -929,23 +930,20 @@ class _IDMSettingsState extends State<IDMSettings> {
                       icon: Icon(Icons.file_upload),
                       onPressed: () async {
                         Map bpListChanger(Map mapItem) {
-                          int ii = 1;
+                          int ii = widget.proj.blastPot.toInt() + 1;
                           for (int i = 0;
                               i <
                                   ((_currBlastPotNo ?? widget.proj.blastPot) -
                                           widget.proj.blastPot)
                                       .toInt();
                               i++) {
-                            if (mapItem['Blast Pot $ii'] == null) {
-                              mapItem['Blast Pot $ii'] = {
-                                'Assigned num': ii,
-                                'used abrasive': 0.0,
-                                'used adhesive': 0.0,
-                                'used hours': 0.0,
-                              };
-                            } else {
-                              i--;
-                            }
+                            mapItem['bp$ii'] = {
+                              'Assigned num': 0,
+                              'refills done': 0.0,
+                              'used abrasive': 0.0,
+                              'used HoldTight': 0.0,
+                              'used hours': 0.0,
+                            };
                             ii++;
                           }
                           return mapItem;
@@ -987,13 +985,12 @@ class _IDMSettingsState extends State<IDMSettings> {
                           'total area needed painting':
                               widget.proj.totalSurfaceAreaP,
                           'painted area': widget.proj.paintedArea,
+                          'per fill': widget.proj.perFill,
                           'users assigned': widget.proj.userAssigned,
                           'budget list': widget.proj.budgetList,
                           'progresses tracked': widget.proj.progressesTracked,
                           'Date Created': widget.proj.date,
                         });
-                        print(new DateTime.fromMillisecondsSinceEpoch(
-                            widget.proj.date));
                         Navigator.pop(context);
                       },
                     ),
@@ -1016,8 +1013,6 @@ class _IDMSettingsState extends State<IDMSettings> {
                               ),
                               Divider(
                                 height: 10,
-                                indent: 5,
-                                endIndent: 5,
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -1108,13 +1103,13 @@ class _IDMSettingsState extends State<IDMSettings> {
                                       style: TextStyle(color: Colors.black),
                                       children: [
                                         TextSpan(
-                                          text: 'Max : ',
+                                          text: 'Limit : ',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
                                         TextSpan(
                                             text:
-                                                '${(_currTotalAbrasive ?? widget.proj.abrasiveTotalWeight).toStringAsFixed(2)}kg (${((_currTotalAbrasive ?? widget.proj.abrasiveTotalWeight) / 250).toStringAsFixed(1)}bag)'),
+                                                '${(_currTotalAbrasive ?? widget.proj.abrasiveTotalWeight).toStringAsFixed(2)}bags (${((_currTotalAbrasive ?? widget.proj.abrasiveTotalWeight) * 25).toStringAsFixed(1)}kg)'),
                                       ],
                                     ),
                                   ),
@@ -1185,7 +1180,7 @@ class _IDMSettingsState extends State<IDMSettings> {
                                       style: TextStyle(color: Colors.black),
                                       children: [
                                         TextSpan(
-                                          text: 'Max : ',
+                                          text: 'Limit : ',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
