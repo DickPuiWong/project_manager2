@@ -103,7 +103,8 @@ class _DSPState extends State<DSP> {
                             initialValue: widget.proj.projname,
                             textAlign: TextAlign.center,
                             decoration: textInputDecoration.copyWith(
-                                hintText: 'Project Name'),
+                              hintText: 'Project Name',
+                            ),
                             validator: (val) =>
                                 (val.isEmpty ? 'Enter a name' : null),
                             onChanged: (val) {
