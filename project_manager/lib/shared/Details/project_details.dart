@@ -25,7 +25,7 @@ class ProjectDetails extends StatelessWidget {
         backgroundColor: Colors.blue[50],
         appBar: AppBar(
           backgroundColor: Colors.blue[900],
-          title: Text('               Project Details'),
+          title: Center(child: Text('Project Details')),
           actions: <Widget>[
             AppbarButtons(),
           ],
