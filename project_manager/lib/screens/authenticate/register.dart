@@ -86,7 +86,8 @@ class _RegisterState extends State<Register> {
                             validator: (val) =>
                                 (val.isEmpty ? 'Enter a username' : null),
                             onChanged: (val) {
-                              setState(() => (userName = val));
+                              userName = val;
+                              print(userName);
                             },
                           ),
                           SizedBox(
