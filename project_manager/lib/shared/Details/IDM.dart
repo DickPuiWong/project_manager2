@@ -157,12 +157,15 @@ class _IDMState extends State<IDM> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 12),
-                  LinearProgressIndicator(
-                    value: findPercentM(),
-                    backgroundColor: Colors.redAccent,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Colors.lightGreenAccent[400]),
+                  SizedBox(height: 14),
+                  Container(
+                    height:12,
+                    child: LinearProgressIndicator(
+                      value: findPercentM(),
+                      backgroundColor: Colors.redAccent,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          Colors.lightGreenAccent[400]),
+                    ),
                   ),
                   Divider(
                     height: 14,
