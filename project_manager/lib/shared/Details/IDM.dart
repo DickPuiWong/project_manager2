@@ -11,7 +11,8 @@ import 'package:project_manager/shared/constants.dart';
 
 class IDMWrapper extends StatelessWidget {
   final Project project;
-  IDMWrapper({this.project});
+  final int permission;
+  IDMWrapper({this.project, this.permission});
   @override
   Widget build(BuildContext context) {
     return StreamProvider<Project>.value(
@@ -22,6 +23,8 @@ class IDMWrapper extends StatelessWidget {
 }
 
 class IDM extends StatefulWidget {
+  final int permission;
+  IDM({this.permission});
   @override
   _IDMState createState() => _IDMState();
 }
@@ -68,6 +71,24 @@ class _IDMState extends State<IDM> {
       return percent;
     }
 
+    Widget showTopRightButton() {
+      Widget axe = Container();
+      if (widget.permission == null) {
+        axe = IconButton(
+          icon: Icon(Icons.edit),
+          onPressed: () async {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => IDMSettings(proj: project),
+              ),
+            );
+          },
+        );
+      }
+      return axe;
+    }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.indigo[50],
@@ -84,18 +105,7 @@ class _IDMState extends State<IDM> {
                       onPressed: () {
                         Navigator.pop(context);
                       }),
-                  IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              IDMSettings(proj: project),
-                        ),
-                      );
-                    },
-                  ),
+                  showTopRightButton(),
                 ],
               ),
               Column(
