@@ -32,6 +32,7 @@ class ProjTile extends StatelessWidget {
         );
       } else {
         return ProjectDetails2(
+          permission: permission,
           proj: proj,
           num: num,
         );
