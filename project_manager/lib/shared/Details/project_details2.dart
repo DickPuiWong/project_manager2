@@ -16,7 +16,7 @@ class ProjectDetails2 extends StatelessWidget {
   final int permission;
   final Project proj;
   final num;
-  ProjectDetails2({this.permission,this.proj, this.num});
+  ProjectDetails2({this.permission, this.proj, this.num});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +88,7 @@ class PDExtend extends StatefulWidget {
   //object creation and initialised in the PDExtend() class
   final int permission;
   final int num;
-  PDExtend({this.permission,this.num});
+  PDExtend({this.permission, this.num});
   @override
   _PDExtendState createState() => _PDExtendState();
 }
@@ -114,36 +114,6 @@ class _PDExtendState extends State<PDExtend> {
       return percent;
     }
 
-    double spentBudget() {
-      double sb = 0;
-      for (int i = 0; i < project.budgetList.length; i++) {
-        sb += project.budgetList['bt${i + 1}']['spent'];
-      }
-      return sb;
-    }
-
-    double esimateBudget() {
-      double eb = 0;
-      for (int i = 0; i < project.budgetList.length; i++) {
-        eb += project.budgetList['bt${i + 1}']['estimate'];
-      }
-      return eb;
-    }
-
-    double findPercent2() {
-      double percent;
-      double _totalDone = 0, _totalOverall = 0;
-      for (int i = 0; i < project.budgetList.length; i++) {
-        _totalDone += spentBudget();
-        _totalOverall += esimateBudget();
-      }
-      percent = _totalDone / _totalOverall;
-      if (_totalDone == 0 && _totalOverall == 0) {
-        percent = 0;
-      }
-      return percent;
-    }
-
     String findSuper() {
       String supervisor = '**** not assigned ****';
       if (project.userAssigned.length > 0) {
@@ -154,20 +124,6 @@ class _PDExtendState extends State<PDExtend> {
         }
       }
       return supervisor;
-    }
-
-    List<Widget> findOtherAssigned() {
-      List<Widget> others = [];
-      if (project.userAssigned.length > 1) {
-        for (int i = 1; i < project.userAssigned.length; i++) {
-          for (int ii = 0; ii < users.length; ii++) {
-            if (project.userAssigned[i] == users[ii].uid) {
-              others.add(Text(users[ii].userName));
-            }
-          }
-        }
-      }
-      return others;
     }
 
     //return the Column widget
@@ -377,142 +333,6 @@ class _PDExtendState extends State<PDExtend> {
           ),
           SizedBox(height: 40),
 
-          //this container contains the budget aspect
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Container(
-              color: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-              child: Column(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 50),
-                        color: Colors.white,
-                        child: Center(
-                          child: Container(
-                            height: 240,
-                            width: 240,
-                            child: Stack(
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Column(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 65,
-                                      ),
-                                      Text(
-                                        '${(findPercent2() * 100).toInt()}%',
-                                        style: TextStyle(fontSize: 50),
-                                      ),
-                                      Text(
-                                        'Expenditure',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  height: 240,
-                                  width: 240,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 12,
-                                    value: findPercent2(),
-                                    backgroundColor: Colors.redAccent,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Colors.lightGreenAccent),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'Budget',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 24),
-                      ),
-                    ],
-                  ),
-                  Divider(
-                    height: 30,
-                    color: Colors.blue[300],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ListTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              RichText(
-                                text: TextSpan(
-                                  style: TextStyle(
-                                      fontSize: 17, color: Colors.black),
-                                  children: [
-                                    TextSpan(text: 'Spent :RM '),
-                                    TextSpan(
-                                      text:
-                                          '${spentBudget().toStringAsFixed(2)}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  style: TextStyle(
-                                      fontSize: 17, color: Colors.black),
-                                  children: [
-                                    TextSpan(text: 'Estimated :RM '),
-                                    TextSpan(
-                                      text:
-                                          '${esimateBudget().toStringAsFixed(2)}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(Icons.chevron_right),
-                        color: Colors.black,
-                        onPressed: () async {
-                          await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) => IDBWrapper(
-                                        project: project,
-                                      )));
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-//          Divider(
-//            height: 34,
-//            color: Colors.indigo[600],
-//          ),
-          SizedBox(height: 40),
-
           //this Container contains the blast pot and material usage aspect
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
@@ -577,6 +397,7 @@ class _PDExtendState extends State<PDExtend> {
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) => IDMWrapper(
+                                permission: widget.permission,
                                     project: project,
                                   )));
                     },
@@ -587,54 +408,6 @@ class _PDExtendState extends State<PDExtend> {
           ),
           SizedBox(
             height: 40,
-          ),
-
-          //this Container contains the staff related aspect
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Container(
-              color: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Assigned Staffs',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                    ),
-                  ),
-                  ListTile(
-                    title: Center(
-                      child: Text(
-                        'Leading: ${findSuper()}',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    subtitle: Center(
-                        child: Column(
-                      children: findOtherAssigned(),
-                    )),
-                  ),
-                  Container(
-                    child: FlatButton.icon(
-                      icon: Icon(Icons.people),
-                      label: Text('Manage'),
-                      onPressed: () async {
-                        await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    IDSWrapper(project: project)));
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ),
         ],
       ),
