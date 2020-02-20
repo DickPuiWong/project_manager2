@@ -65,68 +65,69 @@ class Home extends StatelessWidget {
           ),
           backgroundColor: Colors.white,
         ),
-        body: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            color: Colors.lightGreenAccent,
-                            height: 17,
-                            width: 17,
-                          ),
-                          Text(
-                            ' Within Budget',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            color: Colors.amberAccent,
-                            height: 17,
-                            width: 17,
-                          ),
-                          Text(
-                            ' Reaching Limit',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            color: Colors.redAccent,
-                            height: 17,
-                            width: 17,
-                          ),
-                          Text(
-                            ' Over Limit',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Flexible(
-              child: ProjList(),
-            ),
-          ],
-        ),
+        body: ProjList(),
+//        Column(
+//          children: <Widget>[
+//            Padding(
+//              padding: const EdgeInsets.all(8.0),
+//              child: Container(
+//                color: Colors.white,
+//                child: Padding(
+//                  padding: const EdgeInsets.all(8.0),
+//                  child: Row(
+//                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                    children: <Widget>[
+//                      Row(
+//                        children: <Widget>[
+//                          Container(
+//                            color: Colors.lightGreenAccent,
+//                            height: 17,
+//                            width: 17,
+//                          ),
+//                          Text(
+//                            ' Within Budget',
+//                            style: TextStyle(color: Colors.black),
+//                          ),
+//                        ],
+//                      ),
+//                      SizedBox(height: 5),
+//                      Row(
+//                        children: <Widget>[
+//                          Container(
+//                            color: Colors.amberAccent,
+//                            height: 17,
+//                            width: 17,
+//                          ),
+//                          Text(
+//                            ' Reaching Limit',
+//                            style: TextStyle(color: Colors.black),
+//                          ),
+//                        ],
+//                      ),
+//                      SizedBox(height: 5),
+//                      Row(
+//                        children: <Widget>[
+//                          Container(
+//                            color: Colors.redAccent,
+//                            height: 17,
+//                            width: 17,
+//                          ),
+//                          Text(
+//                            ' Over Limit',
+//                            style: TextStyle(color: Colors.black),
+//                          ),
+//                        ],
+//                      ),
+//                    ],
+//                  ),
+//                ),
+//              ),
+//            ),
+//            Flexible(
+//              child: ProjList(),
+//            ),
+//          ],
+//        ),
       ),
     );
   }
