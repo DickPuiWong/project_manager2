@@ -27,6 +27,16 @@ class UserTiles extends StatelessWidget {
       );
     }
 
+    String permissionTypeName() {
+      if (currUser.permissionType == 1) {
+        return 'Manager';
+      } else if (currUser.permissionType == 2) {
+        return 'Supervisor';
+      } else {
+        return 'Someone fucked up';
+      }
+    }
+
     //This Card widget will display all the user name and their permission type
     return Padding(
       padding: EdgeInsets.all(5),
@@ -35,10 +45,6 @@ class UserTiles extends StatelessWidget {
         child: Container(
           child: ListTile(
             dense: true,
-            onTap: () {},
-            onLongPress: () {
-              return _showBottomPanel();
-            },
             leading: Container(
               height: 60,
               width: 60,
@@ -59,11 +65,13 @@ class UserTiles extends StatelessWidget {
               ],
             ),
             subtitle: Text(
-              currUser.permissionType.toString(),
+              permissionTypeName(),
             ),
             trailing: IconButton(
               icon: Icon(Icons.menu),
-              onPressed: () {},
+              onPressed: () {
+                return _showBottomPanel();
+              },
             ),
           ),
         ),
