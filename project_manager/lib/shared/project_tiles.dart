@@ -5,12 +5,14 @@
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
 import 'package:project_manager/shared/Details/project_details.dart';
+import 'package:project_manager/shared/Details/project_details2.dart';
 
 class ProjTile extends StatelessWidget {
   //object creation and assigned in ProjTile() class
+  final int permission;
   final Project proj;
   final int num;
-  ProjTile({this.proj, this.num});
+  ProjTile({this.permission, this.proj, this.num});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,20 @@ class ProjTile extends StatelessWidget {
         eb += proj.budgetList['bt${i + 1}']['estimate'];
       }
       return eb;
+    }
+
+    Widget PDChanger() {
+      if (permission == null) {
+        return ProjectDetails(
+          proj: proj,
+          num: num,
+        );
+      } else {
+        return ProjectDetails2(
+          proj: proj,
+          num: num,
+        );
+      }
     }
 
     //ProjTile class will return Card widget to the home page
@@ -72,14 +88,9 @@ class ProjTile extends StatelessWidget {
             //when user tap the project tile, they will be navigated to the project details in ProjectDetails()
             onTap: () async {
               await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => ProjectDetails(
-                    proj: proj,
-                    num: num,
-                  ),
-                ),
-              );
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => PDChanger()));
             },
           ),
         ),
