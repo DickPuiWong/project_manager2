@@ -612,7 +612,7 @@ class _PDExtendState extends State<PDExtend> {
                     ),
                     subtitle: Center(
                         child: Column(
-                      children: findOtherAsigned(),
+                      children: findOtherAssigned(),
                     )),
                   ),
                   Container(
