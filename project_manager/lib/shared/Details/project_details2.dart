@@ -13,9 +13,10 @@ import 'package:project_manager/shared/Details/detail_settings.dart';
 //This ProjectDetails class contains all the main aspect that has the information of the project
 class ProjectDetails2 extends StatelessWidget {
   //object creation and initialised into the class ProjectDetails()
+  final int permission;
   final Project proj;
   final num;
-  ProjectDetails2({this.proj, this.num});
+  ProjectDetails2({this.permission,this.proj, this.num});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,7 @@ class ProjectDetails2 extends StatelessWidget {
           body: ListView(
             children: <Widget>[
               PDExtend(
+                permission: permission,
                 num: num,
               ),
             ],
@@ -84,8 +86,9 @@ class _AppbarButtonsState extends State<AppbarButtons> {
 //PDExtend class is the class that contains structure of all the main aspect involved
 class PDExtend extends StatefulWidget {
   //object creation and initialised in the PDExtend() class
+  final int permission;
   final int num;
-  PDExtend({this.num});
+  PDExtend({this.permission,this.num});
   @override
   _PDExtendState createState() => _PDExtendState();
 }
@@ -358,6 +361,7 @@ class _PDExtendState extends State<PDExtend> {
                                     MaterialPageRoute(
                                         builder: (BuildContext context) =>
                                             IDPWrapper(
+                                              permission: widget.permission,
                                               project: project,
                                             )));
                               },
