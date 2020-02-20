@@ -153,7 +153,7 @@ class _PDExtendState extends State<PDExtend> {
       return supervisor;
     }
 
-    List<Widget> findOtherAsigned() {
+    List<Widget> findOtherAssigned() {
       List<Widget> others = [];
       if (project.userAssigned.length > 1) {
         for (int i = 1; i < project.userAssigned.length; i++) {
