@@ -86,7 +86,7 @@ class _RegisterState extends State<Register> {
                             validator: (val) =>
                                 (val.isEmpty ? 'Enter a username' : null),
                             onChanged: (val) {
-                              setState(() => (userName = val));
+                              userName = val;
                             },
                           ),
                           SizedBox(
@@ -138,7 +138,7 @@ class _RegisterState extends State<Register> {
                                   setState(() => loading = true);
                                   dynamic result =
                                       await _auth.registerWithEmailAndPassword(
-                                          email, password);
+                                          email, password, userName);
                                   if (result == null) {
                                     setState(() {
                                       loading = true;
