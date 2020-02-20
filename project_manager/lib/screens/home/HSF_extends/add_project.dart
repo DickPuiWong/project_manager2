@@ -259,16 +259,6 @@ class _AddProjectState extends State<AddProject> {
                               setState(() => (_newLocation = val));
                             },
                           ),
-                          SizedBox(height: 34),
-                          TextFormField(
-                            decoration: textInputDecoration.copyWith(
-                                hintText: 'Supervisor name'),
-                            validator: (val) =>
-                                (val.isEmpty ? 'Enter a name' : null),
-                            onChanged: (val) {
-                              setState(() => (_newSupervisor = [val]));
-                            },
-                          ),
                         ],
                       ),
                     ),
