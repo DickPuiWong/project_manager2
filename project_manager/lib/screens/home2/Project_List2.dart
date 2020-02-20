@@ -33,6 +33,7 @@ class _ProjList2State extends State<ProjList2> {
       itemCount: userProjList.length,
       itemBuilder: (context, index) {
         return ProjTile(
+          permission: userData.permissionType,
           proj: userProjList[index],
           num: index,
         );
