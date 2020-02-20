@@ -182,6 +182,15 @@ class IDSTiles extends StatefulWidget {
 class _IDSTilesState extends State<IDSTiles> {
   @override
   Widget build(BuildContext context) {
+    String checkAssigned(){
+      if(widget.assigned == true){
+        return 'Assigned';
+      }else if (widget.assigned == false){
+        return 'Not Assigned';
+      } else {
+        return 'someone fucked up';
+      }
+    }
     return Padding(
       padding: EdgeInsets.all(5),
       child: Card(
@@ -189,8 +198,6 @@ class _IDSTilesState extends State<IDSTiles> {
         child: Container(
           child: ListTile(
             dense: true,
-            onTap: () {},
-            onLongPress: () {},
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -203,7 +210,7 @@ class _IDSTilesState extends State<IDSTiles> {
                 ),
               ],
             ),
-            subtitle: Text('${widget.assigned.toString()}'),
+            subtitle: Text(checkAssigned()),
             trailing: IconButton(
               tooltip: '${widget.currUser.projList}',
               icon: Icon(Icons.settings),
