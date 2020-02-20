@@ -144,13 +144,27 @@ class _PDExtendState extends State<PDExtend> {
     String findSuper() {
       String supervisor = '**** not assigned ****';
       if (project.userAssigned.length > 0) {
-        for(int i=0;i<users.length;i++){
-          if(project.userAssigned[0] == users[i].uid){
+        for (int i = 0; i < users.length; i++) {
+          if (project.userAssigned[0] == users[i].uid) {
             supervisor = users[i].userName;
           }
         }
       }
       return supervisor;
+    }
+
+    List<Widget> findOtherAsigned() {
+      List<Widget> others = [];
+      if (project.userAssigned.length > 1) {
+        for (int i = 1; i < project.userAssigned.length; i++) {
+          for (int ii = 0; ii < users.length; ii++) {
+            if (project.userAssigned[0] != users[ii].uid || project.userAssigned[i] == users[ii].userName) {
+              others.add(Text(users[i].userName));
+            }
+          }
+        }
+      }
+      return others;
     }
 
     //return the Column widget
@@ -516,7 +530,7 @@ class _PDExtendState extends State<PDExtend> {
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                        color: Colors.grey[100],
+                        color: Colors.grey[50],
                         child: DataTable(
                           columnSpacing: 30,
                           columns: [
@@ -538,21 +552,11 @@ class _PDExtendState extends State<PDExtend> {
                             ),
                             DataRow(
                               cells: [
-                                DataCell(Text('adhesive')),
+                                DataCell(Text('HoldTight')),
                                 DataCell(Text('litres')),
                                 DataCell(Text((project.adhesiveTotalLitre)
                                     .toStringAsFixed(1))),
                                 DataCell(Text((project.adhesiveUsedLitre)
-                                    .toStringAsFixed(1))),
-                              ],
-                            ),
-                            DataRow(
-                              cells: [
-                                DataCell(Text('paint')),
-                                DataCell(Text('litres')),
-                                DataCell(Text((project.paintTotalLitre)
-                                    .toStringAsFixed(1))),
-                                DataCell(Text((project.paintUsedLitre)
                                     .toStringAsFixed(1))),
                               ],
                             ),
@@ -600,18 +604,21 @@ class _PDExtendState extends State<PDExtend> {
                   ListTile(
                     title: Center(
                       child: Text(
-                        'Zac',
+                        'Leading: ${findSuper()}',
                         style: TextStyle(
                           fontSize: 20,
                         ),
                       ),
                     ),
-                    subtitle: Center(child: Text('Supervisor')),
+                    subtitle: Center(
+                        child: Column(
+                      children: findOtherAsigned(),
+                    )),
                   ),
                   Container(
                     child: FlatButton.icon(
                       icon: Icon(Icons.people),
-                      label: Text('Staffs'),
+                      label: Text('Manage'),
                       onPressed: () async {
                         await Navigator.push(
                             context,
