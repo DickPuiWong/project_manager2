@@ -16,7 +16,6 @@ class Home2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Creation of userData object by assigning to the provider from UserData class
-    final userData = Provider.of<UserData>(context);
 
     //Home2 class return a stream provider of the list of projects from Project class
     return StreamProvider<List<Project>>.value(
