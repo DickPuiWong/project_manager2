@@ -39,7 +39,7 @@ class _AddProjectState extends State<AddProject> {
         //The app bar contains the Main title and flat button which will update all the details once user done adding in the details
         appBar: AppBar(
           backgroundColor: Colors.blue[900],
-          title: Text('                Add Project'),
+          title: Center(child: Text('Add Project')),
           actions: <Widget>[
             //When user press this button, all the details will be updated and new project will be created
             FlatButton.icon(
