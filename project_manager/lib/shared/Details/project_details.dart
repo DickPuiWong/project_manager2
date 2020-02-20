@@ -95,6 +95,7 @@ class _PDExtendState extends State<PDExtend> {
   Widget build(BuildContext context) {
     //declare and initialise the object project and assigned it to the provider of Project() class contexts
     final project = Provider.of<Project>(context);
+    final users = Provider.of<List<UserData>>(context);
 
     double findPercent1() {
       double percent;
@@ -143,7 +144,11 @@ class _PDExtendState extends State<PDExtend> {
     String findSuper() {
       String supervisor = '**** not assigned ****';
       if (project.userAssigned.length > 0) {
-        supervisor = project.userAssigned[0];
+        for(int i=0;i<users.length;i++){
+          if(project.userAssigned[0] == users[i].uid){
+            supervisor = users[i].userName;
+          }
+        }
       }
       return supervisor;
     }
