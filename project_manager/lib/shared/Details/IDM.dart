@@ -159,7 +159,7 @@ class _IDMState extends State<IDM> {
                   ),
                   SizedBox(height: 14),
                   Container(
-                    height:12,
+                    height: 12,
                     child: LinearProgressIndicator(
                       value: findPercentM(),
                       backgroundColor: Colors.redAccent,
@@ -386,7 +386,7 @@ class BPTilesSettings extends StatefulWidget {
   final int index;
   final BlastPot bp;
   final Project proj;
-  BPTilesSettings({this.index,this.bp, this.proj});
+  BPTilesSettings({this.index, this.bp, this.proj});
 
   @override
   _BPTilesSettingsState createState() => _BPTilesSettingsState();
@@ -881,7 +881,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                   ),
                   onPressed: () async {
                     Map bpListChanger(Map mapItem) {
-                      mapItem['bp${widget.index+1}'] = {
+                      mapItem['bp${widget.index + 1}'] = {
                         'Assigned num': _bpNum ?? widget.bp.num,
                         'refills done': _currRefills ?? widget.bp.refillsDone,
                         'used abrasive':
@@ -1587,8 +1587,9 @@ class _IDMSettingsState extends State<IDMSettings> {
                                                           3.5),
                                                 ),
                                                 padding: EdgeInsets.symmetric(
-                                                    vertical: 14,
-                                                    horizontal: 12),
+                                                  vertical: 14,
+                                                  horizontal: 12,
+                                                ),
                                                 child: Text(
                                                     '${(_currRefillA ?? widget.proj.perFill['abrasive']).toStringAsFixed(1)} bags/ ${((_currRefillA ?? widget.proj.perFill['abrasive']) * 25).toStringAsFixed(1)} kg'),
                                               ),
