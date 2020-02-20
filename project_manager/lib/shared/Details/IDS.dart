@@ -332,6 +332,7 @@ class _AssignSheetState extends State<AssignSheet> {
                         'users assigned':
                             assignToListP(widget.project.userAssigned),
                         'blast pot': widget.project.blastPot,
+                        'per fill': widget.project.perFill ,
                         'blast pot list': widget.project.blastPotList,
                         'budget list': widget.project.budgetList,
                         'progresses tracked': widget.project.progressesTracked,
@@ -453,6 +454,7 @@ class _UnassignSheetState extends State<UnassignSheet> {
                         'users assigned':
                             unassignToListP(widget.project.userAssigned),
                         'blast pot': widget.project.blastPot,
+                        'per fill': widget.project.perFill ,
                         'blast pot list': widget.project.blastPotList,
                         'budget list': widget.project.budgetList,
                         'progresses tracked': widget.project.progressesTracked,
