@@ -27,7 +27,7 @@ class _AddProjectState extends State<AddProject> {
 //  double _newAbrasivePrice;
   double _newBlastTotalArea;
   double _newPaintTotalArea;
-  String _newSupervisor;
+  List _newSupervisor;
 
   @override
   Widget build(BuildContext context) {
@@ -176,6 +176,8 @@ class _AddProjectState extends State<AddProject> {
                     'used adhesive litres': 0.0,
                     'total abrasive weight': 0.0,
                     'used abrasive weight': _newAbrasiveLitre,
+                    'total paint litres': 0.0,
+                    'used paint litres': 0.0,
                     'total area needed blasting': _newBlastTotalArea,
                     'blasted area': 0.0,
                     'total area needed painting': _newPaintTotalArea,
@@ -264,7 +266,7 @@ class _AddProjectState extends State<AddProject> {
                             validator: (val) =>
                                 (val.isEmpty ? 'Enter a name' : null),
                             onChanged: (val) {
-                              setState(() => (_newSupervisor = val));
+                              setState(() => (_newSupervisor = [val]));
                             },
                           ),
                         ],
