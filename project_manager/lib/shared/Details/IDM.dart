@@ -17,7 +17,7 @@ class IDMWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<Project>.value(
       value: ProjectDatabaseService(projID: project.projID).project,
-      child: IDM(),
+      child: IDM(permission: permission),
     );
   }
 }
