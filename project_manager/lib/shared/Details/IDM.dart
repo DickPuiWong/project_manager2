@@ -168,7 +168,7 @@ class _IDMState extends State<IDM> {
                     ),
                   ),
                   Divider(
-                    height: 14,
+                    height: 16,
                     color: Colors.indigo,
                   ),
                 ],
