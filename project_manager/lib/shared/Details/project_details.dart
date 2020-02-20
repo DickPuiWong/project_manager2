@@ -137,7 +137,7 @@ class _PDExtendState extends State<PDExtend> {
     }
 
     String findSuper() {
-      String supervisor = '****not assigned****';
+      String supervisor = '**** not assigned ****';
       if (project.userAssigned.length > 0) {
         supervisor = project.userAssigned[0];
       }
