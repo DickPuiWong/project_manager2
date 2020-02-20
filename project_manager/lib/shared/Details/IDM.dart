@@ -50,6 +50,24 @@ class _IDMState extends State<IDM> {
 
     listMaker(project.blastPotList);
 
+    double checkError(double one, double two) {
+      double x = 0;
+      if (two != 0) {
+        x = one / two;
+      }
+      return x;
+    }
+
+    double findPercentM() {
+      double percent;
+      percent =
+          (checkError(project.abrasiveUsedWeight, project.abrasiveTotalWeight) +
+                  checkError(
+                      project.adhesiveUsedLitre, project.adhesiveTotalLitre)) /
+              2;
+      return percent;
+    }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.indigo[50],
@@ -141,11 +159,7 @@ class _IDMState extends State<IDM> {
                   ),
                   SizedBox(height: 12),
                   LinearProgressIndicator(
-                    value: ((project.abrasiveUsedWeight /
-                                project.abrasiveTotalWeight) +
-                            (project.adhesiveUsedLitre /
-                                project.adhesiveTotalLitre)) /
-                        2,
+                    value: findPercentM(),
                     backgroundColor: Colors.redAccent,
                     valueColor: AlwaysStoppedAnimation<Color>(
                         Colors.lightGreenAccent[400]),
@@ -236,6 +250,7 @@ class _IDMListTilesState extends State<IDMListTiles> {
                     context: context,
                     builder: (context) {
                       return BPTilesSettings(
+                        index: widget.index,
                         bp: widget.bp,
                         proj: widget.project,
                       );
@@ -365,9 +380,10 @@ class _BPTileDeleteState extends State<BPTileDelete> {
 }
 
 class BPTilesSettings extends StatefulWidget {
+  final int index;
   final BlastPot bp;
   final Project proj;
-  BPTilesSettings({this.bp, this.proj});
+  BPTilesSettings({this.index,this.bp, this.proj});
 
   @override
   _BPTilesSettingsState createState() => _BPTilesSettingsState();
@@ -862,7 +878,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                   ),
                   onPressed: () async {
                     Map bpListChanger(Map mapItem) {
-                      mapItem['bp${widget.bp.num}'] = {
+                      mapItem['bp${widget.index+1}'] = {
                         'Assigned num': _bpNum ?? widget.bp.num,
                         'refills done': _currRefills ?? widget.bp.refillsDone,
                         'used abrasive':
@@ -1234,8 +1250,8 @@ class _IDMSettingsState extends State<IDMSettings> {
                                         child: Icon(Icons.refresh),
                                         onPressed: () {
                                           setState(() {
-                                            _currTotalAbrasive = widget
-                                                .proj.abrasiveTotalWeight;
+                                            _currTotalAbrasive =
+                                                widget.proj.abrasiveTotalWeight;
                                           });
                                         },
                                       ),
@@ -1252,7 +1268,8 @@ class _IDMSettingsState extends State<IDMSettings> {
                                             onPressed: () {
                                               _currTotalAbrasive = nullChecker(
                                                   _currTotalAbrasive,
-                                                  widget.proj.abrasiveTotalWeight);
+                                                  widget.proj
+                                                      .abrasiveTotalWeight);
                                               setState(() {
                                                 _currTotalAbrasive += _abrConst;
                                               });
@@ -1269,8 +1286,8 @@ class _IDMSettingsState extends State<IDMSettings> {
                                             onPressed: () {
                                               _currTotalAbrasive = nullChecker(
                                                   _currTotalAbrasive,
-                                                  widget
-                                                      .proj.abrasiveTotalWeight);
+                                                  widget.proj
+                                                      .abrasiveTotalWeight);
                                               setState(() {
                                                 _currTotalAbrasive -= _abrConst;
                                               });
@@ -1385,8 +1402,8 @@ class _IDMSettingsState extends State<IDMSettings> {
                                         child: Icon(Icons.refresh),
                                         onPressed: () {
                                           setState(() {
-                                            _currTotalAdhesive = widget
-                                                .proj.adhesiveTotalLitre;
+                                            _currTotalAdhesive =
+                                                widget.proj.adhesiveTotalLitre;
                                           });
                                         },
                                       ),
@@ -1403,7 +1420,8 @@ class _IDMSettingsState extends State<IDMSettings> {
                                             onPressed: () {
                                               _currTotalAdhesive = nullChecker(
                                                   _currTotalAdhesive,
-                                                  widget.proj.adhesiveTotalLitre);
+                                                  widget
+                                                      .proj.adhesiveTotalLitre);
                                               setState(() {
                                                 _currTotalAdhesive += _adhConst;
                                               });
@@ -1442,82 +1460,82 @@ class _IDMSettingsState extends State<IDMSettings> {
                   ),
                 ),
                 SizedBox(height: 20),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    color: Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                'ADHESIVE',
-                                style: TextStyle(fontSize: 24),
-                              ),
-                              Divider(
-                                height: 10,
-                                indent: 5,
-                                endIndent: 5,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  RichText(
-                                    text: TextSpan(
-                                      style: TextStyle(color: Colors.black),
-                                      children: [
-                                        TextSpan(
-                                          text: 'Limit : ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        TextSpan(
-                                            text:
-                                                '${(_currTotalAdhesive ?? widget.proj.adhesiveTotalLitre).toStringAsFixed(2)}L'),
-                                      ],
-                                    ),
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(Icons.add),
-                                        onPressed: () {
-                                          _currTotalAdhesive = nullChecker(
-                                              _currTotalAdhesive,
-                                              widget.proj.adhesiveTotalLitre);
-                                          setState(() {
-                                            _currTotalAdhesive++;
-                                          });
-                                        },
-                                        tooltip: 'Add a liter(1L)',
-                                      ),
-                                      IconButton(
-                                        icon: Icon(Icons.remove),
-                                        onPressed: () {
-                                          _currTotalAdhesive = nullChecker(
-                                              _currTotalAdhesive,
-                                              widget.proj.adhesiveTotalLitre);
-                                          setState(() {
-                                            _currTotalAdhesive--;
-                                          });
-                                        },
-                                        tooltip: 'Remove a liter(1L)',
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+//                ClipRRect(
+//                  borderRadius: BorderRadius.circular(5),
+//                  child: Container(
+//                    padding: EdgeInsets.all(5),
+//                    color: Colors.white,
+//                    child: Column(
+//                      crossAxisAlignment: CrossAxisAlignment.start,
+//                      children: <Widget>[
+//                        Container(
+//                          child: Column(
+//                            children: <Widget>[
+//                              Text(
+//                                'ADHESIVE',
+//                                style: TextStyle(fontSize: 24),
+//                              ),
+//                              Divider(
+//                                height: 10,
+//                                indent: 5,
+//                                endIndent: 5,
+//                              ),
+//                              Row(
+//                                mainAxisAlignment:
+//                                    MainAxisAlignment.spaceBetween,
+//                                children: <Widget>[
+//                                  RichText(
+//                                    text: TextSpan(
+//                                      style: TextStyle(color: Colors.black),
+//                                      children: [
+//                                        TextSpan(
+//                                          text: 'Limit : ',
+//                                          style: TextStyle(
+//                                              fontWeight: FontWeight.bold),
+//                                        ),
+//                                        TextSpan(
+//                                            text:
+//                                                '${(_currTotalAdhesive ?? widget.proj.adhesiveTotalLitre).toStringAsFixed(2)}L'),
+//                                      ],
+//                                    ),
+//                                  ),
+//                                  Row(
+//                                    children: <Widget>[
+//                                      IconButton(
+//                                        icon: Icon(Icons.add),
+//                                        onPressed: () {
+//                                          _currTotalAdhesive = nullChecker(
+//                                              _currTotalAdhesive,
+//                                              widget.proj.adhesiveTotalLitre);
+//                                          setState(() {
+//                                            _currTotalAdhesive++;
+//                                          });
+//                                        },
+//                                        tooltip: 'Add a liter(1L)',
+//                                      ),
+//                                      IconButton(
+//                                        icon: Icon(Icons.remove),
+//                                        onPressed: () {
+//                                          _currTotalAdhesive = nullChecker(
+//                                              _currTotalAdhesive,
+//                                              widget.proj.adhesiveTotalLitre);
+//                                          setState(() {
+//                                            _currTotalAdhesive--;
+//                                          });
+//                                        },
+//                                        tooltip: 'Remove a liter(1L)',
+//                                      ),
+//                                    ],
+//                                  ),
+//                                ],
+//                              ),
+//                            ],
+//                          ),
+//                        ),
+//                      ],
+//                    ),
+//                  ),
+//                ),?
                 SizedBox(height: 20),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(5),
@@ -1531,7 +1549,7 @@ class _IDMSettingsState extends State<IDMSettings> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                'ReFill constant',
+                                'per Refill Constant',
                                 style: TextStyle(fontSize: 24),
                               ),
                               Divider(
