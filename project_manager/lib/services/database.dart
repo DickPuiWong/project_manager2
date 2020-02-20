@@ -98,10 +98,10 @@ class UserDataService {
   final CollectionReference userCollection =
       Firestore.instance.collection('UserData');
 
-  Future updateUserData(int permissionType, List projList) async {
+  Future updateUserData(String name,int permissionType, List projList) async {
     return await userCollection.document(uid).setData({
       'ID': uid,
-      'Username': 'Demoman',
+      'Username': name,
       'permissionType': permissionType,
       'projList': projList,
     });
