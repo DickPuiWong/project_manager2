@@ -8,21 +8,23 @@ import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
 import 'package:project_manager/services/database.dart';
 import 'package:provider/provider.dart';
-import 'package:project_manager/shared/constants.dart';
 
 class IDPWrapper extends StatelessWidget {
+  final int permission;
   final Project project;
-  IDPWrapper({this.project});
+  IDPWrapper({this.permission, this.project});
   @override
   Widget build(BuildContext context) {
     return StreamProvider<Project>.value(
       value: ProjectDatabaseService(projID: project.projID).project,
-      child: IDP(),
+      child: IDP(permission: permission),
     );
   }
 }
 
 class IDP extends StatefulWidget {
+  final int permission;
+  IDP({this.permission});
   @override
   _IDPState createState() => _IDPState();
 }
@@ -297,6 +299,17 @@ class _IDPState extends State<IDP> {
       return bottomButtons;
     }
 
+    Widget showBottomBar() {
+      Widget axe;
+      if (widget.permission == null) {
+        axe = BottomAppBar(
+          color: Colors.indigo[100],
+          child: bottomButtonsSwitcher(),
+        );
+      }
+      return axe;
+    }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -386,10 +399,7 @@ class _IDPState extends State<IDP> {
             ),
           ],
         ),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.indigo[100],
-          child: bottomButtonsSwitcher(),
-        ),
+        bottomNavigationBar: showBottomBar(),
       ),
     );
   }
@@ -438,15 +448,15 @@ class _IDPRowSettingState extends State<IDPRowSetting> {
                         '${(_newName ?? widget.pt.name)}' /*(1).toStringAsFixed(2)*/,
                     decoration: InputDecoration(
                       labelText: 'Name',
-                      labelStyle: TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
+                      labelStyle:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       hintText: 'name here(was ${widget.pt.name})',
                       isDense: true,
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.indigo[50], width: 2.0)),
+                          borderSide:
+                              BorderSide(color: Colors.indigo[50], width: 2.0)),
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors.indigo[900], width: 2.0)),
