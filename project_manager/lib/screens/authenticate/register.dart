@@ -25,6 +25,7 @@ class _RegisterState extends State<Register> {
   //text fields needed in this class
   String email = '';
   String password = '';
+  String userName = '';
   String error = '';
 
   @override
@@ -76,10 +77,27 @@ class _RegisterState extends State<Register> {
                             height: 40.0,
                           ),
                           TextFormField(
-                            cursorColor: Colors.blue,
+                            style: TextStyle(color: Colors.white),
+                            cursorColor: Colors.white,
+                            decoration: textInputDecoration.copyWith(
+                                hintText: 'Username',
+                                fillColor: Colors.blue[300],
+                                hintStyle: TextStyle(color: Colors.white)),
+                            validator: (val) =>
+                                (val.isEmpty ? 'Enter a username' : null),
+                            onChanged: (val) {
+                              setState(() => (userName = val));
+                            },
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          TextFormField(
+                            style: TextStyle(color: Colors.white),
+                            cursorColor: Colors.white,
                             decoration: textInputDecoration.copyWith(
                                 hintText: 'Email',
-                                fillColor: Colors.blue[900],
+                                fillColor: Colors.blue[300],
                                 hintStyle: TextStyle(color: Colors.white)),
                             validator: (val) =>
                                 (val.isEmpty ? 'Enter an email' : null),
@@ -91,10 +109,11 @@ class _RegisterState extends State<Register> {
                             height: 20.0,
                           ),
                           TextFormField(
-                            cursorColor: Colors.blue,
+                            style: TextStyle(color: Colors.white),
+                            cursorColor: Colors.white,
                             decoration: textInputDecoration.copyWith(
                                 hintText: 'Password',
-                                fillColor: Colors.blue[900],
+                                fillColor: Colors.blue[300],
                                 hintStyle: TextStyle(color: Colors.white)),
                             validator: (val) => (val.length < 6
                                 ? 'Enter a password 6+ char long'
@@ -123,7 +142,8 @@ class _RegisterState extends State<Register> {
                                   if (result == null) {
                                     setState(() {
                                       loading = true;
-                                      error = 'please apply a valid email';
+                                      error =
+                                          'Email invalid. Please use a valid email.';
                                     });
                                   }
                                 }
