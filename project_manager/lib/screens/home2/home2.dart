@@ -40,7 +40,6 @@ class Home2 extends StatelessWidget {
             )
           ],
         ),
-
         //The body of the page will be from the class ProjList2()
         body: ProjList2(),
       ),
