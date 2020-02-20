@@ -158,8 +158,8 @@ class _PDExtendState extends State<PDExtend> {
       if (project.userAssigned.length > 1) {
         for (int i = 1; i < project.userAssigned.length; i++) {
           for (int ii = 0; ii < users.length; ii++) {
-            if (project.userAssigned[0] != users[ii].uid || project.userAssigned[i] == users[ii].userName) {
-              others.add(Text(users[i].userName));
+            if (project.userAssigned[i] == users[ii].uid) {
+              others.add(Text(users[ii].userName));
             }
           }
         }
