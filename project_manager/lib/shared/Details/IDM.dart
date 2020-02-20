@@ -153,11 +153,8 @@ class _IDMState extends State<IDM> {
                           Colors.lightGreenAccent[400]),
                     ),
                   ),
-                  SizedBox(
-                    height: 12,
-                  ),
                   Divider(
-                    height: 14,
+                    height: 16,
                     color: Colors.indigo,
                   ),
                 ],
