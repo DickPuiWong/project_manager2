@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
+import 'package:project_manager/models/user.dart';
 import 'package:project_manager/shared/Details/IDB.dart';
 import 'package:project_manager/shared/Details/IDM.dart';
 import 'package:project_manager/shared/Details/IDP.dart';
@@ -21,23 +22,26 @@ class ProjectDetails extends StatelessWidget {
     //the class will return a stream provider of class Project
     return StreamProvider<Project>.value(
       value: ProjectDatabaseService(projID: proj.projID).project,
-      child: Scaffold(
-        backgroundColor: Colors.blue[50],
-        appBar: AppBar(
-          backgroundColor: Colors.blue[900],
-          title: Center(child: Text('Project Details')),
-          actions: <Widget>[
-            AppbarButtons(),
-          ],
-        ),
+      child: StreamProvider<List<UserData>>.value(
+        value: UsersDatabaseService().usersData,
+        child: Scaffold(
+          backgroundColor: Colors.blue[50],
+          appBar: AppBar(
+            backgroundColor: Colors.blue[900],
+            title: Center(child: Text('Project Details')),
+            actions: <Widget>[
+              AppbarButtons(),
+            ],
+          ),
 
-        //the body of this Scaffold will be showing the ListView of the extended details from PDExtend() class
-        body: ListView(
-          children: <Widget>[
-            PDExtend(
-              num: num,
-            ),
-          ],
+          //the body of this Scaffold will be showing the ListView of the extended details from PDExtend() class
+          body: ListView(
+            children: <Widget>[
+              PDExtend(
+                num: num,
+              ),
+            ],
+          ),
         ),
       ),
     );
