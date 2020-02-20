@@ -136,6 +136,14 @@ class _PDExtendState extends State<PDExtend> {
       return percent;
     }
 
+    String findSuper() {
+      String supervisor = '****not assigned****';
+      if (project.userAssigned.length > 0) {
+        supervisor = project.userAssigned[0];
+      }
+      return supervisor;
+    }
+
     //return the Column widget
     return Padding(
       padding: EdgeInsets.fromLTRB(5, 25, 5, 30),
@@ -217,7 +225,7 @@ class _PDExtendState extends State<PDExtend> {
                           ),
                           Center(
                             child: Text(
-                              project.userAssigned[0],
+                              findSuper(),
                               style: TextStyle(fontSize: 20),
                             ),
                           ),
