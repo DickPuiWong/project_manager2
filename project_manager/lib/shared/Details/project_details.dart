@@ -217,7 +217,7 @@ class _PDExtendState extends State<PDExtend> {
                           ),
                           Center(
                             child: Text(
-                              'Zack',
+                              project.userAssigned[0],
                               style: TextStyle(fontSize: 20),
                             ),
                           ),
