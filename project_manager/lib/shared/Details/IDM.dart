@@ -139,16 +139,22 @@ class _IDMState extends State<IDM> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 12),
-                  LinearProgressIndicator(
-                    value: ((project.abrasiveUsedWeight /
-                                project.abrasiveTotalWeight) +
-                            (project.adhesiveUsedLitre /
-                                project.adhesiveTotalLitre)) /
-                        2,
-                    backgroundColor: Colors.redAccent,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Colors.lightGreenAccent[400]),
+                  SizedBox(height: 14),
+                  Container(
+                    height: 12,
+                    child: LinearProgressIndicator(
+                      value: ((project.abrasiveUsedWeight /
+                                  project.abrasiveTotalWeight) +
+                              (project.adhesiveUsedLitre /
+                                  project.adhesiveTotalLitre)) /
+                          2,
+                      backgroundColor: Colors.redAccent,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          Colors.lightGreenAccent[400]),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 12,
                   ),
                   Divider(
                     height: 14,
@@ -1234,8 +1240,8 @@ class _IDMSettingsState extends State<IDMSettings> {
                                         child: Icon(Icons.refresh),
                                         onPressed: () {
                                           setState(() {
-                                            _currTotalAbrasive = widget
-                                                .proj.abrasiveTotalWeight;
+                                            _currTotalAbrasive =
+                                                widget.proj.abrasiveTotalWeight;
                                           });
                                         },
                                       ),
@@ -1252,7 +1258,8 @@ class _IDMSettingsState extends State<IDMSettings> {
                                             onPressed: () {
                                               _currTotalAbrasive = nullChecker(
                                                   _currTotalAbrasive,
-                                                  widget.proj.abrasiveTotalWeight);
+                                                  widget.proj
+                                                      .abrasiveTotalWeight);
                                               setState(() {
                                                 _currTotalAbrasive += _abrConst;
                                               });
@@ -1269,8 +1276,8 @@ class _IDMSettingsState extends State<IDMSettings> {
                                             onPressed: () {
                                               _currTotalAbrasive = nullChecker(
                                                   _currTotalAbrasive,
-                                                  widget
-                                                      .proj.abrasiveTotalWeight);
+                                                  widget.proj
+                                                      .abrasiveTotalWeight);
                                               setState(() {
                                                 _currTotalAbrasive -= _abrConst;
                                               });
@@ -1385,8 +1392,8 @@ class _IDMSettingsState extends State<IDMSettings> {
                                         child: Icon(Icons.refresh),
                                         onPressed: () {
                                           setState(() {
-                                            _currTotalAdhesive = widget
-                                                .proj.adhesiveTotalLitre;
+                                            _currTotalAdhesive =
+                                                widget.proj.adhesiveTotalLitre;
                                           });
                                         },
                                       ),
@@ -1403,7 +1410,8 @@ class _IDMSettingsState extends State<IDMSettings> {
                                             onPressed: () {
                                               _currTotalAdhesive = nullChecker(
                                                   _currTotalAdhesive,
-                                                  widget.proj.adhesiveTotalLitre);
+                                                  widget
+                                                      .proj.adhesiveTotalLitre);
                                               setState(() {
                                                 _currTotalAdhesive += _adhConst;
                                               });
