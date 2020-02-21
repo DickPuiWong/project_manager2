@@ -4,6 +4,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project_manager/models/BlastPotData.dart';
 import 'package:project_manager/models/Project.dart';
 import 'package:project_manager/services/database.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,10 @@ class IDMWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<Project>.value(
       value: ProjectDatabaseService(projID: project.projID).project,
-      child: IDM(permission: permission),
+      child: StreamProvider.value(
+        value: AllBPDatabaseService().blastPotDatas,
+        child: IDM(permission: permission),
+      ),
     );
   }
 }
@@ -33,6 +37,7 @@ class _IDMState extends State<IDM> {
   Widget build(BuildContext context) {
     final project = Provider.of<Project>(context);
     List<BlastPot> bpList = [];
+    List<BlastPotDetails> bpsList = Provider.of<List<BlastPotDetails>>(context);
 
     BlastPot bpMaker(Map item, int i) {
       return BlastPot(
@@ -79,7 +84,8 @@ class _IDMState extends State<IDM> {
             await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => IDMSettings(proj: project),
+                builder: (BuildContext context) =>
+                    IDMSettings(bpsList: bpsList, proj: project),
               ),
             );
           },
@@ -196,6 +202,7 @@ class _IDMState extends State<IDM> {
                   itemCount: bpList.length,
                   itemBuilder: (context, index) {
                     return IDMListTiles(
+                      bpsList: bpsList,
                       index: index,
                       bp: bpList[index],
                       project: project,
@@ -212,10 +219,11 @@ class _IDMState extends State<IDM> {
 }
 
 class IDMListTiles extends StatefulWidget {
+  final List<BlastPotDetails> bpsList;
   final int index;
   final BlastPot bp;
   final Project project;
-  IDMListTiles({this.index, this.bp, this.project});
+  IDMListTiles({this.bpsList, this.index, this.bp, this.project});
   @override
   _IDMListTilesState createState() => _IDMListTilesState();
 }
@@ -223,52 +231,97 @@ class IDMListTiles extends StatefulWidget {
 class _IDMListTilesState extends State<IDMListTiles> {
   @override
   Widget build(BuildContext context) {
+    BlastPotDetails currBPD;
+    double showHoursUsed() {
+      double x;
+      for (int i = 0; i < widget.bpsList.length; i++) {
+        if (widget.bp.num == widget.bpsList[i].num) {
+          x = widget.bpsList[i].totalUsedHours;
+          currBPD = widget.bpsList[i];
+        }
+      }
+      return x;
+    }
+
+    showHoursUsed();
+
+    Color alerter() {
+      Color bgc = Colors.white;
+      if (currBPD.totalUsedHours > 999) {
+        bgc = Colors.red[200];
+      } else if (currBPD.totalUsedHours > 899) {
+        bgc = Colors.yellow[200];
+      }
+      return bgc;
+    }
+
+    String detectMaintanence() {
+      String words = '';
+      if (currBPD.totalUsedHours > 999) {
+        words = '! Maintanence Required !';
+      } else if (currBPD.totalUsedHours > 899) {
+        words = '- Prepare for Maintanence -';
+      }
+      return words;
+    }
+
     return Padding(
       padding: const EdgeInsets.all(5),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 5),
-          color: Colors.white,
-          child: ListTile(
-            onLongPress: () async {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return BPTileDelete(
-                      index: widget.index,
-                      bp: widget.bp,
-                      proj: widget.project,
-                    );
-                  });
-            },
-            title: Text(
-              'Blast Pot ${widget.bp.num}',
-              style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
-            ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                    'Abrasive used : ${widget.bp.usedAbrasive} bags(${widget.bp.usedAbrasive * 25} kg)'),
-                Text('HoldTight used : ${widget.bp.usedHoldTight} L'),
-                Text('Hours used : ${widget.bp.usedHours} hrs')
-              ],
-            ),
-            trailing: IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () async {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return BPTilesSettings(
-                        index: widget.index,
-                        bp: widget.bp,
-                        proj: widget.project,
-                      );
-                    });
-              },
-            ),
+          color: alerter(),
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                onLongPress: () async {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return BPTileDelete(
+                          index: widget.index,
+                          bp: widget.bp,
+                          proj: widget.project,
+                        );
+                      });
+                },
+                title: Text(
+                  'Blast Pot ${widget.bp.num}',
+                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                        'Abrasive used : ${widget.bp.usedAbrasive} bags(${widget.bp.usedAbrasive * 25} kg)'),
+                    Text('HoldTight used : ${widget.bp.usedHoldTight} L'),
+                    Text('Hours used : ${currBPD.totalUsedHours} hrs'),
+                  ],
+                ),
+                trailing: IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () async {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return BPTilesSettings(
+                            BPD: currBPD,
+                            index: widget.index,
+                            bp: widget.bp,
+                            proj: widget.project,
+                          );
+                        });
+                  },
+                ),
+              ),
+              Center(
+                child: Text(
+                  detectMaintanence(),
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -392,10 +445,11 @@ class _BPTileDeleteState extends State<BPTileDelete> {
 }
 
 class BPTilesSettings extends StatefulWidget {
+  final BlastPotDetails BPD;
   final int index;
   final BlastPot bp;
   final Project proj;
-  BPTilesSettings({this.index, this.bp, this.proj});
+  BPTilesSettings({this.BPD, this.index, this.bp, this.proj});
 
   @override
   _BPTilesSettingsState createState() => _BPTilesSettingsState();
@@ -433,14 +487,11 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      child: Text(
-                        'Blast Pot',
-                        style: TextStyle(
-                          fontSize: 24.8,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    Text(
+                      'Blast Pot',
+                      style: TextStyle(
+                        fontSize: 24.8,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     Flexible(
@@ -770,7 +821,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                                   padding: EdgeInsets.symmetric(
                                       vertical: 14, horizontal: 12),
                                   child: Text(
-                                      (_currHours ?? widget.bp.usedHours)
+                                      (_currHours ?? widget.BPD.totalUsedHours)
                                           .toStringAsFixed(1)),
                                 ),
                               ],
@@ -836,7 +887,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                           child: Icon(Icons.refresh),
                           onPressed: () {
                             setState(() {
-                              _currHours = widget.bp.usedHours;
+                              _currHours = widget.BPD.totalUsedHours;
                             });
                           },
                         ),
@@ -852,7 +903,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                               child: Icon(Icons.add),
                               onPressed: () {
                                 _currHours = nullChecker(
-                                    _currHours, widget.bp.usedHours);
+                                    _currHours, widget.BPD.totalUsedHours);
                                 print('$_currHours += $_hrsConst');
                                 setState(() {
                                   _currHours += _hrsConst;
@@ -869,7 +920,7 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                               child: Icon(Icons.remove),
                               onPressed: () {
                                 _currHours = nullChecker(
-                                    _currHours, widget.bp.usedHours);
+                                    _currHours, widget.BPD.totalUsedHours);
                                 setState(() {
                                   _currHours -= _hrsConst;
                                 });
@@ -901,6 +952,15 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
                       };
                       return mapItem;
                     }
+
+                    await Firestore.instance
+                        .collection('BPData')
+                        .document(widget.BPD.id)
+                        .setData({
+                      'id': widget.BPD.id,
+                      'num': _bpNum ?? widget.BPD.num,
+                      'used hours': _currHours ?? widget.BPD.totalUsedHours,
+                    });
 
                     await Firestore.instance
                         .collection('projects')
@@ -948,8 +1008,9 @@ class _BPTilesSettingsState extends State<BPTilesSettings> {
 }
 
 class IDMSettings extends StatefulWidget {
+  final List<BlastPotDetails> bpsList;
   final Project proj;
-  IDMSettings({this.proj});
+  IDMSettings({this.bpsList, this.proj});
   @override
   _IDMSettingsState createState() => _IDMSettingsState();
 }
@@ -1013,6 +1074,18 @@ class _IDMSettingsState extends State<IDMSettings> {
                               'used HoldTight': 0.0,
                               'used hours': 0.0,
                             };
+                            String id1 = Firestore.instance
+                                .collection('BPData')
+                                .document()
+                                .documentID;
+                            Firestore.instance
+                                .collection('BPData')
+                                .document(id1)
+                                .setData({
+                              'id': id1,
+                              'num': 0,
+                              'used hours': 0.0,
+                            });
                             ii++;
                           }
                           return mapItem;
