@@ -19,6 +19,8 @@ class _ProjList2State extends State<ProjList2> {
     final projects = Provider.of<List<Project>>(context);
     final userData = Provider.of<UserData>(context);
     List<Project> userProjList = [];
+    List<Project> orderByDate = [];
+
 
     for (int i = 0; i < userData.projList.length; i++) {
       for (int ii = 0; ii < projects.length; ii++) {
@@ -28,13 +30,23 @@ class _ProjList2State extends State<ProjList2> {
         }
       }
     }
+    for (int i = 0; i < userProjList.length; i++) {
+      orderByDate.add(userProjList[i]);
+      for (int ii = 1; ii < orderByDate.length; ii++) {
+        if (orderByDate[i].date < orderByDate[ii - 1].date) {
+          Project temp = orderByDate[ii - 1];
+          orderByDate[ii - 1] = orderByDate[i];
+          orderByDate[i] = temp;
+        }
+      }
+    }
 
     return ListView.builder(
-      itemCount: userProjList.length,
+      itemCount: orderByDate.length,
       itemBuilder: (context, index) {
         return ProjTile(
           permission: userData.permissionType,
-          proj: userProjList[index],
+          proj: orderByDate[index],
           num: index,
         );
       },
