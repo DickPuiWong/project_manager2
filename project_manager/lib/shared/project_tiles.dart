@@ -77,7 +77,7 @@ class ProjTile extends StatelessWidget {
             subtitle: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Text(
-                'Budget:RM ${estimateBudget().toStringAsFixed(2)}\nID: ${proj.projID}\nLocation: ${proj.location}',
+                'Budget:RM ${estimateBudget().toStringAsFixed(2)}\nLocation: ${proj.location}\nDate created: ${DateTime.fromMillisecondsSinceEpoch(proj.date)}',
                 style: TextStyle(color: Colors.black),
               ),
             ),
