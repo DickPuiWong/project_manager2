@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
 import 'package:project_manager/services/database.dart';
 import 'package:provider/provider.dart';
-import 'package:project_manager/shared/constants.dart';
 
 class IDMWrapper extends StatelessWidget {
   final Project project;
@@ -1355,7 +1354,7 @@ class _IDMSettingsState extends State<IDMSettings> {
                                                 EdgeInsets.fromLTRB(2, 0, 4, 0),
                                             color: Colors.white,
                                             child: Text(
-                                              'Adhesive(L)',
+                                              'HoldTight(L)',
                                               style: TextStyle(
                                                 color: Colors.grey[600],
                                                 fontWeight: FontWeight.bold,
