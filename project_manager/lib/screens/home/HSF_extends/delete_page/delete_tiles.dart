@@ -5,12 +5,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_manager/models/Project.dart';
+import 'package:project_manager/models/user.dart';
 
 //DeleteTile class will run a function call _showCDPanel that will do all the confirmation of deletion
 class DeleteTile extends StatelessWidget {
+  final List<UserData> users;
   final Project proj;
   final int num;
-  DeleteTile({this.proj, this.num});
+  DeleteTile({this.users, this.proj, this.num});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,7 @@ class DeleteTile extends StatelessWidget {
         context: context,
         builder: (context) {
           return ConfirmDelete(
+            users: users,
             proj: proj,
             num: num,
           );
@@ -74,9 +77,10 @@ class DeleteTile extends StatelessWidget {
 //ConfirmDelete class contain all the buttons which ask the user to confirm the deletion or cancel
 //The project card will also be displayed so user can double check the project that they want to delete is the right one
 class ConfirmDelete extends StatefulWidget {
+  final List<UserData> users;
   final Project proj;
   final int num;
-  ConfirmDelete({this.proj, this.num});
+  ConfirmDelete({this.users, this.proj, this.num});
   @override
   _ConfirmDeleteState createState() => _ConfirmDeleteState();
 }
@@ -116,8 +120,37 @@ class _ConfirmDeleteState extends State<ConfirmDelete> {
             children: <Widget>[
               RaisedButton.icon(
                 color: Colors.red,
-                onPressed: () {
-                  Firestore.instance
+                onPressed: () async {
+//                  print(widget.proj.userAssigned);
+//                  print(widget.users);
+                  List listChanger(UserData axe) {
+                    List temp =[];
+                    if (axe.projList.length > 1) {
+                      for (int k = 0; k < axe.projList.length; k++) {
+                        if (axe.projList[k] != widget.proj.projID) {
+                          temp.add(axe.projList[k]);
+                        }
+                      }
+                    }
+                    return temp;
+                  }
+
+                  for (int i = 0; i < widget.proj.userAssigned.length; i++) {
+                    for (int j = 0; j < widget.users.length; j++) {
+                      if (widget.proj.userAssigned[i] == widget.users[j].uid) {
+                        await Firestore.instance
+                            .collection('UserData')
+                            .document(widget.users[j].uid)
+                            .setData({
+                          'ID': widget.users[j].uid,
+                          'Username': widget.users[j].userName,
+                          'permissionType': widget.users[j].permissionType,
+                          'projList': listChanger(widget.users[j]),
+                        });
+                      }
+                    }
+                  }
+                  await Firestore.instance
                       .collection('projects')
                       .document(widget.proj.projID)
                       .delete();
