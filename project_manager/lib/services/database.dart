@@ -3,6 +3,7 @@
 // Function : This page will act as the data service which get, store and display data
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_manager/models/BlastPotData.dart';
 import 'package:project_manager/models/Project.dart';
 import 'package:project_manager/models/user.dart';
 
@@ -98,7 +99,7 @@ class UserDataService {
   final CollectionReference userCollection =
       Firestore.instance.collection('UserData');
 
-  Future updateUserData(String name,int permissionType, List projList) async {
+  Future updateUserData(String name, int permissionType, List projList) async {
     return await userCollection.document(uid).setData({
       'ID': uid,
       'Username': name,
@@ -138,5 +139,43 @@ class UsersDatabaseService {
 
   Stream<List<UserData>> get usersData {
     return userCollection.snapshots().map(_usersFromSnapshot);
+  }
+}
+
+class BPDatabaseService {
+  final String id;
+  BPDatabaseService({this.id});
+  final CollectionReference bpCollection =
+      Firestore.instance.collection('BPData');
+
+  BlastPotDetails _bpFromSnapshot(DocumentSnapshot snapshot) {
+    return BlastPotDetails(
+      id: snapshot.data['id'],
+      num: snapshot.data['num'],
+      totalUsedHours: snapshot.data['used hours'].toDouble(),
+    );
+  }
+
+  Stream<BlastPotDetails> get blastPotData {
+    return bpCollection.document(id).snapshots().map(_bpFromSnapshot);
+  }
+}
+
+class AllBPDatabaseService {
+  final CollectionReference bpsCollection =
+      Firestore.instance.collection('BPData');
+
+  List<BlastPotDetails> _bpsFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      return BlastPotDetails(
+        id: doc.data['id'] ?? '',
+        num: doc.data['num'] ?? 0,
+        totalUsedHours: doc.data['used hours'].toDouble() ?? 0,
+      );
+    }).toList();
+  }
+
+  Stream<List<BlastPotDetails>> get blastPotDatas {
+    return bpsCollection.snapshots().map(_bpsFromSnapshot);
   }
 }
