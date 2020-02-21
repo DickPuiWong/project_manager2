@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:project_manager/models/BlastPotData.dart';
 import 'package:project_manager/screens/home/HSF_extends/add_project.dart';
 import 'package:project_manager/screens/home/HSF_extends/delete_project.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_manager/screens/home/HSF_extends/user_manager.dart';
 import 'package:project_manager/models/Project.dart';
+import 'package:project_manager/services/database.dart';
+import 'package:provider/provider.dart';
+
+class HSFWrapper extends StatefulWidget {
+  @override
+  _HSFWrapperState createState() => _HSFWrapperState();
+}
+
+class _HSFWrapperState extends State<HSFWrapper> {
+  @override
+  Widget build(BuildContext context) {
+    return StreamProvider<List<BlastPotDetails>>.value(
+      value: AllBPDatabaseService().blastPotDatas,
+      child: HSF(),
+    );
+  }
+}
 
 class HSF extends StatefulWidget {
   @override
@@ -12,9 +30,12 @@ class HSF extends StatefulWidget {
 
 class _HSFState extends State<HSF> {
   final _formKey = GlobalKey<FormState>();
+  List<BlastPotDetails> bpList = [];
 
   @override
   Widget build(BuildContext context) {
+    bpList = Provider.of<List<BlastPotDetails>>(context);
+
     return Form(
       key: _formKey,
       child: Column(
@@ -46,7 +67,7 @@ class _HSFState extends State<HSF> {
               mainAxisSpacing: 10,
               children: <Widget>[
                 FlatButton(
-                  onPressed: () {
+                  onPressed: () async {
                     var date = new DateTime.now();
                     List<String> t1 = [
                       'Abrasive',
@@ -72,7 +93,36 @@ class _HSFState extends State<HSF> {
                       };
                     }
 
+                    void creator(int i) async {
+                      String id1 = Firestore.instance
+                          .collection('BPData')
+                          .document()
+                          .documentID;
+                      Firestore.instance
+                          .collection('BPData')
+                          .document(id1)
+                          .setData({
+                        'id': id1,
+                        'num': i + 1,
+                        'used hours': 0.0,
+                      });
+                      setState(() {
+                        bpList[i] = BlastPotDetails(
+                          id: id1,
+                          num: i + 1,
+                          totalUsedHours: 0.0,
+                        );
+                      });
+                    }
+
                     for (int i = 0; i < 3; i++) {
+                      bpList.add(BlastPotDetails());
+                      if (bpList.length < 1) {
+                        creator(i);
+                      }
+                      if (bpList[i].totalUsedHours == null) {
+                        creator(i);
+                      }
                       t3(
                           t2,
                           i + 1,
@@ -81,7 +131,8 @@ class _HSFState extends State<HSF> {
                             refillsDone: 0,
                             usedAbrasive: 0,
                             usedHoldTight: 0,
-                            usedHours: 0,
+                            usedHours:
+                                (bpList[i].totalUsedHours ?? 0).toDouble(),
                           ));
                     }
                     Map t4 = {};
@@ -105,15 +156,15 @@ class _HSFState extends State<HSF> {
                     };
                     Map t6 = {'abrasive': 5.0, 'HoldTight': 1.0};
 
-                    String id = Firestore.instance
+                    String id2 = Firestore.instance
                         .collection('projects')
                         .document()
                         .documentID;
-                    Firestore.instance
+                    await Firestore.instance
                         .collection('projects')
-                        .document(id)
+                        .document(id2)
                         .setData({
-                      'ID': id,
+                      'ID': id2,
                       'name': 'Dummy Project',
                       'location': 'Harbor 1',
                       'total adhesive litres': 1000,
@@ -152,7 +203,7 @@ class _HSFState extends State<HSF> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => AddProject()));
+                            builder: (BuildContext context) => AddWrapper()));
                   },
                   color: Colors.indigo[900],
                   child: Text(
