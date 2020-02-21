@@ -34,6 +34,7 @@ class AddProject extends StatefulWidget {
 class _AddProjectState extends State<AddProject> {
   //object creation and declaration
   final _formKey = GlobalKey<FormState>();
+  List<BlastPotDetails> bpList = [];
 
   //variables declaration and initialisation
 //  double _newBudget;
@@ -49,7 +50,7 @@ class _AddProjectState extends State<AddProject> {
 
   @override
   Widget build(BuildContext context) {
-    List<BlastPotDetails> bpList = Provider.of<List<BlastPotDetails>>(context);
+    bpList = Provider.of<List<BlastPotDetails>>(context);
     return Form(
       key: _formKey,
       child: Scaffold(
