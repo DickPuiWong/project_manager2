@@ -17,14 +17,26 @@ class _ProjListState extends State<ProjList> {
   Widget build(BuildContext context) {
     //declare and initialise object called projects which has provider of the list of projects from Project class
     final projects = Provider.of<List<Project>>(context);
+    List<Project> orderByDate = [];
+
+    for (int i = 0; i < projects.length; i++) {
+      orderByDate.add(projects[i]);
+      for (int ii = 1; ii < orderByDate.length; ii++) {
+        if (orderByDate[i].date < orderByDate[ii - 1].date) {
+          Project temp = orderByDate[ii - 1];
+          orderByDate[ii - 1] = orderByDate[i];
+          orderByDate[i] = temp;
+        }
+      }
+    }
 
     //ProjList class will return the list view builder widget that will build a list view of projects
     return ListView.builder(
-      itemCount: projects.length,
+      itemCount: orderByDate.length,
       itemBuilder: (context, index) {
         //list view builder will return the ProjTile class which has all the project brief details
         return ProjTile(
-          proj: projects[index],
+          proj: orderByDate[index],
           num: index,
         );
       },
