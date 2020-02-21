@@ -5,8 +5,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_manager/models/BlastPotData.dart';
+import 'package:project_manager/services/database.dart';
 import 'package:project_manager/shared/constants.dart';
 import 'package:project_manager/models/Project.dart';
+import 'package:provider/provider.dart';
+
+class AddWrapper extends StatefulWidget {
+  @override
+  _AddWrapperState createState() => _AddWrapperState();
+}
+
+class _AddWrapperState extends State<AddWrapper> {
+  @override
+  Widget build(BuildContext context) {
+    return StreamProvider<List<BlastPotDetails>>.value(
+      value: AllBPDatabaseService().blastPotDatas,
+      child: AddProject(),
+    );
+  }
+}
 
 class AddProject extends StatefulWidget {
   @override
@@ -31,6 +49,7 @@ class _AddProjectState extends State<AddProject> {
 
   @override
   Widget build(BuildContext context) {
+    List<BlastPotDetails> bpList = Provider.of<List<BlastPotDetails>>(context);
     return Form(
       key: _formKey,
       child: Scaffold(
@@ -43,65 +62,7 @@ class _AddProjectState extends State<AddProject> {
           actions: <Widget>[
             //When user press this button, all the details will be updated and new project will be created
             FlatButton.icon(
-              onPressed: () {
-//                var date = new DateTime.now();
-//                List<String> t1 = [
-//                  'Abrasive',
-//                  'Adhesive',
-//                  'Consumables',
-//                  'Diesel/Electric meter',
-//                  'Equipment',
-//                  'Food',
-//                  'Freight & Delivery',
-//                  'Labour',
-//                  'Material & Supplies',
-//                  'Paint',
-//                  'Water',
-//                ];
-//                Map t2 = {};
-//                void t3(Map x, int i, BlastPot y) {
-//                  t2['bp$i'] = {
-//                    'Assigned num': y.num,
-//                    'refills done': y.refillsDone,
-//                    'used abrasive': y.usedAbrasive,
-//                    'used HoldTight': y.usedHoldTight,
-//                    'used hours': y.usedHours
-//                  };
-//                }
-//
-//                for (int i = 0; i < 3; i++) {
-//                  t3(
-//                      t2,
-//                      i + 1,
-//                      BlastPot(
-//                        num: i + 1,
-//                        refillsDone: 0,
-//                        usedAbrasive: 0,
-//                        usedHoldTight: 0,
-//                        usedHours: 0,
-//                      ));
-//                }
-//                Map t4 = {};
-//                for (int i = 0; i < t1.length; i++) {
-//                  t4['bt${i + 1}'] = {
-//                    'name': t1[i],
-//                    'spent': 0,
-//                    'estimate': 0,
-//                  };
-//                }
-//                Map t5 = {};
-//                t5['pt1'] = {
-//                  'name': 'Blasting',
-//                  'done': 500.0,
-//                  'total': 1000.0,
-//                };
-//                t5['pt2'] = {
-//                  'name': 'Painting',
-//                  'done': 200.0,
-//                  'total': 1000.0,
-//                };
-//                Map t6 = {'abrasive': 5.0, 'HoldTight': 1.0};
-
+              onPressed: () async {
                 if (_formKey.currentState.validate()) {
                   var date = new DateTime.now();
                   List<String> t1 = [
@@ -128,7 +89,36 @@ class _AddProjectState extends State<AddProject> {
                     };
                   }
 
+                  void creator(int i) async {
+                    String id1 = Firestore.instance
+                        .collection('BPData')
+                        .document()
+                        .documentID;
+                    Firestore.instance
+                        .collection('BPData')
+                        .document(id1)
+                        .setData({
+                      'id': id1,
+                      'num': i + 1,
+                      'used hours': 0.0,
+                    });
+                    setState(() {
+                      bpList[i] = BlastPotDetails(
+                        id: id1,
+                        num: i + 1,
+                        totalUsedHours: 0.0,
+                      );
+                    });
+                  }
+
                   for (int i = 0; i < 3; i++) {
+                    bpList.add(BlastPotDetails());
+                    if (bpList.length < 1) {
+                      creator(i);
+                    }
+                    if (bpList[i].totalUsedHours == null) {
+                      creator(i);
+                    }
                     t3(
                         t2,
                         i + 1,
@@ -137,7 +127,7 @@ class _AddProjectState extends State<AddProject> {
                           refillsDone: 0,
                           usedAbrasive: 0,
                           usedHoldTight: 0,
-                          usedHours: 0,
+                          usedHours: (bpList[i].totalUsedHours ?? 0).toDouble(),
                         ));
                   }
                   Map t4 = {};
@@ -161,15 +151,15 @@ class _AddProjectState extends State<AddProject> {
                   };
                   Map t6 = {'abrasive': 5.0, 'HoldTight': 1.0};
 
-                  String id = Firestore.instance
+                  String id2 = Firestore.instance
                       .collection('projects')
                       .document()
                       .documentID;
-                  Firestore.instance
+                  await Firestore.instance
                       .collection('projects')
-                      .document(id)
+                      .document(id2)
                       .setData({
-                    'ID': id,
+                    'ID': id2,
                     'name': _newName,
                     'location': _newLocation,
                     'total adhesive litres': _newAdhesiveWeight,
