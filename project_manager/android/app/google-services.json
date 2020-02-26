@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "350076645000",
-    "firebase_url": "https://waterworth-mobile-app.firebaseio.com",
-    "project_id": "waterworth-mobile-app",
-    "storage_bucket": "waterworth-mobile-app.appspot.com"
+    "project_number": "178454888459",
+    "firebase_url": "https://waterworth-mobile-app-5b20a.firebaseio.com",
+    "project_id": "waterworth-mobile-app-5b20a",
+    "storage_bucket": "waterworth-mobile-app-5b20a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:350076645000:android:917af687d305660c9b793d",
+        "mobilesdk_app_id": "1:178454888459:android:be49f00f590e19ce9b070e",
         "android_client_info": {
           "package_name": "com.example.project_manager"
         }
       },
       "oauth_client": [
         {
-          "client_id": "350076645000-cd5jr3ann94mi9j1qo84sjnaedtur6mo.apps.googleusercontent.com",
+          "client_id": "178454888459-bq612j3o6obeuqqqe569v5e5npre9gqv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD9S-wQ2qBeDaJGHRYXHvase9AnpSbmQFU"
+          "current_key": "AIzaSyD6Y7VibsPS9jE8XPS6fFOm7jsl1yT0bh8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "350076645000-cd5jr3ann94mi9j1qo84sjnaedtur6mo.apps.googleusercontent.com",
+              "client_id": "178454888459-bq612j3o6obeuqqqe569v5e5npre9gqv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
