@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "756754619111",
-    "firebase_url": "https://test2-c139d.firebaseio.com",
-    "project_id": "test2-c139d",
-    "storage_bucket": "test2-c139d.appspot.com"
+    "project_number": "749175757719",
+    "firebase_url": "https://waterworth-7670d.firebaseio.com",
+    "project_id": "waterworth-7670d",
+    "storage_bucket": "waterworth-7670d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:756754619111:android:d1c66edad9fc45dfa3e042",
+        "mobilesdk_app_id": "1:749175757719:android:d9246e780c3e4156bc02d2",
         "android_client_info": {
           "package_name": "com.example.project_manager"
         }
       },
       "oauth_client": [
         {
-          "client_id": "756754619111-0ok9j984khfp3crulslti0e02f557r0q.apps.googleusercontent.com",
+          "client_id": "749175757719-08hba7cvlu12650f2tgrd90023nhktvu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB57B3PypxCC0vv91CoFXuXvhHtR4Rs98c"
+          "current_key": "AIzaSyAJX3wwrU7Y0jxVfVnQYdQF51DtwQewBH0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "756754619111-0ok9j984khfp3crulslti0e02f557r0q.apps.googleusercontent.com",
+              "client_id": "749175757719-08hba7cvlu12650f2tgrd90023nhktvu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
