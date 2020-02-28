@@ -18,6 +18,7 @@ class _Wrapper2State extends State<Wrapper2> {
   @override
   Widget build(BuildContext context) {
     final userData = Provider.of<UserData>(context);
+//    print(userData.uid);
     type = userData.permissionType;
 
     if (type == null) {
