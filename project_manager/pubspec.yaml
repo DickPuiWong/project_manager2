@@ -14,14 +14,14 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  cloud_firestore: ^0.12.11
-  firebase_auth: ^0.15.1
+  cloud_firestore: ^0.13.4
+  firebase_auth: ^0.15.1+1
   provider: ^3.2.0
   flutter_spinkit: "^4.1.0"
   flutter_animation_progress_bar: ^1.0.0
