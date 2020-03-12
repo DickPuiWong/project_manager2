@@ -34,6 +34,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178454888459:android:ca2f425d08ddd0829b070e",
+        "android_client_info": {
+          "package_name": "com.waterworth.project_manager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178454888459-bq612j3o6obeuqqqe569v5e5npre9gqv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6Y7VibsPS9jE8XPS6fFOm7jsl1yT0bh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178454888459-bq612j3o6obeuqqqe569v5e5npre9gqv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
